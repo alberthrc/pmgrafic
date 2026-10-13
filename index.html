@@ -1,0 +1,2049 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Imprenta digital, offset y gran formato en Caracas. Arma tu pedido en línea y recibe tu cotización por WhatsApp y correo.">
+<meta name="theme-color" content="#0d0e11">
+<title>Imprenta Caracas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Familjen+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sala de prensa de noche. Fondo tinta, el papel es lo que brilla; los colores de proceso CMYK
+   aparecen solo donde una imprenta los usaría: barras de color, marcas de registro, separaciones. */
+:root{
+  --ink:#0d0e11; --ink-2:#15171c; --ink-3:#1e2128; --line:rgba(242,241,236,.12); --line-2:rgba(242,241,236,.22);
+  --paper:#f2f1ec; --paper-2:#e4e2da; --muted:#9c9ea8; --dim:#6d707b;
+  --cyan:#00a6e2; --magenta:#ec008c; --yellow:#ffe100; --key:#0d0e11;
+  --ok:#3ccf8e; --warn:#ffb020; --bad:#ff5a5f;
+  --f-display:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Familjen Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --gutter:clamp(16px,4vw,56px);
+  --hdr:64px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{background:var(--ink);color:var(--paper);font-family:var(--f-body);font-size:16px;line-height:1.55;margin:0;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--yellow);outline-offset:3px;border-radius:6px}
+h1,h2,h3,h4{font-family:var(--f-display);font-weight:800;line-height:.95;letter-spacing:-.02em;margin:0;text-wrap:balance}
+p{margin:0}
+.wrap{padding-inline:var(--gutter);max-width:1360px;margin-inline:auto}
+.mono{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px}
+.reg{width:14px;height:14px;flex:none;display:inline-block;border-radius:50%;border:1.5px solid currentColor;position:relative}
+.reg::before,.reg::after{content:"";position:absolute;background:currentColor}
+.reg::before{left:50%;top:-4px;bottom:-4px;width:1.5px;transform:translateX(-50%)}
+.reg::after{top:50%;left:-4px;right:-4px;height:1.5px;transform:translateY(-50%)}
+.cbar{display:flex;height:6px;width:96px;border-radius:2px;overflow:hidden;flex:none}
+.cbar i{flex:1}.cbar i:nth-child(1){background:var(--cyan)}.cbar i:nth-child(2){background:var(--magenta)}.cbar i:nth-child(3){background:var(--yellow)}.cbar i:nth-child(4){background:var(--paper)}
+.tag{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;padding:4px 9px;border-radius:999px;border:1px solid var(--line-2);color:var(--muted);white-space:nowrap;display:inline-flex;gap:6px;align-items:center}
+.ref-tag{position:absolute;top:10px;right:10px;font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;background:rgba(13,14,17,.72);color:var(--paper);padding:3px 7px;border-radius:5px}
+
+
+/* ================= MOBILE-FIRST =================
+   Base = teléfono. Se amplía con min-width: 560 (teléfono grande), 760 (tablet),
+   900 (tablet horizontal / laptop pequeña), 1100 (escritorio). */
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:600;font-size:15px;padding:13px 20px;border-radius:999px;border:1px solid transparent;cursor:pointer;text-decoration:none;transition:transform .2s,background .2s,border-color .2s,color .2s;white-space:nowrap;min-height:46px}
+.btn-y{background:var(--yellow);color:var(--key)}
+.btn-o{background:transparent;border-color:var(--line-2);color:var(--paper)}
+.btn-sm{padding:8px 14px;font-size:13px;min-height:38px}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.arr{transition:transform .2s}
+@media (hover:hover){
+  .btn-y:hover{transform:translateY(-2px);box-shadow:0 12px 32px -12px var(--yellow)}
+  .btn-o:hover{border-color:var(--paper)}
+  .btn:hover .arr{transform:translateX(4px)}
+}
+
+/* header */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:60;padding-top:env(safe-area-inset-top,0px);transition:transform .35s ease,background .3s}
+.hdr.solid{background:rgba(13,14,17,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.hdr.hide{transform:translateY(-110%)}
+body.menu-open .hdr{transform:none;background:var(--ink);backdrop-filter:none;-webkit-backdrop-filter:none;border-bottom:1px solid var(--line)}
+.hdr-in{height:var(--hdr);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-weight:800;font-size:19px;letter-spacing:-.01em;min-width:0}
+.logo svg{width:28px;height:28px;flex:none}
+.logo small{font-family:var(--f-mono);font-weight:400;font-size:9.5px;letter-spacing:.1em;color:var(--muted);display:none;margin-top:2px}
+.hdr-actions{display:flex;gap:8px;align-items:center}
+.nav{display:none}
+.nav a{text-decoration:none;font-size:14px;font-weight:500;padding:8px 13px;border-radius:999px;color:var(--muted);transition:color .2s,background .2s}
+.nav a:hover,.nav a[aria-current]{color:var(--paper);background:rgba(242,241,236,.07)}
+.cart-btn{position:relative}
+.cart-btn b{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--magenta);color:#fff;font-size:11px;display:grid;place-items:center;font-family:var(--f-mono)}
+.cart-btn b[hidden]{display:none!important}
+.menu-btn{display:block;width:44px;height:44px;border-radius:50%;border:1px solid var(--line-2);background:var(--ink-2);cursor:pointer;position:relative;flex:none}
+.menu-btn i{position:absolute;left:13px;right:13px;height:2px;background:var(--paper);transition:transform .3s,top .3s,opacity .2s}
+.menu-btn i:nth-child(1){top:16px}.menu-btn i:nth-child(2){top:21px}.menu-btn i:nth-child(3){top:26px}
+.menu-open .menu-btn i:nth-child(1){top:21px;transform:rotate(45deg)}.menu-open .menu-btn i:nth-child(2){opacity:0}.menu-open .menu-btn i:nth-child(3){top:21px;transform:rotate(-45deg)}
+/* menú móvil: capa propia, fondo sólido, fuera del header */
+.mnav{position:fixed;inset:0;z-index:55;background:var(--ink);display:flex;flex-direction:column;gap:4px;
+  padding:calc(var(--hdr) + env(safe-area-inset-top,0px) + 24px) var(--gutter) calc(28px + env(safe-area-inset-bottom,0px));
+  opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;overflow-y:auto}
+.mnav a{font-family:var(--f-display);font-weight:800;font-size:clamp(34px,10vw,52px);line-height:1.05;color:var(--paper);text-decoration:none;padding:8px 0;border-bottom:1px solid var(--line);transform:translateY(14px);opacity:0;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .35s,color .2s}
+.mnav a[aria-current]{color:var(--yellow)}
+.mnav .mnav-foot{margin-top:auto;display:grid;gap:12px;padding-top:24px}
+.mnav .cbar{width:120px}
+body.menu-open{overflow:hidden}
+body.menu-open .mnav{opacity:1;visibility:visible}
+body.menu-open .mnav a{transform:none;opacity:1}
+body.menu-open .mnav a:nth-child(2){transition-delay:.04s}body.menu-open .mnav a:nth-child(3){transition-delay:.08s}body.menu-open .mnav a:nth-child(4){transition-delay:.12s}body.menu-open .mnav a:nth-child(5){transition-delay:.16s}
+@media (min-width:400px){.logo small{display:block}}
+@media (min-width:900px){
+  .nav{display:flex;gap:4px;align-items:center}
+  .menu-btn,.mnav{display:none}
+  .logo{font-size:20px}.logo svg{width:30px;height:30px}
+}
+
+/* views */
+main{min-height:100svh}
+.view{padding-top:calc(var(--hdr) + env(safe-area-inset-top,0px))}
+.view-home{padding-top:0}
+.page-head{padding-block:clamp(28px,7vw,88px) clamp(20px,4vw,40px);display:grid;gap:14px}
+.page-head h1{font-size:clamp(40px,11vw,96px)}
+.lead{font-size:clamp(16px,1.5vw + 10px,20px);color:var(--muted);max-width:60ch}
+.sec{padding-block:clamp(64px,10vw,140px)}
+.sec-head{display:grid;gap:14px;margin-bottom:clamp(28px,5vw,56px)}
+.sec-head h2{font-size:clamp(34px,9vw,84px)}
+
+/* ======== HOME: escenario 3D ======== */
+.stage{position:relative;height:100svh;min-height:540px;overflow:hidden;background:radial-gradient(120% 90% at 50% 25%,#1a1c23 0,var(--ink) 70%)}
+#gl{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* degradado que separa el texto del 3D en pantallas verticales */
+.stage::after{content:"";position:absolute;inset:auto 0 0 0;height:62%;background:linear-gradient(0deg,var(--ink) 18%,rgba(13,14,17,.82) 55%,transparent);pointer-events:none;z-index:1}
+.stage-ui{position:absolute;inset:0;z-index:2;pointer-events:none;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:14px;
+  padding:calc(var(--hdr) + env(safe-area-inset-top,0px) + 14px) var(--gutter) calc(18px + env(safe-area-inset-bottom,0px))}
+.stage-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;min-width:0}
+.stage-top .eyebrow{font-size:10.5px;min-width:0}
+.stage-bot{display:none}
+.chap-area{align-self:safe end;min-width:0;display:grid;gap:16px}
+/* todos los capítulos ocupan la misma celda: el bloque mide lo que el más alto, nunca crece hacia el header */
+.chaps{display:grid;max-width:min(640px,100%)}
+.chap{grid-area:1/1;align-self:end;display:grid;gap:12px;opacity:0;transform:translateY(24px);transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2,1);min-width:0;visibility:hidden}
+.chap.on{opacity:1;transform:none;visibility:visible}
+.chap .num{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;color:var(--chap,var(--yellow));text-transform:uppercase}
+.chap h1,.chap h2{font-size:clamp(32px,min(10.4vw,5.6svh),118px);line-height:.92}
+.chap h1 em,.chap h2 em{font-style:normal;color:var(--chap,var(--yellow))}
+.chap p{font-size:15px;line-height:1.5;color:var(--paper-2);max-width:44ch;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.chap .tags{display:none;flex-wrap:wrap;gap:6px}
+.chap .tags .tag{background:rgba(13,14,17,.6);color:var(--paper)}
+.chap .cta{pointer-events:auto;display:flex;gap:10px;flex-wrap:wrap}
+.chap .cta .btn{flex:1 1 auto}
+.prog{display:flex;gap:5px;max-width:640px}
+.prog i{flex:1;height:3px;background:rgba(242,241,236,.14);border-radius:2px;overflow:hidden;position:relative}
+.prog i b{position:absolute;inset:0;transform-origin:left;transform:scaleX(0)}
+.prog i:nth-child(6n+1) b{background:var(--paper)}.prog i:nth-child(6n+2) b{background:var(--cyan)}.prog i:nth-child(6n+3) b{background:var(--magenta)}.prog i:nth-child(6n+4) b{background:var(--yellow)}.prog i:nth-child(6n+5) b{background:var(--cyan)}.prog i:nth-child(6n+6) b{background:var(--magenta)}
+.counter{font-family:var(--f-mono);font-size:11px;color:var(--muted);background:rgba(13,14,17,.55);border:1px solid var(--line);padding:5px 9px;border-radius:8px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.crop{display:none;position:absolute;width:22px;height:22px;border-color:rgba(242,241,236,.35);border-style:solid;z-index:2;pointer-events:none}
+.crop.tl{top:calc(var(--hdr) + 8px);left:10px;border-width:1px 0 0 1px}.crop.tr{top:calc(var(--hdr) + 8px);right:10px;border-width:1px 1px 0 0}
+.crop.bl{bottom:10px;left:10px;border-width:0 0 1px 1px}.crop.br{bottom:10px;right:10px;border-width:0 1px 1px 0}
+.scroll-hint{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;color:var(--muted);display:flex;gap:8px;align-items:center}
+.scroll-hint i{width:1px;height:24px;background:linear-gradient(var(--paper),transparent);animation:drip 1.6s infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@media (min-height:760px){.chap .tags{display:flex}}
+@media (min-width:760px){
+  .stage-top .eyebrow{font-size:12px}
+  .chap{gap:16px}
+  .chap .num{font-size:12px}
+  .chap p{font-size:clamp(16px,1.35vw,19px)}
+  .chap .cta .btn{flex:0 0 auto}
+  .crop{display:block}
+}
+/* pantallas horizontales: el texto ocupa la columna izquierda, el 3D la derecha */
+@media (min-width:760px) and (min-aspect-ratio:1/1){
+  .stage::after{inset:0 auto 0 0;width:62%;height:auto;background:linear-gradient(90deg,var(--ink) 10%,rgba(13,14,17,.7) 60%,transparent)}
+  .chaps{max-width:min(640px,54vw)}
+  .chap h1,.chap h2{font-size:clamp(34px,min(6.6vw,9.6svh),118px)}
+  .stage-bot{display:flex}
+}
+/* pantallas bajas (laptops de 600-720 px de alto) */
+@media (max-height:720px){
+  .chap{gap:10px}
+  .chap p{-webkit-line-clamp:3;font-size:15px}
+  .chap .tags{display:none}
+  .stage-bot{display:none}
+  .stage-ui{gap:10px}
+}
+@media (max-height:560px) and (min-aspect-ratio:1/1){ .chap p{display:none} }
+/* sin 3D o con movimiento reducido: capítulos uno debajo de otro */
+.static .stage{height:auto;min-height:0;padding-bottom:40px}
+.static .stage::after{display:none}
+.static .stage-ui{position:relative;inset:auto;display:grid;grid-template-rows:none}
+.static .chaps{gap:40px;max-width:760px}
+.static .chap{grid-area:auto;opacity:1;transform:none;visibility:visible}
+.static #gl,.static .prog,.static .stage-bot,.static .counter,.static .crop{display:none}
+
+/* loader */
+.loader{position:fixed;inset:0;z-index:80;background:var(--ink);display:grid;place-items:center;transition:opacity .6s,visibility .6s}
+.loader.done{opacity:0;visibility:hidden}
+.loader-in{display:grid;gap:14px;justify-items:center}
+.loader b{font-family:var(--f-display);font-weight:800;font-size:clamp(64px,12vw,140px);font-variant-numeric:tabular-nums;line-height:1}
+.loader .cbar{width:180px}
+
+/* ======== rueda de reels (referencia: hadi-community.de) ======== */
+.wheel{position:relative;overflow:hidden;height:var(--wh,640px);touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.wheel.drag{cursor:grabbing}
+.wheel-track{position:absolute;left:50%;top:28px;width:0;height:0}
+.reel{position:absolute;left:0;top:0;width:var(--cw,240px);aspect-ratio:9/16;margin-left:calc(var(--cw,240px) / -2);border-radius:22px;overflow:hidden;background:var(--ink-3);
+  transform-origin:50% 50%;will-change:transform;box-shadow:0 30px 60px -24px rgba(0,0,0,.75),0 0 0 1px var(--line);text-decoration:none;color:var(--paper);display:block}
+.reel img,.reel .ph{width:100%;height:100%;object-fit:cover;pointer-events:none;transform:scale(1.04);transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.reel:hover img{transform:scale(1.1)}
+.reel::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,14,17,.35) 0,transparent 28%,transparent 55%,rgba(13,14,17,.85) 100%);pointer-events:none}
+.reel .r-top{position:absolute;top:14px;left:14px;right:14px;z-index:2;display:flex;justify-content:space-between;gap:8px;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em}
+.reel .r-top span{background:rgba(13,14,17,.6);padding:4px 7px;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.reel .r-bot{position:absolute;left:16px;right:16px;bottom:16px;z-index:2;display:grid;gap:8px}
+.reel h3{font-size:clamp(22px,2.2vw,30px);line-height:.95;text-transform:uppercase;letter-spacing:-.01em;text-shadow:0 2px 18px rgba(0,0,0,.5)}
+.reel .r-spec{font-family:var(--f-mono);font-size:11px;color:var(--paper-2)}
+.reel .r-go{justify-self:start;background:var(--yellow);color:var(--key);font-weight:600;font-size:13px;border-radius:999px;padding:7px 12px;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s}
+.reel:hover .r-go,.reel:focus-visible .r-go,.reel.center .r-go{opacity:1;transform:none}
+.wheel-hint{position:absolute;left:0;top:0;z-index:5;pointer-events:none;font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:var(--paper);color:var(--key);padding:7px 12px;border-radius:999px;opacity:0;transform:translate(-50%,-50%) scale(.8);transition:opacity .25s,transform .25s}
+.wheel:hover .wheel-hint{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.wheel.drag .wheel-hint{opacity:0}
+@media (hover:none){.wheel-hint{display:none}}
+
+/* ======== marquee (CatMedia) ======== */
+.mq{overflow:hidden;padding-block:6px;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.mq-track{display:flex;gap:14px;width:max-content;will-change:transform}
+.mq-card{width:clamp(150px,15vw,210px);aspect-ratio:4/5;border-radius:18px;overflow:hidden;position:relative;flex:none;border:1px solid var(--line);background:var(--ink-3);text-decoration:none;display:block}
+.mq-card img,.mq-card .ph{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.mq-card:hover img{transform:scale(1.08)}
+.mq-card .lbl{position:absolute;left:10px;right:10px;bottom:10px;display:flex;justify-content:space-between;gap:6px;align-items:center}
+.mq-card .lbl span{font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;background:rgba(13,14,17,.74);padding:4px 7px;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mq-card .go{position:absolute;inset:auto 10px 10px 10px;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;background:var(--yellow);color:var(--key);font-weight:600;font-size:13px;border-radius:999px;padding:8px 12px;text-align:center}
+.mq-card:hover .go,.mq-card:focus-visible .go{opacity:1;transform:none}
+.mq-card:hover .lbl,.mq-card:focus-visible .lbl{opacity:0}
+.mq-rev .mq-card{width:clamp(260px,26vw,360px);aspect-ratio:auto;padding:22px;display:grid;gap:14px;align-content:space-between;background:var(--ink-2)}
+.mq-rev .stars{color:var(--yellow);letter-spacing:2px;font-size:14px}
+.mq-rev p{font-size:15px;color:var(--paper-2)}
+.mq-rev .who{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.ph{display:grid;place-items:center;background:linear-gradient(140deg,var(--ink-3),var(--ink-2));color:var(--dim);font-family:var(--f-mono);font-size:11px}
+.logos-row{border-block:1px solid var(--line);padding-block:26px}
+.lg{font-family:var(--f-display);font-weight:800;font-size:30px;color:#5d606b;white-space:nowrap;letter-spacing:.02em;padding-inline:20px;transition:color .3s}
+.lg:hover{color:var(--paper)}
+.lg.s{font-family:var(--f-body);font-weight:600;text-transform:lowercase;letter-spacing:-.02em}
+.lg.m{font-family:var(--f-mono);font-size:21px;font-weight:500}
+
+/* steps */
+.steps{display:grid;grid-template-columns:1fr;gap:12px}
+.step{border:1px solid var(--line);border-radius:20px;padding:22px 20px 24px;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;align-content:start;min-width:0;background:linear-gradient(180deg,var(--ink-2),transparent)}
+.step .n{grid-row:span 2;font-family:var(--f-display);font-weight:800;font-size:64px;line-height:.8;color:transparent;-webkit-text-stroke:1.5px var(--c,var(--paper))}
+.step h3{font-size:24px}
+.step p{color:var(--muted);font-size:15px}
+@media (min-width:560px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}.step{grid-template-columns:1fr;gap:12px}.step .n{grid-row:auto;font-size:80px}}
+@media (min-width:1000px){.steps{grid-template-columns:repeat(4,minmax(0,1fr))}.step{padding:26px 22px 28px}.step h3{font-size:26px}}
+
+/* categories */
+.cats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.cat{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line);text-decoration:none;display:grid;grid-template-rows:auto 1fr;background:var(--ink-2);min-width:0;transition:border-color .3s,transform .3s}
+.cat .thumb{aspect-ratio:4/3;overflow:hidden;position:relative}
+.cat .thumb img,.cat .thumb .ph{width:100%;height:100%;object-fit:cover}
+.cat .body{padding:12px 12px 14px;display:grid;gap:6px;align-content:start}
+.cat h3{font-size:18px}
+.cat p{font-size:13px;color:var(--muted);display:none}
+.cat .mono{font-size:10.5px}
+@media (min-width:560px){.cat p{display:block}.cat .body{padding:16px 18px 18px}.cat h3{font-size:22px}.cats{gap:14px}}
+@media (min-width:760px){.cats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:1100px){.cats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (hover:hover){.cat:hover{border-color:var(--line-2);transform:translateY(-4px)}}
+
+/* rubros: carrusel deslizable en móvil, grilla desde tablet */
+.rubros{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,72%);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;scrollbar-width:none;perspective:900px}
+.rubros::-webkit-scrollbar{display:none}
+.rubro{scroll-snap-align:start;border:1px solid var(--line);border-radius:18px;padding:20px;display:grid;gap:10px;align-content:start;background:var(--ink-2);min-width:0;transform-style:preserve-3d;transition:transform .25s ease,border-color .3s}
+.rubro h3{font-size:22px}
+.rubro ul{margin:0;padding:0;list-style:none;display:grid;gap:4px;color:var(--muted);font-size:14px}
+.rubro .dot{width:10px;height:10px;border-radius:50%;background:var(--c)}
+@media (min-width:760px){.rubros{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible}}
+@media (min-width:1100px){.rubros{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media (hover:hover){.rubro:hover{border-color:var(--c,var(--line-2))}}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-block:1px solid var(--line)}
+.stat{padding:22px 14px;display:grid;gap:4px;min-width:0;border-right:1px solid var(--line)}
+.stat:nth-child(2n){border-right:0}
+.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+.stat b{font-family:var(--f-display);font-weight:800;font-size:clamp(36px,9vw,72px);line-height:1;font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:13px}
+@media (min-width:760px){
+  .stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .stat{padding:28px 20px;border-bottom:0!important;border-right:1px solid var(--line)}
+  .stat:last-child{border-right:0}
+  .stat b{font-size:clamp(40px,5vw,72px)}.stat span{font-size:14px}
+}
+
+/* big CTA */
+.cta-band{border-radius:24px;padding:clamp(26px,6vw,72px);background:var(--paper);color:var(--key);display:grid;gap:18px;position:relative;overflow:hidden}
+.cta-band h2{font-size:clamp(36px,10vw,96px)}
+.cta-band p{color:#45474f;max-width:52ch;font-size:clamp(16px,1vw + 12px,18px)}
+.cta-band .btn-o{border-color:rgba(13,14,17,.25);color:var(--key)}
+.cta-band .cbar{position:absolute;top:22px;right:22px;width:90px}
+.cta-band .btns{display:flex;gap:10px;flex-wrap:wrap}
+
+/* footer */
+.foot{border-top:1px solid var(--line);padding-block:48px calc(28px + env(safe-area-inset-bottom,0px));margin-top:clamp(56px,8vw,120px)}
+.foot-grid{display:grid;grid-template-columns:1fr;gap:28px}
+.foot h4{font-family:var(--f-mono);font-weight:400;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.foot a{display:block;text-decoration:none;color:var(--paper-2);padding:6px 0;font-size:15px}
+.foot a:hover{color:var(--yellow)}
+.legal{margin-top:36px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--dim)}
+.copyrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px;min-width:0}
+.copyrow code{font-family:var(--f-mono);font-size:13px;color:var(--paper);user-select:all;overflow-wrap:anywhere}
+@media (min-width:560px){.foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.foot a{padding:3px 0}}
+@media (min-width:900px){.foot-grid{grid-template-columns:2fr 1fr 1fr 1.4fr}}
+
+/* ======== TIENDA ======== */
+.filters{display:flex;gap:8px;margin-bottom:22px;overflow-x:auto;scrollbar-width:none;margin-inline:calc(var(--gutter) * -1);padding-inline:var(--gutter);padding-bottom:4px}
+.filters::-webkit-scrollbar{display:none}
+.chip{font-size:14px;padding:9px 14px;border-radius:999px;border:1px solid var(--line-2);background:transparent;cursor:pointer;color:var(--paper-2);transition:background .2s,color .2s,border-color .2s;white-space:nowrap;flex:none}
+.chip[aria-pressed="true"]{background:var(--paper);color:var(--key);border-color:var(--paper)}
+@media (hover:hover){.chip:hover{border-color:var(--paper)}}
+@media (min-width:900px){.filters{flex-wrap:wrap;overflow:visible;margin-inline:0;padding-inline:0}}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pcard{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--ink-2);display:grid;grid-template-rows:auto 1fr;text-decoration:none;min-width:0;transition:border-color .3s,transform .3s}
+.pcard .thumb{aspect-ratio:4/5;position:relative;overflow:hidden;background:var(--ink-3)}
+.pcard .thumb img,.pcard .thumb .ph{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.pcard .body{padding:12px 12px 14px;display:grid;gap:6px;align-content:start}
+.pcard .body>.mono{font-size:10px}
+.pcard h3{font-size:17px;line-height:1.05}
+.pcard .spec{font-family:var(--f-mono);font-size:10.5px;color:var(--muted);letter-spacing:.02em}
+.pcard .row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:4px;flex-wrap:wrap}
+.pcard .row span{font-size:12px;color:var(--muted)}
+.pcard .row b{font-size:13px;font-weight:600;color:var(--yellow)}
+@media (min-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}.pcard{border-radius:18px}.pcard .body{padding:16px 18px 18px;gap:8px}.pcard h3{font-size:21px}.pcard .spec{font-size:11.5px}.pcard .row span{font-size:13px}.pcard .row b{font-size:14px}}
+@media (hover:hover){.pcard:hover{border-color:var(--line-2);transform:translateY(-4px)}.pcard:hover .thumb img{transform:scale(1.05)}}
+
+/* producto */
+.pdp{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;padding-block:16px 0;align-items:start}
+.pdp-media{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:var(--ink-3);aspect-ratio:4/3}
+.pdp-media img,.pdp-media .ph{width:100%;height:100%;object-fit:cover}
+.pdp-info{display:grid;gap:22px;min-width:0}
+.crumbs{font-family:var(--f-mono);font-size:12px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap}
+.crumbs a{text-decoration:none}.crumbs a:hover{color:var(--paper)}
+.pdp-info h1{font-size:clamp(36px,10vw,72px)}
+.opt{display:grid;gap:10px;border-top:1px solid var(--line);padding-top:16px}
+.opt>label,.opt>.lab{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{padding:10px 14px;border-radius:12px;border:1px solid var(--line-2);cursor:pointer;font-size:14px;transition:background .2s,border-color .2s,color .2s;display:grid;gap:2px;min-height:44px;align-content:center}
+.seg label small{font-family:var(--f-mono);font-size:10.5px;color:var(--muted)}
+.seg input:checked+label{background:var(--paper);color:var(--key);border-color:var(--paper)}
+.seg input:checked+label small{color:#55575f}
+.seg input:focus-visible+label{outline:2px solid var(--yellow);outline-offset:2px}
+.field{display:grid;gap:6px;min-width:0}
+.field label{font-size:14px;color:var(--paper-2)}
+.field .hint{font-size:12.5px;color:var(--muted)}
+/* 16px evita el zoom automático de iOS al enfocar */
+.in{width:100%;min-width:0;background:var(--ink-2);border:1px solid var(--line-2);border-radius:12px;padding:12px 14px;font-size:16px;transition:border-color .2s;min-height:46px}
+.in:focus{border-color:var(--paper);outline:none}
+.in.err{border-color:var(--bad)}
+textarea.in{min-height:96px;resize:vertical}
+select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 15px) 50%;background-size:5px 5px;background-repeat:no-repeat;padding-right:38px}
+.drop{border:1.5px dashed var(--line-2);border-radius:14px;padding:18px;display:grid;gap:8px;justify-items:start;cursor:pointer;transition:border-color .2s,background .2s}
+.drop:hover,.drop.over{border-color:var(--cyan);background:rgba(0,166,226,.06)}
+.drop input{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+.files{display:grid;gap:6px}
+.files div{display:flex;justify-content:space-between;gap:10px;font-family:var(--f-mono);font-size:12px;color:var(--paper-2);background:var(--ink-2);border-radius:8px;padding:8px 10px}
+.files div span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.qty{display:flex;align-items:center;border:1px solid var(--line-2);border-radius:12px;width:max-content}
+.qty button{width:44px;height:46px;border:0;background:transparent;cursor:pointer;font-size:18px}
+.qty input{width:84px;text-align:center;border:0;background:transparent;font-family:var(--f-mono);font-size:16px;font-variant-numeric:tabular-nums}
+.qty input:focus{outline:none}
+/* en móvil el botón de añadir queda fijo abajo */
+.add-row{display:flex;gap:12px;align-items:center;justify-content:space-between;border-top:1px solid var(--line);position:sticky;bottom:0;z-index:5;background:var(--ink);
+  margin-inline:calc(var(--gutter) * -1);padding:12px var(--gutter) calc(12px + env(safe-area-inset-bottom,0px))}
+.add-row .btn{flex:1 1 auto}
+.note{font-size:13.5px;color:var(--muted);display:flex;gap:10px;align-items:flex-start}
+.note .reg{color:var(--cyan);margin-top:4px}
+@media (min-width:900px){
+  .pdp{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,4vw,64px);padding-block:clamp(28px,4vw,56px) 40px}
+  .pdp-media{position:sticky;top:calc(var(--hdr) + 20px);aspect-ratio:4/5;border-radius:24px}
+  .pdp-info{gap:26px}
+  .add-row{position:static;margin-inline:0;padding:22px 0 0;background:none;justify-content:flex-start}
+  .add-row .btn{flex:0 0 auto}
+}
+
+/* solicitud / checkout */
+.two{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;align-items:start;padding-bottom:40px}
+.items{display:grid;gap:12px;min-width:0}
+.item{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px 14px;border:1px solid var(--line);border-radius:16px;padding:12px;align-items:start;background:var(--ink-2);min-width:0}
+.item .thumb{width:72px;aspect-ratio:4/5;border-radius:10px;overflow:hidden;background:var(--ink-3)}
+.item .thumb img,.item .thumb .ph{width:100%;height:100%;object-fit:cover}
+.item h3{font-size:18px;line-height:1.1}
+.item .spec{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);margin-top:6px;display:flex;flex-wrap:wrap;gap:4px 10px}
+.item .acts{grid-column:1/-1;display:flex;gap:18px}
+.link-btn{background:none;border:0;padding:6px 0;color:var(--muted);cursor:pointer;font-size:13px;text-decoration:underline;text-underline-offset:3px}
+.link-btn:hover{color:var(--paper)}
+.sum{border:1px solid var(--line);border-radius:20px;padding:20px;display:grid;gap:14px;background:var(--ink-2);min-width:0}
+.sum h2{font-size:26px}
+.sum dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:8px 12px;font-size:14px}
+.sum dt{color:var(--muted)}.sum dd{margin:0;text-align:right;font-family:var(--f-mono)}
+.empty{border:1.5px dashed var(--line-2);border-radius:20px;padding:32px 20px;display:grid;gap:14px;justify-items:start}
+.empty h2{font-size:clamp(26px,7vw,32px)}
+.form{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;min-width:0}
+.form .full{grid-column:1/-1}
+.form fieldset{border:1px solid var(--line);border-radius:16px;padding:16px;margin:0;display:grid;gap:14px;grid-column:1/-1;min-width:0}
+.form legend{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-inline:6px}
+.form .btns{display:flex;gap:10px;flex-wrap:wrap}
+.form .btns .btn{flex:1 1 auto}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;cursor:pointer}
+.check input{width:20px;height:20px;margin-top:1px;accent-color:var(--yellow);flex:none}
+.errbox{color:var(--bad);font-size:14px}
+.errbox:empty{display:none}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+@media (min-width:640px){
+  .grid2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .form fieldset{padding:18px}
+  .form .btns .btn{flex:0 0 auto}
+  .item{grid-template-columns:96px minmax(0,1fr) auto;gap:16px}
+  .item .thumb{width:96px}.item h3{font-size:20px}
+  .item .acts{grid-column:auto;display:grid;gap:6px;justify-items:end}
+}
+@media (min-width:960px){
+  .two{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:clamp(20px,3vw,40px)}
+  .sum{position:sticky;top:calc(var(--hdr) + 20px);padding:22px}
+}
+
+/* confirmation */
+.conf{display:grid;gap:20px;padding-block:20px 40px;max-width:900px;min-width:0}
+.ticket{border-radius:22px;background:var(--paper);color:var(--key);padding:clamp(20px,4vw,40px);display:grid;gap:16px;position:relative;overflow:hidden;min-width:0}
+.ticket .code{font-family:var(--f-display);font-weight:800;font-size:clamp(30px,8.5vw,84px);letter-spacing:-.02em;line-height:1;overflow-wrap:anywhere}
+.ticket .k{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#5f616a}
+.ticket .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.ticket .row .btn{flex:1 1 auto}
+.ticket .btn-o{border-color:rgba(13,14,17,.25);color:var(--key)}
+.ticket .cbar{position:absolute;right:20px;top:20px;width:70px}
+@media (min-width:640px){.ticket .row .btn{flex:0 0 auto}.ticket .cbar{width:96px}.conf{padding-block:clamp(32px,5vw,64px) 40px}}
+.state{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(13,14,17,.08);color:inherit;white-space:nowrap}
+.state i{width:8px;height:8px;border-radius:50%;background:var(--sc,var(--cyan))}
+.timeline{display:grid;gap:0;margin:0;padding:0;list-style:none}
+.timeline li{display:grid;grid-template-columns:20px 1fr;gap:12px;padding-bottom:14px;position:relative}
+.timeline li::before{content:"";position:absolute;left:5px;top:16px;bottom:0;width:1px;background:var(--line-2)}
+.timeline li:last-child::before{display:none}
+.timeline li i{width:11px;height:11px;border-radius:50%;margin-top:6px;background:var(--line-2)}
+.timeline li.done i{background:var(--ok)}.timeline li.now i{background:var(--yellow);box-shadow:0 0 0 4px rgba(255,225,0,.18)}
+.timeline li span{color:var(--muted);font-size:14px}.timeline li.done span,.timeline li.now span{color:var(--paper)}
+.timeline small{display:block;font-family:var(--f-mono);font-size:11px;color:var(--dim)}
+
+/* panel */
+.panel{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;padding-bottom:40px;align-items:start}
+.plist{display:grid;gap:8px;min-width:0}
+.prow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;align-items:center;text-align:left;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--ink-2);cursor:pointer;width:100%;transition:border-color .2s;min-width:0}
+.prow .state{grid-column:1/-1;justify-self:start}
+.prow:hover{border-color:var(--line-2)}
+.prow[aria-current="true"]{border-color:var(--yellow)}
+.prow b{font-family:var(--f-mono);font-size:13px;font-weight:500}
+.prow .who{font-size:14px;color:var(--paper-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prow small{display:block;font-family:var(--f-mono);font-size:11px;color:var(--dim)}
+.pdetail{border:1px solid var(--line);border-radius:20px;padding:18px;display:grid;gap:18px;background:var(--ink-2);min-width:0}
+.kv{display:grid;grid-template-columns:minmax(0,1fr);gap:2px 14px;font-size:14px}
+.kv dt{color:var(--muted);margin-top:8px}.kv dd{margin:0;overflow-wrap:anywhere}
+.pfilters{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none;margin-inline:calc(var(--gutter) * -1);padding-inline:var(--gutter);padding-bottom:4px}
+.pfilters::-webkit-scrollbar{display:none}
+.banner{border:1px solid var(--line-2);border-radius:14px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;font-size:14px;color:var(--paper-2);background:var(--ink-2)}
+.banner .reg{color:var(--yellow);margin-top:3px}
+@media (min-width:640px){
+  .kv{grid-template-columns:140px minmax(0,1fr);gap:6px 14px}.kv dt{margin-top:0}
+  .prow{grid-template-columns:auto minmax(0,1fr) auto}.prow .state{grid-column:auto}
+  .pdetail{padding:22px}
+}
+@media (min-width:960px){
+  .panel{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:20px}
+  .pdetail{position:sticky;top:calc(var(--hdr) + 20px)}
+  .pfilters{flex-wrap:wrap;overflow:visible;margin-inline:0;padding-inline:0}
+}
+
+/* toast */
+.toast{width:max-content;position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--paper);color:var(--key);padding:12px 18px;border-radius:12px;font-weight:600;font-size:14px;z-index:90;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;max-width:calc(100vw - 32px)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (min-width:900px){.toast{bottom:calc(24px + env(safe-area-inset-bottom,0px))}}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true"><div class="loader-in"><b id="loadNum">0</b><span class="cbar"><i></i><i></i><i></i><i></i></span><span class="mono" style="color:var(--muted)">AJUSTANDO REGISTRO</span></div></div>
+
+<header class="hdr" id="hdr">
+  <div class="wrap hdr-in">
+    <a href="#inicio" class="logo" aria-label="Inicio">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="9" fill="none" stroke="#f2f1ec" stroke-width="1.6"/><path d="M16 2v28M2 16h28" stroke="#f2f1ec" stroke-width="1.6"/><circle cx="12" cy="12" r="4.2" fill="#00a6e2" opacity=".9"/><circle cx="20" cy="12" r="4.2" fill="#ec008c" opacity=".85"/><circle cx="16" cy="19" r="4.2" fill="#ffe100" opacity=".85"/></svg>
+      <span>Imprenta<small>CARACAS · LOGO DE REFERENCIA</small></span>
+    </a>
+    <div class="hdr-actions">
+      <nav class="nav" id="nav" aria-label="Principal">
+        <a href="#inicio" data-nav="inicio">Inicio</a>
+        <a href="#tienda" data-nav="tienda">Tienda</a>
+        <a href="#como" data-nav="como">Cómo funciona</a>
+        <a href="#contacto" data-nav="contacto">Contacto</a>
+      </nav>
+      <a href="#solicitud" class="btn btn-o btn-sm cart-btn" aria-label="Ver solicitud de cotización">Solicitud <b id="cartCount" hidden>0</b></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="mnav"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+</header>
+<nav class="mnav" id="mnav" aria-label="Menú">
+  <a href="#inicio" data-nav="inicio">Inicio</a>
+  <a href="#tienda" data-nav="tienda">Tienda</a>
+  <a href="#como" data-nav="como">Cómo funciona</a>
+  <a href="#solicitud" data-nav="solicitud">Mi solicitud</a>
+  <a href="#contacto" data-nav="contacto">Contacto</a>
+  <div class="mnav-foot"><span class="cbar"><i></i><i></i><i></i><i></i></span><span class="mono" style="color:var(--muted)">IMPRENTA DIGITAL, OFFSET Y GRAN FORMATO · CARACAS</span></div>
+</nav>
+
+<main id="main">
+
+<!-- ============ INICIO ============ -->
+<section class="view view-home" data-view="inicio" id="v-inicio">
+  <div id="homeRoot">
+  <section class="stage" id="stage" aria-label="Recorrido por el proceso de impresión">
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span>
+    <div class="stage-ui">
+      <div class="stage-top">
+        <span class="eyebrow"><span class="reg"></span>Digital · offset · gran formato</span>
+        <span class="counter" id="chapCounter">01 / 06 · PLIEGO EN BLANCO</span>
+      </div>
+      <div class="chap-area">
+        <div class="chaps" id="chaps">
+          <div class="chap on" style="--chap:var(--yellow)">
+            <span class="num">01 · Pliego en blanco</span>
+            <h1>Imprimimos lo que <em>tu marca</em> imagina.</h1>
+            <p>Papelería, catálogos, gran formato, empaques y documentos fiscales autorizados por el SENIAT. Arma tu pedido en línea y te respondemos con la cotización.</p>
+            <div class="cta"><a href="#tienda" class="btn btn-y">Arma tu pedido <span class="arr">→</span></a><a href="#como" class="btn btn-o">Cómo funciona</a></div>
+          </div>
+          <div class="chap" style="--chap:var(--cyan)">
+            <span class="num">02 · Separación CMYK</span>
+            <h2>Cuatro tintas, <em>un solo color</em> exacto.</h2>
+            <p>Cian, magenta, amarillo y negro se superponen con registro preciso. Imprimimos en cuatricromía y en Pantone, en offset para grandes tirajes y en digital para tirajes cortos.</p>
+            <div class="tags"><span class="tag">Offset</span><span class="tag">Digital</span><span class="tag">CMYK + Pantone</span><span class="tag">Data variable</span></div>
+          </div>
+          <div class="chap" style="--chap:var(--magenta)">
+            <span class="num">03 · Papelería y catálogos</span>
+            <h2>Del pliego a <em>tu tarjeta</em>.</h2>
+            <p>Cortamos, plegamos y damos acabado: tarjetas, trípticos, catálogos, carpetas y talonarios de factura con numeración de control.</p>
+            <div class="tags"><span class="tag">Barniz UV</span><span class="tag">Laminado mate</span><span class="tag">Foil</span><span class="tag">Troquel</span></div>
+          </div>
+          <div class="chap" style="--chap:var(--yellow)">
+            <span class="num">04 · Gran formato</span>
+            <h2>Tu marca, <em>en grande</em>.</h2>
+            <p>Pendones, lonas para fachada, roll-up para eventos y vinil para vidrieras y vehículos, con tintas para interior y exterior. Instalación en Caracas.</p>
+            <div class="tags"><span class="tag">Lona 13 oz</span><span class="tag">Vinil microperforado</span><span class="tag">Roll-up</span></div>
+          </div>
+          <div class="chap" style="--chap:var(--cyan)">
+            <span class="num">05 · Empaque</span>
+            <h2>Cajas que <em>venden</em> solas.</h2>
+            <p>Del troquel plano a la caja armada: empaques para alimentos, bolsas tipo boutique y etiquetas para tu producto.</p>
+            <div class="tags"><span class="tag">Cajas plegables</span><span class="tag">Etiquetas</span><span class="tag">Bolsas</span></div>
+          </div>
+          <div class="chap" style="--chap:var(--magenta)">
+            <span class="num">06 · Personalización</span>
+            <h2>Y también <em>en tazas</em> y franelas.</h2>
+            <p>Sublimación, DTF, serigrafía y grabado láser para regalos corporativos, uniformes y merchandising.</p>
+            <div class="cta"><a href="#tienda" class="btn btn-y">Ver la tienda <span class="arr">→</span></a></div>
+          </div>
+        </div>
+        <div class="prog" id="prog" aria-hidden="true"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+      </div>
+      <div class="stage-top stage-bot"><span class="scroll-hint"><i></i>DESPLÁZATE PARA RECORRER EL TALLER</span><span class="cbar" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
+    </div>
+  </section>
+
+  <section aria-label="Productos más pedidos" style="padding-block:clamp(40px,6vw,72px) 0">
+    <div class="wrap sec-head" style="margin-bottom:28px">
+      <span class="eyebrow"><span class="reg"></span>Más pedidos</span>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
+        <h2 style="font-size:clamp(36px,5vw,68px)">Elige, configura y pide.</h2>
+        <a href="#tienda" class="btn btn-o">Ver todo el catálogo <span class="arr">→</span></a>
+      </div>
+    </div>
+    <div class="wheel" id="wheel" tabindex="0" aria-roledescription="carrusel" aria-label="Productos más pedidos">
+      <div class="wheel-track" id="wheelTrack"></div>
+      <span class="wheel-hint" id="wheelHint" aria-hidden="true">Arrastra</span>
+    </div>
+  </section>
+
+  <section class="logos-row" aria-label="Clientes" style="margin-top:clamp(56px,8vw,96px)">
+    <div class="wrap" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px">
+      <p style="font-weight:600">Negocios que ya imprimen con nosotros</p><span class="tag">Logos de ejemplo</span>
+    </div>
+    <div class="mq"><div class="mq-track" id="mq3">
+      <span class="lg">CAFÉ ÁVILA</span><span class="lg s">farmacia norte</span><span class="lg m">CLÍNICA·ALTAMIRA</span><span class="lg">TROPIKAL</span><span class="lg s">bodegón 24</span><span class="lg m">GYM/CHACAO</span><span class="lg">PANADERÍA LUZ</span><span class="lg s">ferretería sur</span><span class="lg">MOTO EXPRESS</span><span class="lg m">DENTAL+</span>
+    </div></div>
+  </section>
+
+  <section class="sec" id="como" aria-labelledby="como-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><span class="reg"></span>Cómo funciona</span>
+        <h2 id="como-h">Tu pedido, en cuatro pasos.</h2>
+        <p class="lead">Armas la solicitud en línea, sin llamadas. Te respondemos por WhatsApp y correo con la cotización, y producimos cuando apruebas el arte.</p>
+      </div>
+      <div class="steps">
+        <div class="step" style="--c:var(--cyan)"><span class="n">1</span><h3>Elige y configura</h3><p>Escoge el producto, la medida, el papel, el acabado y la cantidad.</p></div>
+        <div class="step" style="--c:var(--magenta)"><span class="n">2</span><h3>Sube tu arte</h3><p>Adjunta tu diseño en PDF, AI o PNG a 300 dpi, o pide que lo diseñemos.</p></div>
+        <div class="step" style="--c:var(--yellow)"><span class="n">3</span><h3>Recibe la cotización</h3><p>Te llega por WhatsApp y correo con el monto en USD y bolívares a tasa BCV.</p></div>
+        <div class="step" style="--c:var(--paper)"><span class="n">4</span><h3>Aprueba y recibe</h3><p>Revisas la prueba de color, producimos y retiras, o te lo enviamos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="cats-h" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><span class="reg"></span>Catálogo</span>
+        <h2 id="cats-h">Todo lo que imprimimos.</h2>
+      </div>
+      <div class="cats" id="homeCats"></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="rub-h" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><span class="reg"></span>Soluciones por rubro</span>
+        <h2 id="rub-h">Lo que tu negocio necesita imprimir.</h2>
+      </div>
+      <div class="rubros" id="rubros">
+        <div class="rubro" style="--c:var(--cyan)"><span class="dot"></span><h3>Salud</h3><ul><li>Récipes médicos</li><li>Informes y membretes</li><li>Carnets PVC</li></ul></div>
+        <div class="rubro" style="--c:var(--magenta)"><span class="dot"></span><h3>Restaurantes</h3><ul><li>Menús y comandas</li><li>Papel antigrasa</li><li>Cajas para delivery</li></ul></div>
+        <div class="rubro" style="--c:var(--yellow)"><span class="dot"></span><h3>Emprendedores</h3><ul><li>Etiquetas de producto</li><li>Tarjetas y volantes</li><li>Bolsas boutique</li></ul></div>
+        <div class="rubro" style="--c:var(--cyan)"><span class="dot"></span><h3>Eventos</h3><ul><li>Invitaciones</li><li>Pendones y roll-up</li><li>Franelas y tazas</li></ul></div>
+        <div class="rubro" style="--c:var(--magenta)"><span class="dot"></span><h3>Empresas</h3><ul><li>Facturas SENIAT</li><li>Carpetas corporativas</li><li>Catálogos</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Reseñas">
+    <div class="wrap" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px">
+      <span class="eyebrow"><span class="reg"></span>Lo que dicen nuestros clientes</span><span class="tag">Reseñas de ejemplo</span>
+    </div>
+    <div class="mq mq-rev"><div class="mq-track" id="mq4"></div></div>
+  </section>
+
+  <section class="sec" aria-label="Cifras">
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat"><b data-to="4">0</b><span>técnicas: offset, digital, gran formato y sublimación</span></div>
+        <div class="stat"><b data-to="40">0</b><span>productos configurables en la tienda</span></div>
+        <div class="stat"><b data-to="48" data-suf=" h">0</b><span>pendones estándar listos tras aprobar el arte</span></div>
+        <div class="stat"><b data-to="100" data-suf="%">0</b><span>facturas con normativa SENIAT</span></div>
+      </div>
+      <p class="mono" style="color:var(--dim);margin-top:10px">CIFRAS DE REFERENCIA · SE AJUSTAN CON LOS DATOS REALES DE LA IMPRENTA</p>
+    </div>
+  </section>
+
+  <section class="wrap" aria-label="Llamado a la acción">
+    <div class="cta-band">
+      <span class="cbar" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span class="eyebrow" style="color:#5f616a"><span class="reg"></span>Cotización sin compromiso</span>
+      <h2>¿Listo para imprimir?</h2>
+      <p>Arma tu solicitud en dos minutos. Te respondemos por WhatsApp y correo con el precio y el tiempo de entrega.</p>
+      <div class="btns"><a href="#tienda" class="btn btn-y" style="background:var(--key);color:var(--paper)">Arma tu pedido <span class="arr">→</span></a><a href="#contacto" class="btn btn-o">Contactar</a></div>
+    </div>
+  </section>
+  </div>
+</section>
+
+<!-- ============ TIENDA ============ -->
+<section class="view" data-view="tienda" id="v-tienda" hidden>
+  <div class="wrap">
+    <div class="page-head">
+      <span class="eyebrow"><span class="reg"></span>Tienda · todo a cotizar</span>
+      <h1>Arma tu pedido.</h1>
+      <p class="lead">Configura cada producto y súmalo a tu solicitud. Te enviamos la cotización por WhatsApp y correo.</p>
+    </div>
+    <div class="filters" id="filters" role="group" aria-label="Filtrar por categoría"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- ============ PRODUCTO ============ -->
+<section class="view" data-view="producto" id="v-producto" hidden><div class="wrap" id="pdp"></div></section>
+
+<!-- ============ SOLICITUD ============ -->
+<section class="view" data-view="solicitud" id="v-solicitud" hidden>
+  <div class="wrap">
+    <div class="page-head"><span class="eyebrow"><span class="reg"></span>Paso 1 de 2</span><h1>Tu solicitud.</h1></div>
+    <div id="cartBody"></div>
+  </div>
+</section>
+
+<!-- ============ DATOS ============ -->
+<section class="view" data-view="datos" id="v-datos" hidden>
+  <div class="wrap">
+    <div class="page-head"><span class="eyebrow"><span class="reg"></span>Paso 2 de 2</span><h1>Tus datos.</h1><p class="lead">Con esto preparamos la cotización y coordinamos la entrega. No necesitas crear cuenta.</p></div>
+    <div class="two">
+      <form class="form" id="checkout" novalidate>
+        <fieldset>
+          <legend>Contacto</legend>
+          <div class="grid2">
+            <div class="field"><label for="c-nombre">Nombre y apellido</label><input class="in" id="c-nombre" name="nombre" autocomplete="name" required></div>
+            <div class="field"><label for="c-doc">Cédula o RIF</label><input class="in" id="c-doc" name="documento" placeholder="V-12345678 o J-12345678-9" required></div>
+            <div class="field"><label for="c-tel">WhatsApp</label><input class="in" id="c-tel" name="telefono" inputmode="tel" autocomplete="tel" placeholder="0412 123 4567" required></div>
+            <div class="field"><label for="c-mail">Correo</label><input class="in" id="c-mail" name="correo" type="email" autocomplete="email" required></div>
+            <div class="field" style="grid-column:1/-1"><label for="c-emp">Empresa <span class="hint">(opcional)</span></label><input class="in" id="c-emp" name="empresa" autocomplete="organization"></div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Factura</legend>
+          <label class="check"><input type="checkbox" id="c-fact" name="factura"> Necesito factura fiscal</label>
+          <div class="grid2" id="factFields" hidden>
+            <div class="field"><label for="c-razon">Razón social</label><input class="in" id="c-razon" name="razonSocial"></div>
+            <div class="field"><label for="c-dirf">Dirección fiscal</label><input class="in" id="c-dirf" name="direccionFiscal"></div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Entrega</legend>
+          <div class="seg" role="radiogroup" aria-label="Tipo de entrega">
+            <input type="radio" name="entrega" id="e-retiro" value="retiro" checked><label for="e-retiro">Retiro en taller<small>Sin costo</small></label>
+            <input type="radio" name="entrega" id="e-delivery" value="delivery"><label for="e-delivery">Delivery en Caracas<small>Según zona</small></label>
+            <input type="radio" name="entrega" id="e-envio" value="envio"><label for="e-envio">Envío nacional<small>Por agencia</small></label>
+          </div>
+          <div class="field" id="f-zona" hidden><label for="c-zona">Zona o dirección en Caracas</label><input class="in" id="c-zona" name="zona" placeholder="Ej. Chacao, Av. Francisco de Miranda"></div>
+          <div class="grid2" id="f-envio" hidden>
+            <div class="field"><label for="c-agencia">Agencia</label><select class="in" id="c-agencia" name="agencia"><option>MRW</option><option>Zoom</option><option>Tealca</option><option>Domesa</option></select></div>
+            <div class="field"><label for="c-ofi">Oficina o ciudad destino</label><input class="in" id="c-ofi" name="oficina"></div>
+          </div>
+          <div class="grid2">
+            <div class="field"><label for="c-fecha">Fecha deseada</label><input class="in" type="date" id="c-fecha" name="fechaDeseada"></div>
+            <div class="field" style="align-content:end"><label class="check"><input type="checkbox" id="c-urg" name="urgente"> Es urgente (exprés, con recargo)</label></div>
+          </div>
+        </fieldset>
+        <div class="field full"><label for="c-notas">Comentarios para la imprenta <span class="hint">(opcional)</span></label><textarea class="in" id="c-notas" name="notas"></textarea></div>
+        <label class="check full"><input type="checkbox" id="c-ok" required> Acepto las condiciones: archivos a 300 dpi con sangrado, revisión de prueba de color antes de producir, y las condiciones de pago que indique la cotización.</label>
+        <p class="errbox full" id="formErr" role="alert"></p>
+        <div class="full btns"><button class="btn btn-y" type="submit" id="sendBtn">Enviar solicitud <span class="arr">→</span></button><a class="btn btn-o" href="#solicitud">Volver</a></div>
+      </form>
+      <aside class="sum" id="sum2" aria-label="Resumen"></aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PEDIDO (enlace único) ============ -->
+<section class="view" data-view="pedido" id="v-pedido" hidden><div class="wrap" id="orderBody"></div></section>
+
+<!-- ============ PANEL ============ -->
+<section class="view" data-view="panel" id="v-panel" hidden>
+  <div class="wrap">
+    <div class="page-head"><span class="eyebrow"><span class="reg"></span>Uso interno</span><h1>Pedidos.</h1></div>
+    <div id="panelBody"></div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot" id="contacto">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div style="display:grid;gap:14px;align-content:start">
+        <a href="#inicio" class="logo" style="padding:0"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="9" fill="none" stroke="#f2f1ec" stroke-width="1.6"/><path d="M16 2v28M2 16h28" stroke="#f2f1ec" stroke-width="1.6"/><circle cx="12" cy="12" r="4.2" fill="#00a6e2" opacity=".9"/><circle cx="20" cy="12" r="4.2" fill="#ec008c" opacity=".85"/><circle cx="16" cy="19" r="4.2" fill="#ffe100" opacity=".85"/></svg><span>Imprenta</span></a>
+        <p style="color:var(--muted);max-width:40ch;font-size:15px">Imprenta digital, offset y gran formato en Caracas. Imprenta autorizada por el SENIAT para documentos fiscales.</p>
+        <span class="cbar"><i></i><i></i><i></i><i></i></span>
+      </div>
+      <div><h4>Tienda</h4><a href="#tienda">Todo el catálogo</a><a href="#cat-papeleria">Papelería</a><a href="#cat-gran-formato">Gran formato</a><a href="#cat-fiscal">Facturas SENIAT</a></div>
+      <div><h4>Ayuda</h4><a href="#como">Cómo funciona</a><a href="#solicitud">Mi solicitud</a><a href="#panel">Panel interno</a></div>
+      <div>
+        <h4>Contacto</h4>
+        <p style="font-size:15px;color:var(--paper-2)">Lunes a viernes, 8:00 a 5:00</p>
+        <div class="copyrow"><code id="ftMail">pedidos@imprenta.example</code><button class="btn btn-o btn-sm" data-copy="#ftMail">Copiar</button></div>
+        <div class="copyrow"><code id="ftWa">WhatsApp por definir</code></div>
+        <p class="mono" style="color:var(--dim);margin-top:8px">DATOS DE CONTACTO DE REFERENCIA</p>
+      </div>
+    </div>
+    <div class="legal"><span>© 2026 Imprenta · Caracas, Venezuela · RIF por definir</span><span>Prototipo v1: toma de pedidos sin pago en línea</span></div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+/* ================= CONFIG ================= */
+const CONFIG = {
+  whatsapp: "",                        // número de la imprenta en formato internacional, ej. "584121234567" (pendiente)
+  email: "pedidos@imprenta.example",   // correo de referencia (pendiente)
+  year: 2026
+};
+
+/* ================= CATÁLOGO ================= */
+const ART = { id:"arte", label:"Arte", type:"seg", values:["Tengo mi diseño","Necesito diseño"] };
+const CATS = [
+  { id:"papeleria", name:"Papelería comercial", blurb:"Tarjetas, volantes, sobres, membretes y carpetas.", model:"cards" },
+  { id:"catalogos", name:"Catálogos y folletos", blurb:"Dípticos, trípticos, brochures, revistas y libros.", model:"catalog" },
+  { id:"fiscal", name:"Facturas SENIAT", blurb:"Talonarios con número de control y papel químico.", model:"invoice" },
+  { id:"nichos", name:"Salud y eventos", blurb:"Récipes, rifas, certificados, carnets, invitaciones.", model:"recipe" },
+  { id:"gran-formato", name:"Gran formato", blurb:"Pendones, lonas, roll-up, vinil y señalética.", model:"rollup" },
+  { id:"etiquetas", name:"Etiquetas y stickers", blurb:"Para producto, troqueladas, en hoja o en rollo.", model:"labels" },
+  { id:"empaques", name:"Empaques", blurb:"Cajas plegables, bolsas boutique y papel antigrasa.", model:"box" },
+  { id:"personalizacion", name:"Personalización", blurb:"Tazas, franelas, termos y merchandising.", model:"mug" }
+];
+
+const PRODUCTS = [
+  // Papelería
+  { slug:"tarjetas-de-presentacion", cat:"papeleria", name:"Tarjetas de presentación", model:"cards", spec:"9×5 cm · 350 g · 4×4", plazo:"3 a 5 días hábiles", expres:true,
+    opts:[ {id:"papel",label:"Papel",type:"seg",values:["Opalina 250 g","Glasé 350 g","Kraft 300 g"]},
+           {id:"caras",label:"Impresión",type:"seg",values:["4×0 · una cara","4×4 · dos caras","4×1 · color + negro"]},
+           {id:"acabado",label:"Acabado",type:"seg",values:["Sin acabado","Laminado mate","Laminado brillante","UV sectorizado","Foil dorado"]},
+           {id:"esquinas",label:"Esquinas",type:"seg",values:["Rectas","Redondeadas"]} ],
+    qtys:[100,250,500,1000,2000,5000] },
+  { slug:"volantes", cat:"papeleria", name:"Volantes", model:"flyer", spec:"¼ carta · 150 g · 4×4", plazo:"3 a 5 días hábiles", expres:true,
+    opts:[ {id:"medida",label:"Medida",type:"seg",values:["¼ carta","½ carta","Carta"]},
+           {id:"papel",label:"Papel",type:"seg",values:["Bond 75 g","Glasé 150 g","Glasé 250 g"]},
+           {id:"caras",label:"Impresión",type:"seg",values:["4×0 · una cara","4×4 · dos caras"]} ],
+    qtys:[500,1000,2500,5000,10000] },
+  { slug:"hojas-membretadas", cat:"papeleria", name:"Hojas membretadas", model:"letterhead", spec:"Carta · bond 90 g · 4×0", plazo:"3 a 5 días hábiles",
+    opts:[ {id:"papel",label:"Papel",type:"seg",values:["Bond 75 g","Bond 90 g","Opalina 120 g"]},
+           {id:"color",label:"Color",type:"seg",values:["Full color","Una tinta"]} ],
+    qtys:[100,250,500,1000] },
+  { slug:"sobres-impresos", cat:"papeleria", name:"Sobres impresos", model:"envelope", spec:"Oficio y manila · 4×0", plazo:"5 a 7 días hábiles",
+    opts:[ {id:"tipo",label:"Tipo",type:"seg",values:["Oficio con ventana","Oficio sin ventana","Manila carta","Manila oficio"]} ],
+    qtys:[100,250,500,1000] },
+  { slug:"carpetas-corporativas", cat:"papeleria", name:"Carpetas corporativas", model:"folder", spec:"Carta · cartulina 300 g · bolsillo", plazo:"5 a 7 días hábiles",
+    opts:[ {id:"acabado",label:"Acabado",type:"seg",values:["Laminado mate","Laminado brillante","UV sectorizado"]},
+           {id:"bolsillo",label:"Bolsillo",type:"seg",values:["Un bolsillo","Dos bolsillos"]} ],
+    qtys:[50,100,250,500] },
+  // Catálogos
+  { slug:"tripticos", cat:"catalogos", name:"Trípticos", model:"trifold", spec:"Carta · glasé 150 g · 4×4", plazo:"3 a 5 días hábiles", expres:true,
+    opts:[ {id:"papel",label:"Papel",type:"seg",values:["Glasé 115 g","Glasé 150 g","Glasé 200 g"]},
+           {id:"plegado",label:"Plegado",type:"seg",values:["Tríptico ventana","Tríptico zigzag","Díptico"]} ],
+    qtys:[100,250,500,1000,2500] },
+  { slug:"catalogos", cat:"catalogos", name:"Catálogos", model:"catalog", spec:"Carta · 8 a 64 págs · grapado", plazo:"7 a 10 días hábiles",
+    opts:[ {id:"paginas",label:"Páginas",type:"seg",values:["8","12","16","24","32","48","64"]},
+           {id:"interior",label:"Papel interior",type:"seg",values:["Glasé 115 g","Glasé 150 g"]},
+           {id:"portada",label:"Portada",type:"seg",values:["Glasé 250 g","Glasé 250 g + laminado mate"]},
+           {id:"encuad",label:"Encuadernación",type:"seg",values:["Grapado","Hot melt (lomo)","Wire-o"]} ],
+    qtys:[50,100,250,500,1000] },
+  { slug:"revistas-y-libros", cat:"catalogos", name:"Revistas y libros", model:"book", spec:"A5 o carta · tapa blanda o dura", plazo:"10 a 15 días hábiles",
+    opts:[ {id:"formato",label:"Formato",type:"seg",values:["A5","Carta","20×20 cm"]},
+           {id:"tapa",label:"Tapa",type:"seg",values:["Blanda","Dura"]},
+           {id:"interior",label:"Interior",type:"seg",values:["B/N","Full color"]} ],
+    qtys:[25,50,100,250,500] },
+  // Fiscal
+  { slug:"talonarios-de-factura", cat:"fiscal", name:"Talonarios de factura", model:"invoice", spec:"Normativa SENIAT · papel químico", plazo:"5 a 7 días hábiles",
+    note:"Imprenta autorizada por el SENIAT. Necesitamos tu RIF, razón social, dirección fiscal y el número de control inicial.",
+    opts:[ {id:"medida",label:"Medida",type:"seg",values:["½ carta","Carta"]},
+           {id:"copias",label:"Juego",type:"seg",values:["Original + 1 copia","Original + 2 copias","Original + 3 copias"]},
+           {id:"tintas",label:"Tintas",type:"seg",values:["Una tinta","Full color"]},
+           {id:"numeracion",label:"Número de control inicial",type:"text",placeholder:"00-000001"} ],
+    qtys:[5,10,20,50,100], unit:"talonarios de 50 juegos" },
+  { slug:"notas-de-entrega", cat:"fiscal", name:"Notas de entrega y recibos", model:"invoice", spec:"Numeradas · papel químico", plazo:"5 a 7 días hábiles",
+    opts:[ {id:"tipo",label:"Documento",type:"seg",values:["Nota de entrega","Recibo de pago","Orden de compra","Guía de despacho"]},
+           {id:"copias",label:"Juego",type:"seg",values:["Original + 1 copia","Original + 2 copias"]} ],
+    qtys:[5,10,20,50], unit:"talonarios de 50 juegos" },
+  { slug:"comandas", cat:"fiscal", name:"Comandas para restaurante", model:"pad", spec:"Numeradas · original + copia", plazo:"5 a 7 días hábiles",
+    opts:[ {id:"medida",label:"Medida",type:"seg",values:["10×14 cm","½ carta"]},
+           {id:"copias",label:"Juego",type:"seg",values:["Original","Original + copia"]} ],
+    qtys:[10,20,50,100], unit:"blocks de 50" },
+  // Nichos
+  { slug:"recipes-medicos", cat:"nichos", name:"Récipes médicos", model:"recipe", spec:"½ carta · bond 75 g · numerados", plazo:"3 a 5 días hábiles",
+    opts:[ {id:"formato",label:"Formato",type:"seg",values:["Récipe + indicaciones","Récipe simple"]},
+           {id:"color",label:"Color",type:"seg",values:["Full color","Una tinta"]} ],
+    qtys:[5,10,20,50], unit:"blocks de 100" },
+  { slug:"rifas", cat:"nichos", name:"Rifas y talonarios numerados", model:"pad", spec:"Numeración consecutiva · troquel", plazo:"3 a 5 días hábiles",
+    opts:[ {id:"tamano",label:"Tamaño",type:"seg",values:["Pequeña","Mediana","Grande"]},
+           {id:"numeros",label:"Números",type:"select",values:["00 al 99","000 al 999","0000 al 9999"]} ],
+    qtys:[100,500,1000,5000], unit:"boletos" },
+  { slug:"certificados", cat:"nichos", name:"Certificados y diplomas", model:"letterhead", spec:"Carta · opalina 220 g · data variable", plazo:"3 a 5 días hábiles",
+    opts:[ {id:"papel",label:"Papel",type:"seg",values:["Opalina 220 g","Hilo 220 g"]},
+           {id:"nombres",label:"Nombres personalizados",type:"seg",values:["No","Sí, con data variable"]} ],
+    qtys:[10,25,50,100,250] },
+  { slug:"carnets-pvc", cat:"nichos", name:"Carnets en PVC", model:"cards", spec:"CR80 · 4×4 · data variable", plazo:"3 a 5 días hábiles",
+    opts:[ {id:"extra",label:"Extras",type:"seg",values:["Solo carnet","Con porta carnet","Con cinta personalizada"]} ],
+    qtys:[10,25,50,100,250] },
+  { slug:"invitaciones", cat:"nichos", name:"Invitaciones", model:"envelope", spec:"Opalina o perlado · con sobre", plazo:"5 a 7 días hábiles",
+    opts:[ {id:"evento",label:"Evento",type:"seg",values:["Boda","Quince años","Bautizo","Corporativo"]},
+           {id:"papel",label:"Papel",type:"seg",values:["Opalina 250 g","Perlado 250 g"]},
+           {id:"acabado",label:"Acabado",type:"seg",values:["Sin acabado","Foil dorado","Troquel"]} ],
+    qtys:[50,100,150,200,300] },
+  // Gran formato
+  { slug:"pendones", cat:"gran-formato", name:"Pendones", model:"banner", spec:"Lona 13 oz · tubos y cordón", plazo:"24 a 48 horas", expres:true,
+    opts:[ {id:"medida",label:"Medida (ancho × alto)",type:"seg",values:["60×90 cm","80×120 cm","80×200 cm","100×200 cm","Otra medida"]},
+           {id:"acabado",label:"Acabado",type:"seg",values:["Tubos y cordón","Ojales","Bolsillos"]},
+           {id:"uso",label:"Uso",type:"seg",values:["Interior","Exterior"]} ],
+    qtys:[1,2,3,5,10] },
+  { slug:"roll-up", cat:"gran-formato", name:"Roll-up para eventos", model:"rollup", spec:"85×200 cm · estructura y bolso", plazo:"48 a 72 horas", expres:true,
+    opts:[ {id:"medida",label:"Medida",type:"seg",values:["85×200 cm","100×200 cm","120×200 cm"]},
+           {id:"material",label:"Material",type:"seg",values:["Lona premium","Polipropileno"]} ],
+    qtys:[1,2,3,5] },
+  { slug:"lonas-fachada", cat:"gran-formato", name:"Lonas para fachada", model:"banner", spec:"A medida · tintas exterior", plazo:"3 a 5 días hábiles",
+    opts:[ {id:"ancho",label:"Ancho (cm)",type:"text",placeholder:"Ej. 400"},
+           {id:"alto",label:"Alto (cm)",type:"text",placeholder:"Ej. 150"},
+           {id:"instalacion",label:"Instalación",type:"seg",values:["Sin instalación","Con instalación en Caracas"]} ],
+    qtys:[1,2,3] },
+  { slug:"vinil-vidrieras", cat:"gran-formato", name:"Vinil para vidrieras y vehículos", model:"sign", spec:"Impreso o de corte · microperforado", plazo:"3 a 5 días hábiles",
+    opts:[ {id:"tipo",label:"Tipo",type:"seg",values:["Vinil impreso","Vinil de corte","Microperforado"]},
+           {id:"superficie",label:"Superficie",type:"seg",values:["Vidriera","Vehículo","Pared"]},
+           {id:"medida",label:"Medida aproximada",type:"text",placeholder:"Ej. 120×80 cm"} ],
+    qtys:[1,2,5,10] },
+  { slug:"letras-corporeas", cat:"gran-formato", name:"Letras corpóreas y acrílicos", model:"sign", spec:"PVC, acrílico · con o sin luz", plazo:"A convenir",
+    opts:[ {id:"material",label:"Material",type:"seg",values:["PVC","Acrílico","MDF"]},
+           {id:"luz",label:"Iluminación",type:"seg",values:["Sin luz","Con luz LED"]},
+           {id:"medida",label:"Medida aproximada",type:"text",placeholder:"Ej. 150×40 cm"} ],
+    qtys:[1] },
+  // Etiquetas
+  { slug:"etiquetas-producto", cat:"etiquetas", name:"Etiquetas para producto", model:"labels", spec:"Vinil o papel · troqueladas", plazo:"3 a 5 días hábiles", expres:true,
+    opts:[ {id:"forma",label:"Forma",type:"seg",values:["Redonda","Cuadrada","Rectangular","Troquel libre"]},
+           {id:"medida",label:"Medida",type:"seg",values:["3 cm","5 cm","7 cm","10 cm"]},
+           {id:"material",label:"Material",type:"seg",values:["Papel brillante","Vinil blanco","Vinil transparente"]},
+           {id:"entrega",label:"Presentación",type:"seg",values:["En hojas","En rollo"]} ],
+    qtys:[100,250,500,1000,5000] },
+  { slug:"stickers", cat:"etiquetas", name:"Stickers troquelados", model:"sticker", spec:"Vinil · corte a contorno", plazo:"3 a 5 días hábiles",
+    opts:[ {id:"medida",label:"Medida",type:"seg",values:["5 cm","7 cm","10 cm"]},
+           {id:"acabado",label:"Acabado",type:"seg",values:["Brillante","Mate","Holográfico"]} ],
+    qtys:[50,100,250,500,1000] },
+  // Empaques
+  { slug:"cajas-plegables", cat:"empaques", name:"Cajas plegables", model:"box", spec:"Cartulina 300 g · troquel", plazo:"7 a 10 días hábiles",
+    opts:[ {id:"uso",label:"Uso",type:"seg",values:["Tortas y dulces","Comida para llevar","Producto","Regalo"]},
+           {id:"medida",label:"Medidas internas",type:"text",placeholder:"Largo × ancho × alto en cm"},
+           {id:"impresion",label:"Impresión",type:"seg",values:["Solo exterior","Exterior e interior"]} ],
+    qtys:[100,250,500,1000,2500] },
+  { slug:"bolsas-boutique", cat:"empaques", name:"Bolsas tipo boutique", model:"bag", spec:"Cartulina con asa · laminado", plazo:"10 a 15 días hábiles",
+    opts:[ {id:"tamano",label:"Tamaño",type:"seg",values:["Pequeña","Mediana","Grande"]},
+           {id:"asa",label:"Asa",type:"seg",values:["Cordón","Cinta de raso","Troquelada"]} ],
+    qtys:[100,250,500,1000] },
+  { slug:"papel-antigrasa", cat:"empaques", name:"Papel antigrasa y manteles", model:"flyer", spec:"Impreso a 1 o 2 tintas", plazo:"7 a 10 días hábiles",
+    opts:[ {id:"tipo",label:"Producto",type:"seg",values:["Papel antigrasa","Mantel individual"]},
+           {id:"tintas",label:"Tintas",type:"seg",values:["Una tinta","Dos tintas"]} ],
+    qtys:[1000,2500,5000,10000] },
+  // Personalización
+  { slug:"tazas", cat:"personalizacion", name:"Tazas sublimadas", model:"mug", spec:"11 oz · cerámica blanca", plazo:"2 a 3 días hábiles", expres:true,
+    opts:[ {id:"modelo",label:"Modelo",type:"seg",values:["Blanca","Interior de color","Mágica (cambia con calor)"]} ],
+    qtys:[1,6,12,24,50,100] },
+  { slug:"franelas", cat:"personalizacion", name:"Franelas personalizadas", model:"tshirt", spec:"DTF, serigrafía o sublimación", plazo:"3 a 7 días hábiles",
+    opts:[ {id:"tecnica",label:"Técnica",type:"seg",values:["DTF","Serigrafía","Sublimación"]},
+           {id:"color",label:"Color de franela",type:"seg",values:["Blanca","Negra","Otro color"]},
+           {id:"ubicacion",label:"Ubicación del diseño",type:"seg",values:["Pecho","Espalda","Pecho y espalda"]},
+           {id:"tallas",label:"Tallas y cantidades",type:"text",placeholder:"Ej. 5 S, 10 M, 5 L"} ],
+    qtys:[1,12,24,50,100] },
+  { slug:"termos-y-boligrafos", cat:"personalizacion", name:"Termos, bolígrafos y regalos", model:"mug", spec:"Grabado láser o sublimación", plazo:"3 a 7 días hábiles",
+    opts:[ {id:"articulo",label:"Artículo",type:"seg",values:["Termo","Bolígrafo","Llavero","Agenda"]},
+           {id:"tecnica",label:"Técnica",type:"seg",values:["Grabado láser","Sublimación","Tampografía"]} ],
+    qtys:[12,25,50,100,250] }
+];
+
+const ESTADOS = [
+  { id:"recibido", label:"Recibido", c:"var(--cyan)" },
+  { id:"cotizado", label:"Cotizado", c:"var(--yellow)" },
+  { id:"aprobado", label:"Aprobado por cliente", c:"var(--yellow)" },
+  { id:"diseno", label:"En diseño", c:"var(--magenta)" },
+  { id:"prueba", label:"Prueba enviada", c:"var(--magenta)" },
+  { id:"produccion", label:"En producción", c:"var(--cyan)" },
+  { id:"listo", label:"Listo", c:"var(--ok)" },
+  { id:"entregado", label:"Entregado", c:"var(--ok)" },
+  { id:"cancelado", label:"Cancelado", c:"var(--bad)" }
+];
+
+const REVIEWS = [
+  ["Pedí 1.000 tarjetas con laminado mate y llegaron en tres días. El color salió igual a la prueba.", "Andrea R. · Odontóloga"],
+  ["Los talonarios de factura salieron con todo lo que pide el SENIAT. Nos ahorraron un dolor de cabeza.", "Carlos M. · Ferretería"],
+  ["El pendón para la feria quedó perfecto y lo tuvimos al día siguiente de aprobar el arte.", "Luisa P. · Emprendedora"],
+  ["Hicieron las cajas para nuestras tortas desde cero, troquel incluido. Se ven de tienda.", "Panadería del este"],
+  ["Cotizar desde la web es rápido: armé el pedido y en una hora tenía el precio por WhatsApp.", "José G. · Restaurante"],
+  ["Imprimimos el catálogo de 32 páginas con ellos. Buen papel, buen corte, buen precio.", "Distribuidora Ávila"]
+];
+/* ================= UTILIDADES ================= */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const fmtN = n => Number(n).toLocaleString("es-VE");
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const isMobile = () => innerWidth < 760;
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (_) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (_) {} }
+};
+const byId = slug => PRODUCTS.find(p => p.slug === slug);
+const catById = id => CATS.find(c => c.id === id);
+const estadoById = id => ESTADOS.find(e => e.id === id) || ESTADOS[0];
+
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("show"), 2400);
+}
+function copyText(text, btn) {
+  const done = () => { toast("Copiado"); if (btn) { const o = btn.textContent; btn.textContent = "Copiado"; setTimeout(() => btn.textContent = o, 1500); } };
+  try { navigator.clipboard.writeText(text).then(done, () => toast("Selecciona el texto y cópialo manualmente")); }
+  catch (_) { toast("Selecciona el texto y cópialo manualmente"); }
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-copy]"); if (!b) return;
+  const src = $(b.dataset.copy); if (src) copyText(src.value ?? src.textContent, b);
+});
+
+/* ================= IMÁGENES DE REFERENCIA =================
+   Mientras no haya fotos propias, cada producto usa un render 3D de referencia
+   (ver renderReferences). Para usar fotos reales: IMG[model] = "url-de-la-foto". */
+const IMG = {};
+function imgHTML(model, alt) {
+  const src = IMG[model];
+  return src
+    ? `<img src="${src}" alt="${esc(alt)}" loading="lazy" data-model="${model}">`
+    : `<div class="ph" data-model="${model}" role="img" aria-label="${esc(alt)}">REFERENCIA</div>`;
+}
+function swapImages(model) {
+  $$(`.ph[data-model="${model}"]`).forEach(ph => {
+    const im = new Image(); im.src = IMG[model]; im.alt = ph.getAttribute("aria-label") || ""; im.dataset.model = model;
+    ph.replaceWith(im);
+  });
+}
+
+/* ================= CARRITO (solicitud) ================= */
+let cart = store.get("imp.cart", []);
+function saveCart() { store.set("imp.cart", cart); updateCartCount(); }
+function updateCartCount() {
+  const b = $("#cartCount"); b.textContent = cart.length; b.hidden = cart.length === 0;
+}
+function optsLine(item) {
+  return Object.entries(item.opciones || {}).filter(([, v]) => v).map(([k, v]) => {
+    const p = byId(item.slug); const o = p && p.opts.find(x => x.id === k);
+    return `${o ? o.label : k}: ${v}`;
+  });
+}
+
+/* ================= PEDIDOS ================= */
+let db = null, user = null, canEdit = false;
+const localOrders = () => store.get("imp.orders", {});
+function saveLocalOrder(o) { const all = localOrders(); all[o.codigo] = o; store.set("imp.orders", all); }
+function newCode() {
+  const A = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; const r = new Uint32Array(5); crypto.getRandomValues(r);
+  return `IMP-${CONFIG.year}-${[...r].map(x => A[x % A.length]).join("")}`;
+}
+function orderMessage(o) {
+  const lines = [`Hola, envié la solicitud de cotización ${o.codigo}.`, ""];
+  o.items.forEach((it, i) => {
+    lines.push(`${i + 1}. ${it.nombre} · ${fmtN(it.cantidad)} ${it.unidad || "unidades"}`);
+    optsLine(it).forEach(l => lines.push(`   - ${l}`));
+    lines.push(`   - Arte: ${it.arte}`);
+  });
+  lines.push("", `Entrega: ${entregaLine(o)}`);
+  if (o.fechaDeseada) lines.push(`Fecha deseada: ${o.fechaDeseada}${o.urgente ? " (urgente)" : ""}`);
+  lines.push(`Nombre: ${o.cliente.nombre} · ${o.cliente.documento}`);
+  return lines.join("\n");
+}
+function entregaLine(o) {
+  if (o.entrega.tipo === "delivery") return `Delivery en Caracas · ${o.entrega.zona || "zona por confirmar"}`;
+  if (o.entrega.tipo === "envio") return `Envío nacional · ${o.entrega.agencia} · ${o.entrega.oficina || "oficina por confirmar"}`;
+  return "Retiro en taller";
+}
+const waLink = (num, text) => `https://wa.me/${num}?text=${encodeURIComponent(text)}`;
+function phoneIntl(raw) {
+  let d = String(raw || "").replace(/\D/g, "");
+  if (d.startsWith("0")) d = "58" + d.slice(1);
+  if (d.length === 10 && d.startsWith("4")) d = "58" + d;
+  return d;
+}
+
+/* ================= ROUTER ================= */
+const VIEWS = ["inicio", "tienda", "producto", "solicitud", "datos", "pedido", "panel"];
+let currentView = null;
+function parseHash() {
+  const h = decodeURIComponent(location.hash.slice(1)) || "inicio";
+  if (h === "como" || h === "inicio") return { view: "inicio", anchor: h === "como" ? "como" : null };
+  if (h === "contacto") return { view: currentView || "inicio", anchor: "contacto" };
+  if (h === "tienda") return { view: "tienda", cat: "todo" };
+  if (h.startsWith("cat-")) return { view: "tienda", cat: h.slice(4) };
+  if (h.startsWith("p-")) return { view: "producto", slug: h.slice(2) };
+  if (h.startsWith("pedido-")) return { view: "pedido", code: h.slice(7) };
+  if (VIEWS.includes(h)) return { view: h };
+  return { view: "inicio" };
+}
+function scrollToY(y, instant) {
+  if (window.lenis) window.lenis.scrollTo(y, { immediate: !!instant, duration: 1.1 });
+  else window.scrollTo({ top: y, behavior: instant || reduce ? "auto" : "smooth" });
+}
+function route() {
+  const r = parseHash();
+  const changed = r.view !== currentView;
+  if (changed) {
+    if (currentView === "inicio") Home.leave();
+    $$(".view").forEach(v => v.hidden = v.dataset.view !== r.view);
+    currentView = r.view;
+    if (document.body.classList.contains("menu-open")) setMenu(false);
+  }
+  const navKey = r.view === "inicio" ? (r.anchor === "como" ? "como" : "inicio") : (r.view === "tienda" || r.view === "producto") ? "tienda" : (r.view === "solicitud" || r.view === "datos") ? "solicitud" : "";
+  $$(".nav a, .mnav a").forEach(a => a.toggleAttribute("aria-current", a.dataset.nav === navKey));
+  if (a11yTitle[r.view]) document.title = a11yTitle[r.view];
+  if (r.view === "tienda") renderShop(r.cat);
+  if (r.view === "producto") renderPDP(r.slug);
+  if (r.view === "solicitud") renderCart();
+  if (r.view === "datos") renderCheckout();
+  if (r.view === "pedido") renderOrder(r.code);
+  if (r.view === "panel") renderPanel();
+  if (r.view === "inicio" && changed) Home.enter();
+  hdrState();
+  if (r.anchor) { const el = document.getElementById(r.anchor); if (el) requestAnimationFrame(() => scrollToY(el.getBoundingClientRect().top + scrollY - 70)); }
+  else if (changed) scrollToY(0, true);
+  if (window.ScrollTrigger) requestAnimationFrame(() => ScrollTrigger.refresh());
+}
+const a11yTitle = { inicio: "Imprenta Caracas", tienda: "Tienda · Imprenta Caracas", producto: "Producto · Imprenta Caracas", solicitud: "Solicitud · Imprenta Caracas", datos: "Tus datos · Imprenta Caracas", pedido: "Pedido · Imprenta Caracas", panel: "Panel · Imprenta Caracas" };
+addEventListener("hashchange", route);
+
+/* header + menú */
+let lastY = 0;
+function hdrState() {
+  const hdr = $("#hdr"), y = scrollY;
+  hdr.classList.toggle("solid", currentView !== "inicio" || y > innerHeight * 0.6);
+  if (!document.body.classList.contains("menu-open")) hdr.classList.toggle("hide", y > 200 && y > lastY + 4 && currentView !== "producto");
+  if (y < lastY - 4 || y < 200) hdr.classList.remove("hide");
+  lastY = y;
+}
+addEventListener("scroll", hdrState, { passive: true });
+function setMenu(open) {
+  document.body.classList.toggle("menu-open", open);
+  $("#menuBtn").setAttribute("aria-expanded", open); $("#menuBtn").setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+  $("#hdr").classList.remove("hide");
+  if (window.lenis) open ? window.lenis.stop() : window.lenis.start();
+}
+$("#menuBtn").addEventListener("click", () => setMenu(!document.body.classList.contains("menu-open")));
+$("#mnav").addEventListener("click", e => { if (e.target.closest("a")) setMenu(false); });
+addEventListener("resize", () => { if (innerWidth >= 900 && document.body.classList.contains("menu-open")) setMenu(false); });
+addEventListener("keydown", e => { if (e.key === "Escape" && document.body.classList.contains("menu-open")) { setMenu(false); $("#menuBtn").focus(); } });
+
+/* ================= HOME (partes en HTML) ================= */
+function renderHomeDynamic() {
+  const pick = ["tarjetas-de-presentacion", "pendones", "etiquetas-producto", "cajas-plegables", "tazas", "catalogos", "talonarios-de-factura", "tripticos", "roll-up", "franelas"];
+  const rest = PRODUCTS.filter(p => !pick.includes(p.slug)).slice(0, 8);
+  const reel = p => `<a class="reel" href="#p-${p.slug}" draggable="false">${imgHTML(p.model, p.name)}<div class="r-top"><span>${esc(catById(p.cat).name.toUpperCase())}</span><span>REF</span></div><div class="r-bot"><h3>${esc(p.name)}</h3><span class="r-spec">${esc(p.spec)}</span><span class="r-go">Configurar →</span></div></a>`;
+  $("#wheelTrack").innerHTML = pick.map(byId).concat(rest).map(reel).join("");
+  $("#mq4").innerHTML = REVIEWS.map(([t, w]) => `<div class="mq-card"><span class="stars" aria-label="5 de 5">★★★★★</span><p>${esc(t)}</p><span class="who">${esc(w)}</span></div>`).join("");
+  $("#homeCats").innerHTML = CATS.map(c => `<a class="cat" href="#cat-${c.id}"><div class="thumb">${imgHTML(c.model, c.name)}<span class="ref-tag">REF</span></div><div class="body"><h3>${esc(c.name)}</h3><p>${esc(c.blurb)}</p><span class="mono" style="color:var(--muted)">${PRODUCTS.filter(p => p.cat === c.id).length} PRODUCTOS →</span></div></a>`).join("");
+  const s = $$(".stat b")[1]; if (s) s.dataset.to = PRODUCTS.length;
+}
+
+/* ================= TIENDA ================= */
+function renderShop(cat) {
+  const valid = cat === "todo" || catById(cat);
+  if (!valid) cat = "todo";
+  $("#filters").innerHTML = [`<button class="chip" data-cat="todo" aria-pressed="${cat === "todo"}">Todo</button>`]
+    .concat(CATS.map(c => `<button class="chip" data-cat="${c.id}" aria-pressed="${cat === c.id}">${esc(c.name)}</button>`)).join("");
+  const list = PRODUCTS.filter(p => cat === "todo" || p.cat === cat);
+  $("#grid").innerHTML = list.map(p => `<a class="pcard" href="#p-${p.slug}"><div class="thumb">${imgHTML(p.model, p.name)}<span class="ref-tag">REF</span></div><div class="body"><span class="mono" style="color:var(--dim)">${esc(catById(p.cat).name.toUpperCase())}</span><h3>${esc(p.name)}</h3><span class="spec">${esc(p.spec)}</span><div class="row"><span>${esc(p.plazo)}</span><b>Cotizar →</b></div></div></a>`).join("");
+}
+$("#filters").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  history.replaceState(null, "", b.dataset.cat === "todo" ? "#tienda" : "#cat-" + b.dataset.cat);
+  renderShop(b.dataset.cat);
+});
+
+/* ================= PRODUCTO / CONFIGURADOR ================= */
+let pdpFiles = [];
+function renderPDP(slug) {
+  const p = byId(slug), root = $("#pdp");
+  if (!p) { root.innerHTML = `<div class="page-head"><h1>No encontramos ese producto.</h1><a class="btn btn-y" href="#tienda">Ir a la tienda</a></div>`; return; }
+  pdpFiles = [];
+  const c = catById(p.cat);
+  const optHTML = o => {
+    if (o.type === "text") return `<div class="opt"><label for="o-${o.id}">${esc(o.label)}</label><input class="in" id="o-${o.id}" name="${o.id}" placeholder="${esc(o.placeholder || "")}"></div>`;
+    if (o.type === "select") return `<div class="opt"><label for="o-${o.id}">${esc(o.label)}</label><select class="in" id="o-${o.id}" name="${o.id}">${o.values.map(v => `<option>${esc(v)}</option>`).join("")}</select></div>`;
+    return `<div class="opt" role="radiogroup" aria-labelledby="l-${o.id}"><span class="lab" id="l-${o.id}">${esc(o.label)}</span><div class="seg">${o.values.map((v, i) => `<input type="radio" name="${o.id}" id="o-${o.id}-${i}" value="${esc(v)}" ${i === 0 ? "checked" : ""}><label for="o-${o.id}-${i}">${esc(v)}</label>`).join("")}</div></div>`;
+  };
+  root.innerHTML = `
+  <div class="pdp">
+    <div class="pdp-media">${imgHTML(p.model, p.name)}<span class="ref-tag">IMAGEN DE REFERENCIA</span></div>
+    <form class="pdp-info" id="cfg" novalidate>
+      <div class="crumbs"><a href="#tienda">Tienda</a><span>/</span><a href="#cat-${c.id}">${esc(c.name)}</a></div>
+      <div style="display:grid;gap:14px"><h1>${esc(p.name)}</h1><span class="mono" style="color:var(--muted)">${esc(p.spec)} · ${esc(p.plazo)}${p.expres ? " · ADMITE EXPRÉS" : ""}</span></div>
+      ${p.note ? `<p class="note"><span class="reg"></span>${esc(p.note)}</p>` : ""}
+      ${p.opts.map(optHTML).join("")}
+      <div class="opt"><span class="lab" id="l-qty">Cantidad${p.unit ? ` · ${esc(p.unit)}` : ""}</span>
+        <div class="seg" role="radiogroup" aria-labelledby="l-qty">${p.qtys.map((q, i) => `<input type="radio" name="qty" id="q-${i}" value="${q}" ${i === Math.min(2, p.qtys.length - 1) ? "checked" : ""}><label for="q-${i}">${fmtN(q)}</label>`).join("")}<input type="radio" name="qty" id="q-x" value="otra"><label for="q-x">Otra</label></div>
+        <div class="qty" id="qtyOther" hidden><button type="button" data-d="-1" aria-label="Menos">−</button><input id="qtyIn" type="number" min="1" value="${p.qtys[0]}" aria-label="Cantidad"><button type="button" data-d="1" aria-label="Más">+</button></div>
+      </div>
+      ${optHTML(ART)}
+      <div class="opt" id="artUp">
+        <span class="lab">Archivos</span>
+        <label class="drop" id="drop" for="fileIn"><input type="file" id="fileIn" multiple accept=".pdf,.ai,.psd,.png,.jpg,.jpeg,.svg,.eps,.zip"><b>Arrastra tu arte aquí o haz clic para elegir</b><span class="hint" style="font-size:13px;color:var(--muted)">PDF, AI, PSD, PNG o JPG a 300 dpi, con 3 mm de sangrado.</span></label>
+        <div class="files" id="fileList"></div>
+      </div>
+      <div class="field"><label for="o-instr" id="instrLab">Instrucciones para la imprenta <span class="hint">(opcional)</span></label><textarea class="in" id="o-instr" name="instrucciones" placeholder="Textos, colores, referencias, o lo que debamos saber."></textarea></div>
+      <div class="add-row"><button class="btn btn-y" type="submit">Añadir a la solicitud <span class="arr">→</span></button><span class="mono" style="color:var(--muted)">PRECIO: A COTIZAR</span></div>
+      <p class="note"><span class="reg"></span>No pagas nada ahora. Te enviamos la cotización por WhatsApp y correo.</p>
+    </form>
+  </div>`;
+  const form = $("#cfg");
+  form.addEventListener("change", e => {
+    if (e.target.name === "qty") $("#qtyOther").hidden = e.target.value !== "otra";
+    if (e.target.name === "arte") {
+      const need = e.target.value === "Necesito diseño";
+      $("#instrLab").innerHTML = need ? `Cuéntanos qué necesitas en el diseño` : `Instrucciones para la imprenta <span class="hint">(opcional)</span>`;
+      $("#artUp .lab").textContent = need ? "Logo, fotos o referencias (opcional)" : "Archivos";
+    }
+  });
+  $("#qtyOther").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; const i = $("#qtyIn"); i.value = Math.max(1, (+i.value || 1) + +b.dataset.d); });
+  const drop = $("#drop");
+  const addFiles = fl => { [...fl].forEach(f => pdpFiles.push({ nombre: f.name, kb: Math.round(f.size / 1024) })); drawFiles(); };
+  const drawFiles = () => { $("#fileList").innerHTML = pdpFiles.map((f, i) => `<div><span>${esc(f.nombre)}</span><span>${fmtN(f.kb)} KB · <button type="button" class="link-btn" data-rm="${i}">Quitar</button></span></div>`).join(""); };
+  $("#fileIn").addEventListener("change", e => addFiles(e.target.files));
+  ["dragenter", "dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
+  ["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("over"); }));
+  drop.addEventListener("drop", e => addFiles(e.dataTransfer.files));
+  $("#fileList").addEventListener("click", e => { const b = e.target.closest("[data-rm]"); if (b) { pdpFiles.splice(+b.dataset.rm, 1); drawFiles(); } });
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const fd = new FormData(form), opciones = {};
+    p.opts.forEach(o => opciones[o.id] = (fd.get(o.id) || "").toString().trim());
+    let q = fd.get("qty"); q = q === "otra" ? Math.max(1, parseInt($("#qtyIn").value, 10) || 1) : +q;
+    cart.push({ id: Date.now().toString(36), slug: p.slug, nombre: p.name, model: p.model, opciones, cantidad: q, unidad: p.unit || "unidades",
+      arte: fd.get("arte"), instrucciones: (fd.get("instrucciones") || "").toString().trim(), archivos: pdpFiles.slice() });
+    saveCart(); toast(`${p.name} añadido a tu solicitud`);
+    location.hash = "solicitud";
+  });
+}
+
+/* ================= SOLICITUD ================= */
+function itemHTML(it, editable) {
+  return `<div class="item"><div class="thumb">${imgHTML(it.model, it.nombre)}</div>
+    <div style="min-width:0"><h3>${esc(it.nombre)}</h3>
+      <div class="spec"><span>${fmtN(it.cantidad)} ${esc(it.unidad || "unidades")}</span>${optsLine(it).map(l => `<span>${esc(l)}</span>`).join("")}<span>Arte: ${esc(it.arte)}</span>${it.archivos && it.archivos.length ? `<span>${it.archivos.length} archivo${it.archivos.length > 1 ? "s" : ""}</span>` : ""}</div>
+      ${it.instrucciones ? `<p style="font-size:14px;color:var(--paper-2);margin-top:8px">${esc(it.instrucciones)}</p>` : ""}
+    </div>
+    ${editable ? `<div class="acts"><a class="link-btn" href="#p-${it.slug}">Pedir otro igual</a><button class="link-btn" data-del="${it.id}">Quitar</button></div>` : ""}</div>`;
+}
+function summaryHTML(withBtn) {
+  const n = cart.reduce((a, it) => a + 1, 0);
+  return `<h2>Resumen</h2><dl><dt>Productos</dt><dd>${n}</dd><dt>Precio</dt><dd>A cotizar</dd><dt>Pago</dt><dd>Según cotización</dd></dl>
+  <p class="note"><span class="reg"></span>Recibirás la cotización en USD y en bolívares a tasa BCV del día.</p>
+  ${withBtn ? `<a class="btn btn-y" href="#datos">Continuar <span class="arr">→</span></a><a class="btn btn-o" href="#tienda">Seguir agregando</a>` : ""}`;
+}
+function renderCart() {
+  const b = $("#cartBody");
+  if (!cart.length) { b.innerHTML = `<div class="empty"><h2>Tu solicitud está vacía.</h2><p class="lead">Elige un producto, configúralo y añádelo. Puedes sumar varios en la misma solicitud.</p><a class="btn btn-y" href="#tienda">Ir a la tienda <span class="arr">→</span></a></div>`; return; }
+  b.innerHTML = `<div class="two"><div class="items">${cart.map(it => itemHTML(it, true)).join("")}</div><aside class="sum">${summaryHTML(true)}</aside></div>`;
+}
+$("#cartBody").addEventListener("click", e => {
+  const d = e.target.closest("[data-del]"); if (!d) return;
+  cart = cart.filter(it => it.id !== d.dataset.del); saveCart(); renderCart(); toast("Producto quitado");
+});
+
+/* ================= DATOS / ENVÍO ================= */
+const draftKey = "imp.draft";
+function renderCheckout() {
+  if (!cart.length) { location.replace("#solicitud"); return; }
+  $("#sum2").innerHTML = `<h2>Tu solicitud</h2>${cart.map(it => `<div style="display:flex;justify-content:space-between;gap:10px;font-size:14px"><span>${esc(it.nombre)}</span><span class="mono">${fmtN(it.cantidad)}</span></div>`).join("")}<dl><dt>Precio</dt><dd>A cotizar</dd></dl><a class="link-btn" href="#solicitud">Editar solicitud</a>`;
+  const d = store.get(draftKey, {});
+  Object.entries(d).forEach(([k, v]) => { const el = $(`#checkout [name="${k}"]`); if (el && el.type !== "radio" && el.type !== "checkbox") el.value = v; });
+  syncCheckout();
+}
+function syncCheckout() {
+  const f = $("#checkout"), t = f.entrega.value;
+  $("#f-zona").hidden = t !== "delivery"; $("#f-envio").hidden = t !== "envio";
+  $("#factFields").hidden = !$("#c-fact").checked;
+}
+$("#checkout").addEventListener("change", syncCheckout);
+$("#checkout").addEventListener("input", e => {
+  if (!e.target.name || e.target.type === "checkbox" || e.target.type === "radio") return;
+  const d = store.get(draftKey, {}); d[e.target.name] = e.target.value; store.set(draftKey, d);
+  e.target.classList.remove("err");
+});
+$("#checkout").addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = e.target, err = $("#formErr"); err.textContent = "";
+  const req = ["c-nombre", "c-doc", "c-tel", "c-mail"];
+  if ($("#c-fact").checked) req.push("c-razon", "c-dirf");
+  if (f.entrega.value === "delivery") req.push("c-zona");
+  if (f.entrega.value === "envio") req.push("c-ofi");
+  const bad = req.filter(id => !$("#" + id).value.trim());
+  const mail = $("#c-mail").value.trim();
+  if (mail && !/^\S+@\S+\.\S+$/.test(mail)) bad.push("c-mail");
+  if (phoneIntl($("#c-tel").value).length < 11) bad.push("c-tel");
+  bad.forEach(id => $("#" + id).classList.add("err"));
+  if (bad.length) { err.textContent = "Revisa los campos marcados: faltan datos o tienen un formato que no reconocemos (correo o teléfono)."; $("#" + bad[0]).focus(); return; }
+  if (!$("#c-ok").checked) { err.textContent = "Para enviar la solicitud, marca que aceptas las condiciones."; $("#c-ok").focus(); return; }
+  const btn = $("#sendBtn"); btn.disabled = true; btn.textContent = "Enviando…";
+  const now = new Date().toISOString();
+  const order = {
+    codigo: newCode(), creado: now, estado: "recibido",
+    historial: [{ estado: "recibido", fecha: now, nota: "Solicitud enviada desde la web" }],
+    cliente: { nombre: $("#c-nombre").value.trim(), documento: $("#c-doc").value.trim(), telefono: $("#c-tel").value.trim(), correo: mail, empresa: $("#c-emp").value.trim(),
+      factura: $("#c-fact").checked, razonSocial: $("#c-razon").value.trim(), direccionFiscal: $("#c-dirf").value.trim() },
+    entrega: { tipo: f.entrega.value, zona: $("#c-zona").value.trim(), agencia: $("#c-agencia").value, oficina: $("#c-ofi").value.trim() },
+    fechaDeseada: $("#c-fecha").value, urgente: $("#c-urg").checked, notas: $("#c-notas").value.trim(),
+    items: cart.map(({ id, ...it }) => it),
+    cotizacion: { totalUSD: null, condicionesPago: "", nota: "" },
+    pago: { metodo: null, referencia: null, estado: null, monto: null, fecha: null }
+  };
+  let remote = false;
+  if (db) {
+    try { await db.doc("pedidos/" + order.codigo).set(order); remote = true; }
+    catch (x) { console.warn("db", x); }
+  }
+  order._remote = remote;
+  saveLocalOrder(order);
+  cart = []; saveCart(); store.set(draftKey, {});
+  f.reset(); syncCheckout(); btn.disabled = false; btn.innerHTML = 'Enviar solicitud <span class="arr">→</span>';
+  location.hash = "pedido-" + order.codigo;
+});
+
+/* ================= PEDIDO (enlace único) ================= */
+let orderUnsub = null;
+async function renderOrder(code) {
+  const box = $("#orderBody");
+  if (orderUnsub) { orderUnsub(); orderUnsub = null; }
+  const local = localOrders()[code];
+  const draw = (o, live) => {
+    if (!o) { box.innerHTML = `<div class="page-head"><h1>No encontramos ese pedido.</h1><p class="lead">Revisa el código del enlace. Si acabas de enviarlo desde otro equipo, ábrelo en el mismo navegador o escríbenos.</p><a class="btn btn-y" href="#tienda">Ir a la tienda</a></div>`; return; }
+    const e = estadoById(o.estado), msg = orderMessage(o);
+    const idx = ESTADOS.findIndex(x => x.id === o.estado);
+    const flow = ESTADOS.filter(x => x.id !== "cancelado");
+    box.innerHTML = `<div class="conf">
+      <span class="eyebrow"><span class="reg"></span>Solicitud recibida · guarda este enlace</span>
+      <div class="ticket">
+        <span class="cbar" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="k">Código de pedido</span><span class="code">${esc(o.codigo)}</span>
+        <div class="row"><span class="state" style="--sc:${e.c}"><i></i>${esc(e.label)}</span><span class="k">${new Date(o.creado).toLocaleString("es-VE")}</span>${live ? `<span class="k">· EN VIVO</span>` : ""}</div>
+        ${o.cotizacion && o.cotizacion.totalUSD ? `<div style="display:grid;gap:4px"><span class="k">Cotización</span><b style="font-size:28px;font-family:var(--f-display)">USD ${fmtN(o.cotizacion.totalUSD)}</b>${o.cotizacion.condicionesPago ? `<span>${esc(o.cotizacion.condicionesPago)}</span>` : ""}${o.cotizacion.nota ? `<span style="color:#45474f">${esc(o.cotizacion.nota)}</span>` : ""}</div>` : `<p style="color:#45474f">Te enviaremos la cotización por WhatsApp al ${esc(o.cliente.telefono)} y al correo ${esc(o.cliente.correo)}.</p>`}
+        <div class="row">
+          ${CONFIG.whatsapp ? `<a class="btn btn-y" style="background:var(--key);color:var(--paper)" href="${waLink(CONFIG.whatsapp, msg)}" target="_blank" rel="noopener">Escribir por WhatsApp</a>` : `<span class="k">WhatsApp de la imprenta: por definir</span>`}
+          <button class="btn btn-o" id="copyMsg">Copiar resumen</button>
+          <button class="btn btn-o" id="copyLink">Copiar enlace</button>
+        </div>
+      </div>
+      <div class="two" style="padding:0">
+        <div class="items">${o.items.map(it => itemHTML(it, false)).join("")}</div>
+        <aside class="sum"><h2>Estado</h2>
+          <ol class="timeline">${(o.estado === "cancelado" ? [...flow.slice(0, 1), estadoById("cancelado")] : flow).map((s, i) => {
+            const h = (o.historial || []).filter(x => x.estado === s.id).pop();
+            const cls = s.id === o.estado ? "now" : (o.estado !== "cancelado" && i < idx ? "done" : "");
+            return `<li class="${cls}"><i></i><span>${esc(s.label)}${h ? `<small>${new Date(h.fecha).toLocaleDateString("es-VE")}${h.nota ? " · " + esc(h.nota) : ""}</small>` : ""}</span></li>`;
+          }).join("")}</ol>
+          <dl><dt>Entrega</dt><dd style="font-family:var(--f-body)">${esc(entregaLine(o))}</dd>${o.fechaDeseada ? `<dt>Fecha deseada</dt><dd>${esc(o.fechaDeseada)}</dd>` : ""}<dt>Correo de la imprenta</dt><dd style="font-family:var(--f-body);user-select:all">${esc(CONFIG.email)}</dd></dl>
+        </aside>
+      </div>
+      <textarea id="msgTxt" class="in" readonly aria-label="Resumen del pedido" style="min-height:160px;font-family:var(--f-mono);font-size:12.5px">${esc(msg)}</textarea>
+    </div>`;
+    $("#copyMsg").onclick = ev => copyText(msg, ev.currentTarget);
+    $("#copyLink").onclick = ev => copyText(location.href, ev.currentTarget);
+  };
+  draw(local, false);
+  if (db) {
+    try {
+      orderUnsub = db.doc("pedidos/" + code).onSnapshot(s => { if (s.exists) draw(s.data(), true); else if (!local) draw(null); }, () => {});
+    } catch (_) {}
+  } else if (!local) draw(null);
+}
+
+/* ================= PANEL ================= */
+let panelUnsub = null, panelOrders = [], panelSel = null, panelFilter = "activos";
+function renderPanel() {
+  const body = $("#panelBody");
+  if (!db) {
+    body.innerHTML = `<div class="banner"><span class="reg"></span><div>El panel lee los pedidos guardados en la base de datos de esta página, y esta vista no tiene acceso a ella. Ábrela con tu sesión de Claude iniciada. En producción, este panel vive en Payload CMS con usuario y contraseña.</div></div>`;
+    return;
+  }
+  if (!panelUnsub) {
+    body.innerHTML = `<p class="lead">Cargando pedidos…</p>`;
+    panelUnsub = db.collection("pedidos").orderBy("creado", "desc").limit(500).onSnapshot(s => {
+      panelOrders = s.docs.map(d => d.data());
+      if (currentView === "panel") drawPanel();
+    }, er => { body.innerHTML = `<div class="banner"><span class="reg"></span><div>No se pudieron leer los pedidos (${esc(er.code)}). Revisa que tengas acceso de colaborador o editor a esta página.</div></div>`; });
+  } else drawPanel();
+}
+function drawPanel() {
+  const body = $("#panelBody");
+  const active = o => !["entregado", "cancelado"].includes(o.estado);
+  const list = panelOrders.filter(o => panelFilter === "todos" ? true : panelFilter === "activos" ? active(o) : o.estado === panelFilter);
+  if (!panelOrders.length) {
+    body.innerHTML = `<div class="empty"><h2>Aún no hay pedidos.</h2><p class="lead">Cuando un cliente envíe una solicitud desde la tienda, aparecerá aquí al instante con su código, productos, archivos y datos de entrega.</p><a class="btn btn-y" href="#tienda">Hacer un pedido de prueba</a></div>`;
+    return;
+  }
+  if (!panelSel || !panelOrders.find(o => o.codigo === panelSel)) panelSel = (list[0] || panelOrders[0]).codigo;
+  const sel = panelOrders.find(o => o.codigo === panelSel);
+  const counts = id => panelOrders.filter(o => o.estado === id).length;
+  body.innerHTML = `
+  ${canEdit ? "" : `<div class="banner" style="margin-bottom:16px"><span class="reg"></span><div>Estás viendo el panel en modo lectura. Solo los editores de la página pueden cambiar estados y cotizaciones.</div></div>`}
+  <div class="pfilters">${[["activos", "Activos"], ["todos", "Todos"], ...ESTADOS.map(e => [e.id, e.label])].map(([id, l]) => `<button class="chip" data-pf="${id}" aria-pressed="${panelFilter === id}">${esc(l)}${ESTADOS.find(e => e.id === id) ? ` · ${counts(id)}` : ""}</button>`).join("")}</div>
+  <div class="panel">
+    <div class="plist">${list.length ? list.map(o => { const e = estadoById(o.estado); return `<button class="prow" data-sel="${esc(o.codigo)}" aria-current="${o.codigo === panelSel}"><span class="state" style="--sc:${e.c};background:rgba(242,241,236,.06)"><i></i>${esc(e.label)}</span><span style="min-width:0"><b>${esc(o.codigo)}</b><span class="who" style="display:block">${esc(o.cliente.nombre)}${o.cliente.empresa ? " · " + esc(o.cliente.empresa) : ""}</span></span><small>${new Date(o.creado).toLocaleDateString("es-VE")}${o.urgente ? " · URGENTE" : ""}</small></button>`; }).join("") : `<p class="lead">No hay pedidos en este filtro.</p>`}</div>
+    <div class="pdetail">${panelDetail(sel)}</div>
+  </div>`;
+}
+function panelDetail(o) {
+  const c = o.cliente, e = estadoById(o.estado), tel = phoneIntl(c.telefono);
+  const msg = `Hola ${c.nombre.split(" ")[0]}, te escribimos de la imprenta por tu pedido ${o.codigo}. Estado: ${e.label}.${o.cotizacion && o.cotizacion.totalUSD ? ` Cotización: USD ${o.cotizacion.totalUSD}. ${o.cotizacion.condicionesPago || ""}` : ""} Puedes verlo aquí: ${location.href.split("#")[0]}#pedido-${o.codigo}`;
+  return `
+    <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center"><h2 style="font-size:30px">${esc(o.codigo)}</h2><span class="state" style="--sc:${e.c};background:rgba(242,241,236,.06)"><i></i>${esc(e.label)}</span></div>
+    <dl class="kv">
+      <dt>Cliente</dt><dd>${esc(c.nombre)} · ${esc(c.documento)}</dd>
+      <dt>WhatsApp</dt><dd>${esc(c.telefono)}</dd><dt>Correo</dt><dd>${esc(c.correo)}</dd>
+      ${c.empresa ? `<dt>Empresa</dt><dd>${esc(c.empresa)}</dd>` : ""}
+      <dt>Factura fiscal</dt><dd>${c.factura ? `Sí · ${esc(c.razonSocial)} · ${esc(c.direccionFiscal)}` : "No"}</dd>
+      <dt>Entrega</dt><dd>${esc(entregaLine(o))}</dd>
+      <dt>Fecha deseada</dt><dd>${esc(o.fechaDeseada || "Sin fecha")}${o.urgente ? " · urgente" : ""}</dd>
+      ${o.notas ? `<dt>Comentarios</dt><dd>${esc(o.notas)}</dd>` : ""}
+    </dl>
+    <div class="items">${o.items.map(it => itemHTML(it, false) + (it.archivos && it.archivos.length ? `<div class="files">${it.archivos.map(f => `<div><span>${esc(f.nombre)}</span><span>${fmtN(f.kb)} KB</span></div>`).join("")}</div>` : "")).join("")}</div>
+    <form id="pedForm" style="display:grid;gap:14px;border-top:1px solid var(--line);padding-top:18px">
+      <div class="grid2">
+        <div class="field"><label for="pf-estado">Estado</label><select class="in" id="pf-estado" ${canEdit ? "" : "disabled"}>${ESTADOS.map(s => `<option value="${s.id}" ${s.id === o.estado ? "selected" : ""}>${esc(s.label)}</option>`).join("")}</select></div>
+        <div class="field"><label for="pf-total">Total cotizado (USD)</label><input class="in" id="pf-total" inputmode="decimal" value="${esc(o.cotizacion && o.cotizacion.totalUSD || "")}" ${canEdit ? "" : "disabled"}></div>
+      </div>
+      <div class="field"><label for="pf-cond">Condiciones de pago</label><input class="in" id="pf-cond" placeholder="Ej. 50% de anticipo y 50% al retirar" value="${esc(o.cotizacion && o.cotizacion.condicionesPago || "")}" ${canEdit ? "" : "disabled"}></div>
+      <div class="field"><label for="pf-nota">Nota del cambio <span class="hint">(la ve el cliente)</span></label><input class="in" id="pf-nota" ${canEdit ? "" : "disabled"}></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        ${canEdit ? `<button class="btn btn-y" type="submit">Guardar cambios</button>` : ""}
+        ${tel.length >= 11 ? `<a class="btn btn-o" target="_blank" rel="noopener" href="${waLink(tel, msg)}">Escribir al cliente</a>` : ""}
+        <button class="btn btn-o" type="button" id="pf-copy">Copiar mensaje</button>
+        <a class="btn btn-o" href="#pedido-${esc(o.codigo)}">Ver como cliente</a>
+      </div>
+    </form>
+    <div><span class="eyebrow" style="margin-bottom:10px">Historial</span><ol class="timeline">${(o.historial || []).slice().reverse().map(h => `<li class="done"><i></i><span>${esc(estadoById(h.estado).label)}<small>${new Date(h.fecha).toLocaleString("es-VE")}${h.nota ? " · " + esc(h.nota) : ""}</small></span></li>`).join("")}</ol></div>
+    <textarea hidden id="pf-msg">${esc(msg)}</textarea>`;
+}
+$("#panelBody").addEventListener("click", e => {
+  const f = e.target.closest("[data-pf]"); if (f) { panelFilter = f.dataset.pf; drawPanel(); return; }
+  const s = e.target.closest("[data-sel]"); if (s) { panelSel = s.dataset.sel; drawPanel(); if (isMobile()) $(".pdetail").scrollIntoView({ behavior: reduce ? "auto" : "smooth" }); return; }
+  if (e.target.id === "pf-copy") copyText($("#pf-msg").value, e.target);
+});
+$("#panelBody").addEventListener("submit", async e => {
+  if (e.target.id !== "pedForm") return;
+  e.preventDefault();
+  const o = panelOrders.find(x => x.codigo === panelSel); if (!o || !db) return;
+  const estado = $("#pf-estado").value, nota = $("#pf-nota").value.trim();
+  const totalRaw = $("#pf-total").value.trim().replace(",", ".");
+  const total = totalRaw ? Number(totalRaw) : null;
+  if (totalRaw && !(total >= 0)) { toast("El total debe ser un número, por ejemplo 45.50"); return; }
+  const cot = { totalUSD: total, condicionesPago: $("#pf-cond").value.trim(), nota: (o.cotizacion && o.cotizacion.nota) || "" };
+  const patch = { cotizacion: cot };
+  if (estado !== o.estado || nota) patch.historial = [...(o.historial || []), { estado, fecha: new Date().toISOString(), nota }];
+  patch.estado = estado;
+  try { await db.doc("pedidos/" + o.codigo).update(patch); toast("Cambios guardados"); }
+  catch (x) { toast(x && x.code === "invalid_argument" ? "No tienes permiso para editar pedidos" : "No se pudo guardar. Intenta de nuevo."); }
+});
+
+/* ================= CAPACIDADES (db + user) ================= */
+async function initCaps() {
+  if (!window.claude || !window.claude.use) return;
+  try {
+    const [d, u] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+    db = d; user = u;
+    if (user) { try { canEdit = !!(await user.canEdit()); } catch (_) { canEdit = false; } }
+    if (currentView === "panel") { panelUnsub = null; renderPanel(); }
+    if (currentView === "pedido") renderOrder(parseHash().code);
+  } catch (_) {}
+}
+/* ================= TEXTURAS (diseños de marcas de ejemplo) ================= */
+const BRANDS = [
+  { name:"CAFÉ ÁVILA", tag:"Tostado en Caracas", bg:"#2b1d16", fg:"#f3e6d3", ac:"#e8a33d" },
+  { name:"DENTAL+", tag:"Clínica odontológica", bg:"#eaf4f7", fg:"#0b3a4a", ac:"#00a6e2" },
+  { name:"TROPIKAL", tag:"Jugos naturales", bg:"#ffe100", fg:"#1a1a1a", ac:"#ec008c" },
+  { name:"NORTE", tag:"Ferretería", bg:"#16181d", fg:"#f2f1ec", ac:"#ffe100" },
+  { name:"LUZ", tag:"Panadería artesanal", bg:"#f6efe4", fg:"#3a2a1c", ac:"#d6452f" }
+];
+const DISP = '"Bricolage Grotesque", "Arial Narrow", sans-serif', BODY = '"Familjen Grotesk", system-ui, sans-serif', MONO = '"IBM Plex Mono", monospace';
+function cv(w, h) { const c = document.createElement("canvas"); c.width = w; c.height = h; return [c, c.getContext("2d")]; }
+function fitText(ctx, text, maxW, size, font, weight) {
+  let s = size; do { ctx.font = `${weight || 800} ${s}px ${font}`; s -= 2; } while (ctx.measureText(text).width > maxW && s > 8); return s + 2;
+}
+function paintCard(b, w = 720, h = 400, back) {
+  const [c, x] = cv(w, h);
+  x.fillStyle = back ? b.ac : b.bg; x.fillRect(0, 0, w, h);
+  if (back) { x.fillStyle = b.bg; x.beginPath(); x.arc(w / 2, h / 2, h * .22, 0, 7); x.fill(); x.fillStyle = b.ac; x.font = `800 ${h * .16}px ${DISP}`; x.textAlign = "center"; x.fillText(b.name[0], w / 2, h / 2 + h * .06); return c; }
+  x.fillStyle = b.ac; x.beginPath(); x.arc(h * .26, h * .3, h * .12, 0, 7); x.fill();
+  x.fillStyle = b.fg; fitText(x, b.name, w * .55, h * .16, DISP); x.fillText(b.name, h * .46, h * .35);
+  x.globalAlpha = .7; x.font = `500 ${h * .07}px ${BODY}`; x.fillText(b.tag, h * .46, h * .46); x.globalAlpha = 1;
+  x.font = `400 ${h * .055}px ${MONO}`; x.globalAlpha = .8;
+  ["María Fernández · Gerente", "+58 412 000 0000", "hola@marca.com.ve"].forEach((t, i) => x.fillText(t, h * .14, h * (.7 + i * .09)));
+  x.globalAlpha = 1; x.fillStyle = b.ac; x.fillRect(w - h * .06, 0, h * .06, h);
+  return c;
+}
+function paintPoster(b, w = 600, h = 848, kind) {
+  const [c, x] = cv(w, h);
+  const g = x.createLinearGradient(0, 0, w, h); g.addColorStop(0, b.bg); g.addColorStop(1, shade(b.bg, -18)); x.fillStyle = g; x.fillRect(0, 0, w, h);
+  x.fillStyle = b.ac; x.beginPath(); x.arc(w * .62, h * .36, w * .34, 0, 7); x.fill();
+  x.fillStyle = shade(b.ac, 30); x.beginPath(); x.arc(w * .3, h * .5, w * .16, 0, 7); x.fill();
+  x.strokeStyle = b.fg; x.globalAlpha = .25; x.lineWidth = 2; for (let i = 0; i < 9; i++) { x.beginPath(); x.moveTo(0, h * .62 + i * 14); x.lineTo(w, h * .52 + i * 14); x.stroke(); } x.globalAlpha = 1;
+  x.fillStyle = b.fg; x.textAlign = "left";
+  const s = fitText(x, b.name, w * .86, w * .2, DISP); x.fillText(b.name, w * .07, h * .78);
+  x.font = `600 ${w * .05}px ${BODY}`; x.fillText(kind || b.tag, w * .07, h * .78 + s * .7);
+  x.font = `400 ${w * .03}px ${MONO}`; x.globalAlpha = .7; x.fillText("CARACAS · 2026", w * .07, h * .95); x.globalAlpha = 1;
+  return c;
+}
+function paintDoc(type, w = 600, h = 780) {
+  const [c, x] = cv(w, h);
+  x.fillStyle = type === "copy" ? "#fdf3c8" : "#fbfaf6"; x.fillRect(0, 0, w, h);
+  const b = BRANDS[type === "recipe" ? 1 : type === "pad" ? 0 : 3];
+  x.fillStyle = b.ac; x.fillRect(0, 0, w, 10);
+  x.fillStyle = "#1a1b20"; x.font = `800 ${w * .06}px ${DISP}`; x.fillText(type === "recipe" ? "Dra. Ana Rojas" : b.name, w * .07, h * .1);
+  x.font = `400 ${w * .024}px ${MONO}`; x.fillStyle = "#55575f";
+  x.fillText(type === "recipe" ? "ODONTÓLOGA · MPPS 00000 · COV 0000" : "RIF J-00000000-0 · AV. PRINCIPAL, CARACAS", w * .07, h * .14);
+  if (type === "invoice" || type === "copy") {
+    x.fillStyle = "#1a1b20"; x.font = `700 ${w * .04}px ${BODY}`; x.textAlign = "right"; x.fillText("FACTURA", w * .93, h * .09);
+    x.fillStyle = "#c8102e"; x.font = `500 ${w * .03}px ${MONO}`; x.fillText("N° 000124", w * .93, h * .13); x.fillText("N° DE CONTROL 00-000124", w * .93, h * .165); x.textAlign = "left";
+    x.strokeStyle = "#b9bac0"; x.lineWidth = 1.2; x.strokeRect(w * .07, h * .22, w * .86, h * .1);
+    x.fillStyle = "#d9dbe2"; x.fillRect(w * .07, h * .35, w * .86, h * .045);
+    for (let i = 0; i < 9; i++) { x.beginPath(); x.moveTo(w * .07, h * (.395 + i * .045)); x.lineTo(w * .93, h * (.395 + i * .045)); x.stroke(); }
+    [.2, .62, .78].forEach(f => { x.beginPath(); x.moveTo(w * f, h * .35); x.lineTo(w * f, h * .8); x.stroke(); });
+    x.strokeRect(w * .62, h * .82, w * .31, h * .1);
+    x.font = `400 ${w * .018}px ${MONO}`; x.fillStyle = "#55575f"; x.fillText("IMPRENTA AUTORIZADA · PROVIDENCIA SENIAT · CONTROL DESDE 00-000101 HASTA 00-000150", w * .07, h * .96);
+  } else if (type === "recipe") {
+    x.fillStyle = "#1a1b20"; x.font = `700 ${w * .08}px ${DISP}`; x.fillText("Rp/", w * .07, h * .3);
+    x.strokeStyle = "#c9ccd4"; for (let i = 0; i < 9; i++) { x.beginPath(); x.moveTo(w * .07, h * (.38 + i * .06)); x.lineTo(w * .93, h * (.38 + i * .06)); x.stroke(); }
+    x.fillStyle = b.ac; x.globalAlpha = .12; x.beginPath(); x.arc(w * .75, h * .62, w * .22, 0, 7); x.fill(); x.globalAlpha = 1;
+    x.font = `500 ${w * .022}px ${MONO}`; x.fillStyle = "#55575f"; x.fillText("N° 000318 · FECHA ___/___/______", w * .07, h * .95);
+  } else if (type === "pad") {
+    x.fillStyle = "#1a1b20"; x.font = `700 ${w * .05}px ${BODY}`; x.fillText("COMANDA", w * .07, h * .25);
+    x.fillStyle = "#c8102e"; x.font = `500 ${w * .045}px ${MONO}`; x.textAlign = "right"; x.fillText("N° 0451", w * .93, h * .25); x.textAlign = "left";
+    x.strokeStyle = "#c9ccd4"; for (let i = 0; i < 10; i++) { x.beginPath(); x.moveTo(w * .07, h * (.32 + i * .06)); x.lineTo(w * .93, h * (.32 + i * .06)); x.stroke(); }
+    x.font = `400 ${w * .025}px ${MONO}`; x.fillStyle = "#55575f"; x.fillText("MESA ____   MESONERO ________", w * .07, h * .96);
+  } else {
+    x.strokeStyle = "#d4d6dc"; for (let i = 0; i < 14; i++) { x.beginPath(); x.moveTo(w * .07, h * (.24 + i * .045)); x.lineTo(w * (i % 4 === 3 ? .6 : .93), h * (.24 + i * .045)); x.stroke(); }
+    x.fillStyle = b.ac; x.fillRect(w * .07, h * .9, w * .86, 3);
+  }
+  return c;
+}
+function paintLabels(w = 600, h = 848) {
+  const [c, x] = cv(w, h); x.fillStyle = "#f4f4f1"; x.fillRect(0, 0, w, h);
+  const r = w * .13; let k = 0;
+  for (let j = 0; j < 4; j++) for (let i = 0; i < 3; i++) {
+    const b = BRANDS[(k++) % BRANDS.length], cx = w * (.2 + i * .3), cy = h * (.14 + j * .24);
+    x.fillStyle = b.bg; x.beginPath(); x.arc(cx, cy, r, 0, 7); x.fill();
+    x.strokeStyle = b.ac; x.lineWidth = 4; x.beginPath(); x.arc(cx, cy, r * .8, 0, 7); x.stroke();
+    x.fillStyle = b.fg; x.textAlign = "center"; fitText(x, b.name, r * 1.4, r * .36, DISP); x.fillText(b.name, cx, cy + r * .12);
+  }
+  return c;
+}
+function paintSticker(b, s = 400) {
+  const [c, x] = cv(s, s); x.fillStyle = "#ffffff"; x.fillRect(0, 0, s, s);
+  x.fillStyle = b.bg; x.beginPath(); x.arc(s / 2, s / 2, s * .44, 0, 7); x.fill();
+  x.fillStyle = b.ac; x.beginPath(); x.arc(s / 2, s * .4, s * .16, 0, 7); x.fill();
+  x.fillStyle = b.fg; x.textAlign = "center"; fitText(x, b.name, s * .7, s * .13, DISP); x.fillText(b.name, s / 2, s * .74);
+  return c;
+}
+function paintWrap(b, w = 1024, h = 400, prog = 1) {
+  const [c, x] = cv(w, h); x.fillStyle = "#f7f7f4"; x.fillRect(0, 0, w, h);
+  x.save(); x.beginPath(); const edge = w * prog;
+  x.moveTo(0, 0); for (let y = 0; y <= h; y += 10) x.lineTo(edge + Math.sin(y * .05) * 18, y); x.lineTo(0, h); x.closePath(); x.clip();
+  const g = x.createLinearGradient(0, 0, w, 0); g.addColorStop(0, "#00a6e2"); g.addColorStop(.45, "#ec008c"); g.addColorStop(1, "#ffe100");
+  x.fillStyle = g; x.fillRect(0, 0, w, h);
+  x.fillStyle = "rgba(255,255,255,.18)"; for (let i = 0; i < 14; i++) { x.beginPath(); x.arc((i * 97) % w, (i * 53) % h, 30 + (i % 4) * 16, 0, 7); x.fill(); }
+  x.fillStyle = "#ffffff"; x.textAlign = "center"; x.font = `800 ${h * .22}px ${DISP}`; x.fillText(b.name, w * .3, h * .58);
+  x.font = `600 ${h * .08}px ${BODY}`; x.fillText(b.tag, w * .3, h * .74);
+  x.restore();
+  return c;
+}
+function shade(hex, amt) {
+  const n = parseInt(hex.slice(1), 16), f = v => Math.max(0, Math.min(255, v + amt));
+  return "#" + ((f(n >> 16) << 16) | (f((n >> 8) & 255) << 8) | f(n & 255)).toString(16).padStart(6, "0");
+}
+/* separaciones CMYK en semitonos a partir de un lienzo */
+function separations(src, cell = 14) {
+  const w = src.width, h = src.height, d = src.getContext("2d").getImageData(0, 0, w, h).data;
+  const cols = ["#00a6e2", "#ec008c", "#ffe100", "#1a1b20"], offs = [[0, 0], [.5, 0], [0, .5], [.5, .5]];
+  return cols.map((col, ch) => {
+    const [c, x] = cv(w, h); x.fillStyle = col;
+    for (let y = 0; y < h; y += cell) for (let X = 0; X < w; X += cell) {
+      const px = Math.min(w - 1, X + cell / 2 | 0), py = Math.min(h - 1, y + cell / 2 | 0), i = (py * w + px) * 4;
+      const r = d[i] / 255, g = d[i + 1] / 255, b = d[i + 2] / 255, k = 1 - Math.max(r, g, b);
+      const v = ch === 3 ? k : k >= 1 ? 0 : ((1 - [r, g, b][ch] - k) / (1 - k));
+      if (v < .04) continue;
+      x.beginPath(); x.arc(X + cell * (.5 + offs[ch][0] * .3), y + cell * (.5 + offs[ch][1] * .3), Math.sqrt(v) * cell * .62, 0, 7); x.fill();
+    }
+    return c;
+  });
+}
+
+/* ================= MODELOS 3D ================= */
+const T = () => window.THREE;
+function tex(canvas, rend) {
+  const t = new (T().CanvasTexture)(canvas); t.encoding = T().sRGBEncoding;
+  if (rend) t.anisotropy = Math.min(8, rend.capabilities.getMaxAnisotropy());
+  return t;
+}
+function mat(opt) { return new (T().MeshStandardMaterial)(Object.assign({ roughness: .82, metalness: 0 }, opt)); }
+function slab(w, th, d, top, side, bottom) { // caja delgada acostada; cara superior = py
+  const s = mat({ color: side || "#f1f0ea" });
+  const ms = [s, s, top || s, bottom || s, s, s];
+  const m = new (T().Mesh)(new (T().BoxGeometry)(w, th, d), ms); m.castShadow = m.receiveShadow = true; return m;
+}
+function panel(w, h, th, front, side, back) { // caja delgada de pie; cara frontal = pz
+  const s = mat({ color: side || "#f1f0ea" });
+  const m = new (T().Mesh)(new (T().BoxGeometry)(w, h, th), [s, s, s, s, front || s, back || s]); m.castShadow = m.receiveShadow = true; return m;
+}
+function buildModel(kind, R) {
+  const TH = T(), g = new TH.Group(), M = c => mat({ map: tex(c, R) });
+  const b0 = BRANDS[0], b1 = BRANDS[1], b2 = BRANDS[2], b3 = BRANDS[3], b4 = BRANDS[4];
+  if (kind === "cards") {
+    for (let i = 0; i < 14; i++) { const s = slab(1.8, .012, 1, i === 13 ? M(paintCard(b3)) : null, "#e9e7df"); s.position.set(i * .002, i * .013, -i * .003); s.rotation.y = .08; g.add(s); }
+    const a = slab(1.8, .012, 1, M(paintCard(b3, 720, 400, true))); a.position.set(.9, .02, .8); a.rotation.y = -.35; g.add(a);
+    const b = slab(1.8, .012, 1, M(paintCard(b0))); b.position.set(-.7, .02, .9); b.rotation.y = .25; g.add(b);
+  } else if (kind === "flyer") {
+    [[b2, -.7, .1, .2], [b0, .6, -.2, -.15], [b4, .1, .5, .05]].forEach(([b, x, z, r], i) => { const s = slab(1.5, .01, 2.1, M(paintPoster(b, 600, 848))); s.position.set(x, i * .012, z); s.rotation.y = r; g.add(s); });
+  } else if (kind === "letterhead") {
+    const s1 = slab(1.7, .01, 2.2, M(paintDoc("letter"))); s1.rotation.y = .12; g.add(s1);
+    const s2 = slab(1.7, .01, 2.2, M(paintDoc("letter"))); s2.position.set(.5, -.012, -.3); s2.rotation.y = -.1; g.add(s2);
+    const pen = new TH.Mesh(new TH.CylinderGeometry(.035, .035, 1.5, 24), mat({ color: "#1a1b20", roughness: .3, metalness: .4 })); pen.rotation.z = Math.PI / 2; pen.rotation.y = .5; pen.position.set(.3, .05, 1.1); pen.castShadow = true; g.add(pen);
+  } else if (kind === "envelope") {
+    const e = slab(2.2, .03, 1.1, M(paintCard(b4, 880, 440)), "#f1ece2"); g.add(e);
+    const card = slab(1.9, .01, 1, M(paintCard(b0))); card.position.set(.35, .05, -.45); card.rotation.y = .18; g.add(card);
+    const e2 = slab(2.2, .03, 1.1, null, "#efe9dd"); e2.position.set(-.3, -.035, .4); e2.rotation.y = -.2; g.add(e2);
+  } else if (kind === "folder") {
+    const back = slab(1.7, .02, 2.2, null, "#ece9e0"); g.add(back);
+    const pivot = new TH.Group(); pivot.position.set(-.85, .03, 0); g.add(pivot);
+    const front = slab(1.7, .02, 2.2, M(paintPoster(b3, 600, 776, "Propuesta comercial"))); front.position.x = .85; pivot.add(front); pivot.rotation.z = .5;
+    const sheet = slab(1.55, .008, 2.05, M(paintDoc("letter"))); sheet.position.set(.05, .02, .02); g.add(sheet);
+  } else if (kind === "trifold") {
+    const tx = M(paintPoster(b2, 600, 848, "Menú de temporada"));
+    [-1, 0, 1].forEach(i => { const p = panel(.95, 2, .012, i === 0 ? tx : mat({ color: i < 0 ? b2.ac : b2.bg })); p.position.set(i * .86, 1, i === 0 ? .2 : 0); p.rotation.y = i * -.45; g.add(p); });
+  } else if (kind === "catalog" || kind === "book") {
+    const thick = kind === "book" ? .22 : .05;
+    const a = slab(1.6, thick, 2.1, M(paintPoster(kind === "book" ? b0 : b1, 600, 788, kind === "book" ? "Recetario" : "Catálogo 2026")), "#f3f1ea"); a.position.y = thick + .01; a.rotation.y = .18; g.add(a);
+    const b = slab(1.6, thick, 2.1, M(paintPoster(b4, 600, 788, "Catálogo 2026")), "#f3f1ea"); b.position.set(.35, 0, -.25); b.rotation.y = -.12; g.add(b);
+    if (kind === "book") { const st = panel(1.4, 1.9, .2, M(paintPoster(b3, 600, 814, "Novela")), "#efede6"); st.position.set(-1.25, .95, -.5); st.rotation.y = .5; g.add(st); }
+  } else if (kind === "invoice" || kind === "pad" || kind === "recipe") {
+    const docT = kind === "invoice" ? "invoice" : kind === "pad" ? "pad" : "recipe", w = kind === "pad" ? 1.2 : 1.7, d = kind === "pad" ? 1.6 : 2.2;
+    const stack = slab(w, .3, d, M(paintDoc(docT)), "#f3f0e4"); stack.position.y = .15; g.add(stack);
+    const bind = slab(w + .02, .32, .16, null, kind === "invoice" ? "#1d3f8f" : "#1a1b20"); bind.position.set(0, .16, -d / 2 + .08); g.add(bind);
+    if (kind === "invoice") { const copy = slab(1.7, .006, 2.2, M(paintDoc("copy")), "#fdf3c8"); copy.position.set(1.15, .003, .45); copy.rotation.y = -.3; g.add(copy); }
+  } else if (kind === "banner") {
+    const p = panel(1.4, 2.8, .01, M(paintPoster(b2, 500, 1000, "Gran apertura · sábado 10 a. m."))); p.position.y = 1.6; g.add(p);
+    [3.02, .2].forEach(y => { const t = new TH.Mesh(new TH.CylinderGeometry(.03, .03, 1.5, 16), mat({ color: "#d8d8d8", metalness: .6, roughness: .3 })); t.rotation.z = Math.PI / 2; t.position.set(0, y, .02); t.castShadow = true; g.add(t); });
+    const cord = new TH.Mesh(new TH.TorusGeometry(.75, .006, 6, 40, Math.PI), mat({ color: "#222" })); cord.position.set(0, 3.02, .02); cord.scale.y = .35; g.add(cord);
+  } else if (kind === "rollup") {
+    const base = slab(1.4, .09, .32, null, "#c8cacf"); base.position.y = .045; g.add(base);
+    const p = panel(1.3, 3.1, .01, M(paintPoster(b1, 420, 1000, "Sonrisas que se notan"))); p.position.set(0, 1.64, 0); g.add(p);
+  } else if (kind === "sign") {
+    const wall = panel(4, 3.4, .1, null, "#3a3d46"); wall.position.set(0, 1.7, -.3); g.add(wall);
+    const ac = panel(2.6, 1.2, .06, M(paintCard(b0, 780, 360)), "#d9e6ea"); ac.position.set(0, 1.9, -.12); g.add(ac);
+    [[-1.15, .45], [1.15, .45], [-1.15, -.45], [1.15, -.45]].forEach(([x, y]) => { const s = new TH.Mesh(new TH.CylinderGeometry(.04, .04, .18, 16), mat({ color: "#d0d0d0", metalness: .8, roughness: .25 })); s.rotation.x = Math.PI / 2; s.position.set(x, 1.9 + y, -.1); g.add(s); });
+  } else if (kind === "labels") {
+    const s = slab(1.6, .01, 2.26, M(paintLabels())); s.rotation.y = .1; g.add(s);
+    [b2, b0, b1].forEach((b, i) => { const d = new TH.Mesh(new TH.CylinderGeometry(.3, .3, .012, 48), [mat({ color: "#fff" }), M(paintSticker(b)), mat({ color: "#fff" })]); d.position.set(1.05 + i * .15, .02 + i * .013, -.6 + i * .5); d.rotation.y = i; d.castShadow = true; g.add(d); });
+  } else if (kind === "sticker") {
+    BRANDS.forEach((b, i) => { const d = new TH.Mesh(new TH.CylinderGeometry(.45, .45, .014, 64), [mat({ color: "#fff" }), M(paintSticker(b)), mat({ color: "#fff" })]); const a = i * 1.3; d.position.set(Math.cos(a) * .8, i * .016, Math.sin(a) * .8); d.rotation.y = a; d.castShadow = true; g.add(d); });
+  } else if (kind === "box") {
+    const kraft = "#c49a6c", logo = M(paintCard({ ...b4, bg: "#c49a6c", fg: "#3a2a1c" }, 600, 400));
+    const W = 1.6, H = .7, D = 1.2, t = .025;
+    const bot = slab(W, t, D, null, kraft); bot.position.y = t / 2; g.add(bot);
+    const f = panel(W, H, t, logo, kraft); f.position.set(0, H / 2, D / 2); g.add(f);
+    const bk = panel(W, H, t, null, kraft); bk.position.set(0, H / 2, -D / 2); g.add(bk);
+    [-1, 1].forEach(s => { const sd = panel(t, H, D, null, kraft); sd.position.set(s * W / 2, H / 2, 0); g.add(sd); });
+    const lidP = new TH.Group(); lidP.position.set(0, H, -D / 2); g.add(lidP);
+    const lid = slab(W, t, D, M(paintCard({ ...b4, bg: "#b8885a", fg: "#2a1c10" }, 720, 540)), kraft); lid.position.z = D / 2; lidP.add(lid); lidP.rotation.x = -1.9;
+  } else if (kind === "bag") {
+    const body = panel(1.3, 1.6, .5, M(paintPoster(b1, 500, 616, "Gracias por tu compra")), "#e9eef0"); body.position.y = .8; g.add(body);
+    [-.3, .3].forEach(x => { const h = new TH.Mesh(new TH.TorusGeometry(.2, .018, 8, 24, Math.PI), mat({ color: "#0b3a4a" })); h.position.set(x, 1.6, 0); h.rotation.y = 0; g.add(h); });
+  } else if (kind === "mug") {
+    const wrap = tex(paintWrap(b2), R); wrap.wrapS = TH.RepeatWrapping;
+    const outer = new TH.Mesh(new TH.CylinderGeometry(.55, .5, 1.25, 64, 1, true), mat({ map: wrap, roughness: .35 })); outer.position.y = .63; outer.castShadow = true; g.add(outer);
+    const inner = new TH.Mesh(new TH.CylinderGeometry(.51, .47, 1.2, 48, 1, true), mat({ color: "#f3f3f0", side: TH.BackSide, roughness: .3 })); inner.position.y = .66; g.add(inner);
+    const bottom = new TH.Mesh(new TH.CircleGeometry(.5, 48), mat({ color: "#e8e8e4" })); bottom.rotation.x = -Math.PI / 2; bottom.position.y = .1; g.add(bottom);
+    const rim = new TH.Mesh(new TH.TorusGeometry(.53, .022, 12, 64), mat({ color: "#f7f7f4", roughness: .3 })); rim.rotation.x = Math.PI / 2; rim.position.y = 1.255; g.add(rim);
+    const handle = new TH.Mesh(new TH.TorusGeometry(.3, .065, 16, 40, Math.PI), mat({ color: "#f7f7f4", roughness: .3 })); handle.rotation.z = -Math.PI / 2; handle.position.set(.55, .65, 0); handle.castShadow = true; g.add(handle);
+    g.rotation.y = -.9; g.userData.wrap = wrap;
+  } else if (kind === "tshirt") {
+    const s = new TH.Shape(); const P = [[-.5, 1.1], [-.95, .95], [-1.3, .55], [-1.05, .3], [-.78, .5], [-.78, -1.05], [.78, -1.05], [.78, .5], [1.05, .3], [1.3, .55], [.95, .95], [.5, 1.1]];
+    s.moveTo(...P[0]); P.slice(1).forEach(p => s.lineTo(...p)); s.quadraticCurveTo(0, .78, -.5, 1.1);
+    const shirt = new TH.Mesh(new TH.ExtrudeGeometry(s, { depth: .1, bevelEnabled: true, bevelThickness: .04, bevelSize: .04, bevelSegments: 3 }), mat({ color: "#1b1d22", roughness: .95 }));
+    shirt.rotation.x = -Math.PI / 2; shirt.position.y = .07; shirt.castShadow = shirt.receiveShadow = true; g.add(shirt);
+    const pr = new TH.Mesh(new TH.PlaneGeometry(.9, .9), mat({ map: tex(paintSticker(b2, 512), R), transparent: true })); pr.rotation.x = -Math.PI / 2; pr.position.set(0, .22, -.2); g.add(pr);
+  }
+  return g;
+}
+
+/* ================= FOTOS DE REFERENCIA (render 3D) ================= */
+const REF_BG = { cards:"#262932", flyer:"#2b2620", letterhead:"#d8d6ce", envelope:"#3a2f2a", folder:"#20232b", trifold:"#2e1424", catalog:"#132a33", book:"#2a2117",
+  invoice:"#d9dce3", pad:"#2b2620", recipe:"#d3e4ea", banner:"#1b1d24", rollup:"#22262e", sign:"#2b2e36", labels:"#2c2810", sticker:"#2e1424", box:"#3b2c1f", bag:"#d7dde0", mug:"#14262f", tshirt:"#d8d6ce" };
+const MODELS_NEEDED = () => [...new Set(PRODUCTS.map(p => p.model).concat(CATS.map(c => c.model)))];
+async function renderReferences() {
+  const TH = T(); if (!TH) return;
+  let R;
+  try { R = new TH.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, alpha: false }); } catch (_) { return; }
+  R.setPixelRatio(1); R.setSize(480, 600, false);
+  R.outputEncoding = TH.sRGBEncoding; R.toneMapping = TH.ACESFilmicToneMapping; R.toneMappingExposure = 1.05;
+  R.shadowMap.enabled = true; R.shadowMap.type = TH.PCFSoftShadowMap;
+  const cam = new TH.PerspectiveCamera(30, 480 / 600, .1, 100);
+  const list = MODELS_NEEDED();
+  for (const kind of list) {
+    if (IMG[kind]) continue;
+    await new Promise(r => setTimeout(r, 30));
+    const scene = new TH.Scene(), bg = new TH.Color(REF_BG[kind] || "#23262e");
+    scene.background = bg; scene.fog = new TH.Fog(bg, 9, 18);
+    scene.add(new TH.HemisphereLight(0xffffff, 0x404048, .75));
+    const key = new TH.DirectionalLight(0xffffff, 1.35); key.position.set(3, 6, 4); key.castShadow = true; key.shadow.mapSize.set(1024, 1024); key.shadow.radius = 6;
+    Object.assign(key.shadow.camera, { left: -4, right: 4, top: 4, bottom: -4, near: 1, far: 20 }); key.shadow.camera.updateProjectionMatrix(); scene.add(key);
+    const rim = new TH.DirectionalLight(0xbfe6ff, .5); rim.position.set(-4, 3, -3); scene.add(rim);
+    const floor = new TH.Mesh(new TH.PlaneGeometry(40, 40), new TH.MeshStandardMaterial({ color: bg, roughness: 1 })); floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
+    const m = buildModel(kind, R); scene.add(m);
+    const box = new TH.Box3().setFromObject(m), c = box.getCenter(new TH.Vector3()), sz = box.getSize(new TH.Vector3());
+    const tall = sz.y > Math.max(sz.x, sz.z) * .9;
+    const dir = tall ? new TH.Vector3(.35, .35, 1).normalize() : new TH.Vector3(.25, 1.05, .9).normalize();
+    const radius = sz.length() / 2, dist = radius / Math.sin(TH.MathUtils.degToRad(cam.fov / 2)) * (tall ? .86 : .8);
+    cam.position.copy(c).addScaledVector(dir, dist); cam.lookAt(c); cam.updateProjectionMatrix();
+    R.render(scene, cam);
+    let url; try { url = R.domElement.toDataURL("image/webp", .86); } catch (_) { url = null; }
+    if (url && url.length > 1000) { IMG[kind] = url; swapImages(kind); }
+    scene.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material) [].concat(o.material).forEach(mm => { if (mm.map) mm.map.dispose(); mm.dispose(); }); });
+  }
+  R.dispose();
+}
+
+/* ================= HOME 3D ================= */
+const Home = (() => {
+  let ready = false, running = false, ctx = null, R, scene, cam, root, raf = 0, clock;
+  const S = { p: 0, target: 0, mx: 0, my: 0, tmx: 0, tmy: 0 };
+  let sheet, sheetGeo, sheetBase, overlay, seps = [], cardsG, cards = [], trifold, banner, bannerPivot, boxG, flaps = [], lidP, mug, mugTex, mugCanvasProg = -1, wrapBrand;
+  const cl = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+  const ss = (a, b, v) => { const t = cl((v - a) / (b - a)); return t * t * (3 - 2 * t); };
+  const full = () => !!(window.THREE && window.gsap && window.ScrollTrigger) && !reduce;
+
+  function build() {
+    const TH = T(), canvas = $("#gl");
+    try { R = new TH.WebGLRenderer({ canvas, antialias: true, alpha: true }); } catch (_) { return false; }
+    R.setPixelRatio(Math.min(devicePixelRatio, isMobile() ? 1.5 : 2));
+    R.outputEncoding = TH.sRGBEncoding; R.toneMapping = TH.ACESFilmicToneMapping; R.toneMappingExposure = 1.08;
+    scene = new TH.Scene(); cam = new TH.PerspectiveCamera(32, 1, .1, 100); cam.position.set(0, 0, 11);
+    root = new TH.Group(); scene.add(root);
+    scene.add(new TH.HemisphereLight(0xffffff, 0x20222a, .7));
+    const key = new TH.DirectionalLight(0xffffff, 1.2); key.position.set(4, 5, 7); scene.add(key);
+    const cy = new TH.PointLight(0x00a6e2, 1.2, 14); cy.position.set(-5, 2, 3); scene.add(cy);
+    const mg = new TH.PointLight(0xec008c, 1, 14); mg.position.set(5, -3, 2); scene.add(mg);
+
+    // pliego con curvatura (CPU)
+    const W = 3, H = 4.24;
+    sheetGeo = new TH.PlaneGeometry(W, H, 30, 42); sheetBase = sheetGeo.attributes.position.array.slice();
+    const [pc, px] = cv(600, 848); px.fillStyle = "#f6f5f0"; px.fillRect(0, 0, 600, 848);
+    px.strokeStyle = "rgba(0,0,0,.05)"; for (let i = 0; i < 160; i++) { px.beginPath(); const x = (i * 37) % 600, y = (i * 91) % 848; px.moveTo(x, y); px.lineTo(x + 18, y + 3); px.stroke(); }
+    sheet = new TH.Mesh(sheetGeo, mat({ map: tex(pc, R), side: TH.DoubleSide, roughness: .9 }));
+    const poster = paintPoster(BRANDS[0], 600, 848, "Edición especial");
+    overlay = new TH.Mesh(sheetGeo, mat({ map: tex(poster, R), side: TH.FrontSide, transparent: true, opacity: 0, roughness: .7 }));
+    overlay.position.z = .004; sheet.add(overlay); root.add(sheet);
+    const sepC = separations(poster, 12);
+    seps = sepC.map((c, i) => { const m = new TH.Mesh(new TH.PlaneGeometry(W, H), new TH.MeshBasicMaterial({ map: tex(c, R), transparent: true, opacity: 0, depthWrite: false, side: TH.DoubleSide })); m.renderOrder = 2 + i; root.add(m); return m; });
+
+    // tarjetas en abanico + tríptico
+    cardsG = new TH.Group(); root.add(cardsG);
+    for (let i = 0; i < 9; i++) {
+      const b = BRANDS[i % BRANDS.length];
+      const c = panel(1.8, 1, .014, mat({ map: tex(paintCard(b), R) }), "#e7e5dc", mat({ map: tex(paintCard(b, 720, 400, true), R) }));
+      cardsG.add(c); cards.push(c);
+    }
+    trifold = new TH.Group(); cardsG.add(trifold);
+    const tp = tex(paintPoster(BRANDS[2], 600, 848, "Menú de temporada"), R);
+    const mid = panel(1, 1.42, .01, mat({ map: tp }), "#fff"); trifold.add(mid);
+    [-1, 1].forEach(s => { const pv = new TH.Group(); pv.position.x = s * .5; trifold.add(pv); const pnl = panel(1, 1.42, .01, mat({ color: s < 0 ? BRANDS[2].ac : BRANDS[2].bg }), "#fff"); pnl.position.x = s * .5; pv.add(pnl); pv.userData.s = s; trifold.userData[s < 0 ? "l" : "r"] = pv; });
+
+    // pendón que se desenrolla
+    banner = new TH.Group(); root.add(banner);
+    bannerPivot = new TH.Group(); banner.add(bannerPivot);
+    const bp = panel(2.2, 4.4, .01, mat({ map: tex(paintPoster(BRANDS[2], 500, 1000, "Gran apertura · sábado 10 a. m."), R) }));
+    bp.position.y = -2.2; bannerPivot.add(bp);
+    const tubeM = mat({ color: "#d9d9d9", metalness: .6, roughness: .3 });
+    const topT = new TH.Mesh(new TH.CylinderGeometry(.05, .05, 2.4, 20), tubeM); topT.rotation.z = Math.PI / 2; banner.add(topT);
+    const botT = new TH.Mesh(new TH.CylinderGeometry(.09, .09, 2.4, 20), tubeM); botT.rotation.z = Math.PI / 2; banner.add(botT); banner.userData.bot = botT;
+
+    // caja que se arma desde el troquel
+    boxG = new TH.Group(); root.add(boxG);
+    const kraft = "#c49a6c", Wb = 1.8, Db = 1.4, Hb = .8, t = .02, logo = mat({ map: tex(paintCard({ ...BRANDS[4], bg: kraft, fg: "#3a2a1c" }, 640, 300), R) });
+    const base = slab(Wb, t, Db, null, kraft); boxG.add(base);
+    const mk = (w, h, d, pos, rotAxis, front) => { const pv = new TH.Group(); pv.position.copy(pos); boxG.add(pv); const p = panel(w, h, d, front || null, kraft, null); p.position.y = h / 2; pv.add(p); pv.userData.axis = rotAxis; flaps.push(pv); return pv; };
+    mk(Wb, Hb, t, new TH.Vector3(0, 0, Db / 2), "x+", logo); // frente con logo
+    const f2 = mk(Wb, Hb, t, new TH.Vector3(0, 0, -Db / 2), "x-");
+    mk(t, Hb, Db, new TH.Vector3(Wb / 2, 0, 0), "z-");
+    mk(t, Hb, Db, new TH.Vector3(-Wb / 2, 0, 0), "z+");
+    lidP = new TH.Group(); f2.add(lidP); lidP.position.set(0, Hb, 0);
+    const lid = slab(Wb, t, Db, mat({ map: tex(paintCard({ ...BRANDS[4], bg: "#b8885a", fg: "#2a1c10" }, 720, 560), R) }), kraft); lid.position.z = Db / 2; lidP.add(lid);
+
+    // taza sublimada
+    mug = buildModel("mug", R); root.add(mug); wrapBrand = BRANDS[2];
+    mugTex = mug.userData.wrap;
+
+    clock = new TH.Clock();
+    addEventListener("resize", size); size();
+    addEventListener("pointermove", e => { S.tmx = e.clientX / innerWidth - .5; S.tmy = e.clientY / innerHeight - .5; });
+    return true;
+  }
+  function size() {
+    if (!R) return;
+    const c = R.domElement, w = c.clientWidth, h = c.clientHeight; if (!w || !h) return;
+    R.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix();
+    // encuadre según el área visible a z=0: horizontal → objeto a la derecha; vertical → objeto arriba
+    const halfH = Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)) * cam.position.z, halfW = halfH * cam.aspect;
+    if (w >= 760 && cam.aspect >= 1) {
+      const sc = Math.min(1.05, halfH / 2.7, halfW * .46 / 1.9);
+      root.position.set(halfW * .5, 0, 0); root.scale.setScalar(sc);
+    } else {
+      const sc = Math.min(halfW * .84 / 1.9, halfH * .44 / 2.3);
+      root.position.set(0, halfH * .5, 0); root.scale.setScalar(sc);
+    }
+  }
+  function bendSheet(amount, t) {
+    const p = sheetGeo.attributes.position, a = p.array;
+    for (let i = 0; i < a.length; i += 3) {
+      const x = sheetBase[i], y = sheetBase[i + 1];
+      a[i + 2] = Math.sin((y / 4.24 + .5) * Math.PI) * amount * .5 + Math.sin(x * 1.3 + t * 1.2) * .05 * amount + (x / 1.5) * (x / 1.5) * amount * -.18;
+    }
+    p.needsUpdate = true; sheetGeo.computeVertexNormals();
+  }
+  function setScale(o, s) { o.visible = s > .002; o.scale.setScalar(Math.max(s, .001)); }
+  function frame() {
+    raf = requestAnimationFrame(frame);
+    if (!running) return;
+    const t = clock.getElapsedTime();
+    S.p += (S.target - S.p) * .085; S.mx += (S.tmx - S.mx) * .05; S.my += (S.tmy - S.my) * .05;
+    const c = S.p * 6;
+    // capítulo 1-2: pliego + CMYK
+    const sheetIn = 1 - ss(2.0, 2.45, c);
+    setScale(sheet, sheetIn);
+    sheet.position.set(0, ss(2, 2.45, c) * 1.5, -ss(2, 2.45, c) * 2);
+    sheet.rotation.set(-.15 + S.my * .3, -.35 + S.mx * .5 + Math.sin(t * .4) * .05, .04);
+    bendSheet(.5 + Math.sin(t * .8) * .12 + S.mx * .3, t);
+    const conv = ss(1.0, 1.75, c), sepVis = ss(.75, 1.05, c) * (1 - ss(1.85, 2.05, c));
+    seps.forEach((m, i) => {
+      const spread = (1 - conv);
+      m.material.opacity = sepVis * (.9 - conv * .55);
+      m.visible = m.material.opacity > .01;
+      m.position.set(sheet.position.x + (i - 1.5) * spread * 1.1, sheet.position.y + (i - 1.5) * spread * -.25, .3 + i * spread * .9 + .02);
+      m.rotation.copy(sheet.rotation); m.rotation.y += spread * (i - 1.5) * .25;
+    });
+    overlay.material.opacity = ss(1.55, 1.9, c);
+    // capítulo 3: tarjetas
+    const cIn = ss(1.95, 2.5, c), cOut = ss(2.85, 3.25, c);
+    setScale(cardsG, cIn * (1 - cOut));
+    cardsG.position.set(0, -cOut * 2, 0); cardsG.rotation.set(-.2 + S.my * .2, S.mx * .4 - .15, 0);
+    const fan = ss(2.2, 2.75, c);
+    cards.forEach((m, i) => {
+      const k = i - (cards.length - 1) / 2, a = k * .17 * fan;
+      m.position.set(Math.sin(a) * 2.6 * fan - .4, Math.cos(a) * 2.6 * fan - 2.6 * fan + .3 - k * .01, k * .03);
+      m.rotation.set(0, Math.sin(t * .6 + i) * .08 * fan, -a);
+    });
+    trifold.position.set(.4, -1.9, 1.2); trifold.rotation.set(-.1, -.3 + Math.sin(t * .5) * .1, 0);
+    const open = ss(2.35, 2.85, c);
+    trifold.userData.l.rotation.y = (1 - open) * Math.PI * .95 - open * .35;
+    trifold.userData.r.rotation.y = -(1 - open) * Math.PI * .95 + open * .35;
+    // capítulo 4: pendón
+    const bIn = ss(2.9, 3.3, c), bOut = ss(3.9, 4.25, c), unroll = ss(3.1, 3.75, c);
+    setScale(banner, bIn * (1 - bOut));
+    banner.position.set(0, 2.4 + bOut * 3, -.5); banner.rotation.set(0, -.25 + S.mx * .3 + Math.sin(t * .5) * .04, 0);
+    bannerPivot.scale.y = Math.max(.001, unroll); banner.userData.bot.position.y = -4.4 * unroll;
+    // capítulo 5: caja
+    const xIn = ss(3.95, 4.35, c), xOut = ss(4.9, 5.25, c), fold = ss(4.2, 4.75, c), lidF = ss(4.6, 4.95, c);
+    setScale(boxG, xIn * (1 - xOut) * 1.3);
+    boxG.position.set(0, -.6 - xOut * 2, 0); boxG.rotation.set(.55 + S.my * .2 - (1 - fold) * .35, -.6 + S.mx * .5 + t * .08, 0);
+    flaps.forEach(pv => {
+      const ang = (1 - fold) * Math.PI / 2;
+      if (pv.userData.axis === "x+") pv.rotation.x = ang; if (pv.userData.axis === "x-") pv.rotation.x = -ang;
+      if (pv.userData.axis === "z-") pv.rotation.z = -ang; if (pv.userData.axis === "z+") pv.rotation.z = ang;
+    });
+    lidP.rotation.x = (1 - lidF) * -2.4;
+    // capítulo 6: taza
+    const mIn = ss(4.95, 5.35, c), sub = ss(5.2, 5.9, c);
+    setScale(mug, mIn * 1.9);
+    mug.position.set(0, -1.1, 0); mug.rotation.set(.18 + S.my * .2, -1.6 + t * .35 + S.mx * .6, 0);
+    const q = Math.round(sub * 40) / 40;
+    if (q !== mugCanvasProg && mug.visible) { mugCanvasProg = q; const img = paintWrap(wrapBrand, 1024, 400, q); mugTex.image = img; mugTex.needsUpdate = true; }
+    R.render(scene, cam);
+  }
+  function syncUI(p) {
+    const c = Math.min(5, Math.floor(p * 6 + .0001)), chaps = $$("#chaps .chap");
+    chaps.forEach((el, i) => el.classList.toggle("on", i === c));
+    $$("#prog i b").forEach((b, i) => b.style.transform = `scaleX(${Math.max(0, Math.min(1, p * 6 - i))})`);
+    const names = ["PLIEGO EN BLANCO", "SEPARACIÓN CMYK", "PAPELERÍA", "GRAN FORMATO", "EMPAQUE", "PERSONALIZACIÓN"];
+    $("#chapCounter").textContent = `0${c + 1} / 06 · ${names[c]}`;
+  }
+  function enter() {
+    if (!full()) { $("#homeRoot").classList.add("static"); $$("#chaps .chap").forEach(c => c.classList.add("on")); return; }
+    if (!ready) { ready = build(); if (!ready) { $("#homeRoot").classList.add("static"); $$("#chaps .chap").forEach(c => c.classList.add("on")); return; } frame(); }
+    running = true;
+    ctx = gsap.context(() => {
+      ScrollTrigger.create({ trigger: "#stage", start: "top top", end: () => "+=" + (isMobile() ? 420 : 560) + "%", pin: true, anticipatePin: 1, invalidateOnRefresh: true,
+        onUpdate: s => { S.target = s.progress; syncUI(s.progress); } });
+      gsap.from("#chaps .chap.on > *", { y: 40, opacity: 0, duration: 1, ease: "expo.out", stagger: .07, delay: .2 });
+      $$(".stat b").forEach(b => {
+        const to = +b.dataset.to, suf = b.dataset.suf || "", o = { v: 0 };
+        ScrollTrigger.create({ trigger: b, start: "top 88%", once: true, onEnter: () => gsap.fromTo(o, { v: 0 }, { v: to, duration: 1.4, ease: "power3.out", onUpdate: () => b.textContent = Math.round(o.v) + suf }) });
+      });
+      gsap.utils.toArray(".step, .cat, .rubro").forEach((el, i) => gsap.from(el, { y: 40, duration: .9, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 92%" }, delay: (i % 4) * .05 }));
+    });
+    setTimeout(() => { size(); fitChapters(); }, 50);
+  }
+  function leave() { running = false; if (ctx) { ctx.revert(); ctx = null; } }
+  return { enter, leave };
+})();
+
+/* ================= CARRUSEL INFINITO (estilo CatMedia) ================= */
+const Marquees = (() => {
+  const items = [];
+  let vel = 0, lastS = scrollY, lastT = performance.now();
+  function add(el, speed, dir) {
+    if (!el || !el.children.length) return;
+    el.innerHTML += el.innerHTML;
+    $$("img,[role=img]", el).forEach((im, i, arr) => { if (i >= arr.length / 2) { im.setAttribute("alt", ""); im.removeAttribute("aria-label"); im.setAttribute("aria-hidden", "true"); } });
+    $$("a", el).forEach((a, i, arr) => { if (i >= arr.length / 2) a.tabIndex = -1; });
+    const m = { el, speed, dir, x: dir > 0 ? 0 : -.5, ts: 1, tts: 1 };
+    el.addEventListener("pointerenter", () => m.tts = .15); el.addEventListener("pointerleave", () => m.tts = 1);
+    el.addEventListener("focusin", () => m.tts = 0); el.addEventListener("focusout", () => m.tts = 1);
+    items.push(m);
+  }
+  function loop(now) {
+    requestAnimationFrame(loop);
+    const dt = Math.min(.05, (now - lastT) / 1000); lastT = now;
+    const ds = Math.abs(scrollY - lastS); lastS = scrollY;
+    vel += (Math.min(4, ds / 12) - vel) * .1;
+    if (reduce) return;
+    items.forEach(m => {
+      if (!m.el.offsetParent) return;
+      m.ts += (m.tts - m.ts) * .08;
+      m.x += (m.dir > 0 ? -1 : 1) * dt / m.speed * m.ts * (1 + vel);
+      if (m.x <= -.5) m.x += .5; if (m.x > 0) m.x -= .5;
+      m.el.style.transform = `translate3d(${m.x * 100}%,0,0)`;
+    });
+  }
+  return { add, start() { requestAnimationFrame(loop); } };
+})();
+
+/* ================= RUEDA DE REELS (estilo hadi-community.de) =================
+   Tarjetas 9:16 sobre una circunferencia cuyo centro queda bajo la pantalla:
+   x = R·sin(a), y = R·(1 − cos a), rotación = a. La separación angular sale del
+   ancho real de la tarjeta, así nunca se traslapan. Gira en bucle, acelera con el
+   scroll, se frena al pasar el cursor y se puede arrastrar. */
+const Wheel = (() => {
+  let el, track, cards = [], n = 0, R = 1600, cw = 240, ch = 427, step = .16, span = 1, vis = .6;
+  let off = 0, vel = 0, auto = 1, autoT = 1, drag = null, lastX = 0, lastT = 0, moved = 0, sv = 0, lastS = scrollY, raf = 0;
+  const BASE = -.045; // rad/s, sentido: hacia la izquierda
+  function layout() {
+    const W = el.clientWidth || innerWidth;
+    cw = Math.round(Math.max(150, Math.min(W * (W < 760 ? .44 : .19), 270)));
+    ch = Math.round(cw * 16 / 9);
+    R = Math.max(cw * 3.2, Math.min(W * (W < 760 ? 1.9 : 1.25), 1900));
+    step = (cw + Math.max(32, cw * .34)) / R; // aire entre tarjetas
+    span = step * n;
+    vis = Math.asin(Math.min(1, (W / 2 + cw) / R)) + step * .5;
+    const drop = R * (1 - Math.cos(Math.min(vis, Math.PI / 2)));
+    el.style.setProperty("--cw", cw + "px");
+    el.style.setProperty("--wh", Math.round(ch + Math.min(drop * .32, ch * .32) + 48) + "px");
+    render();
+  }
+  function render() {
+    const half = span / 2;
+    let best = 1e9, bi = -1;
+    for (let i = 0; i < n; i++) {
+      let a = i * step + off;
+      a = ((a + half) % span + span) % span - half; // envolver a [−half, half)
+      const c = cards[i], show = Math.abs(a) < vis;
+      if (!show) { if (c._v !== false) { c.style.visibility = "hidden"; c._v = false; } continue; }
+      if (c._v !== true) { c.style.visibility = "visible"; c._v = true; }
+      const x = R * Math.sin(a), y = R * (1 - Math.cos(a));
+      c.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${a}rad)`;
+      c.style.zIndex = 100 - Math.round(Math.abs(a) * 100);
+      if (Math.abs(a) < best) { best = Math.abs(a); bi = i; }
+    }
+    cards.forEach((c, i) => c.classList.toggle("center", i === bi));
+  }
+  function loop(now) {
+    raf = requestAnimationFrame(loop);
+    if (!el.offsetParent) { lastT = now; return; }
+    const dt = Math.min(.05, (now - (lastT || now)) / 1000); lastT = now;
+    const ds = scrollY - lastS; lastS = scrollY;
+    sv += (Math.min(6, Math.abs(ds) / 10) - sv) * .12;
+    auto += (autoT - auto) * .08;
+    if (!drag) {
+      vel *= Math.pow(.05, dt); // inercia del arrastre
+      off += (BASE * auto * (1 + sv) + vel) * dt;
+    }
+    render();
+  }
+  function down(e) {
+    if (e.button !== undefined && e.button !== 0) return;
+    drag = { x: e.clientX, off }; lastX = e.clientX; moved = 0; vel = 0;
+    el.classList.add("drag"); el.setPointerCapture && el.setPointerCapture(e.pointerId);
+  }
+  function move(e) {
+    const r = el.getBoundingClientRect(), hint = $("#wheelHint");
+    if (hint) { hint.style.left = (e.clientX - r.left) + "px"; hint.style.top = (e.clientY - r.top) + "px"; }
+    if (!drag) return;
+    const dx = e.clientX - drag.x; moved = Math.max(moved, Math.abs(dx));
+    off = drag.off + dx / R;
+    const now = performance.now();
+    vel = ((e.clientX - lastX) / R) / Math.max(.008, (now - (move._t || now)) / 1000) * .6; move._t = now; lastX = e.clientX;
+  }
+  function up() { if (!drag) return; drag = null; el.classList.remove("drag"); }
+  function init() {
+    el = $("#wheel"); track = $("#wheelTrack"); if (!el) return;
+    cards = $$(".reel", track); n = cards.length; if (!n) return;
+    el.addEventListener("pointerdown", down);
+    el.addEventListener("pointermove", move);
+    addEventListener("pointerup", up); addEventListener("pointercancel", up);
+    el.addEventListener("click", e => { if (moved > 6) { e.preventDefault(); e.stopPropagation(); } }, true);
+    el.addEventListener("pointerenter", () => autoT = .12); el.addEventListener("pointerleave", () => { autoT = 1; up(); });
+    el.addEventListener("focusin", () => autoT = 0); el.addEventListener("focusout", () => autoT = 1);
+    el.addEventListener("keydown", e => { if (e.key === "ArrowRight") { off -= step; e.preventDefault(); } if (e.key === "ArrowLeft") { off += step; e.preventDefault(); } });
+    addEventListener("resize", layout);
+    layout();
+    if (reduce) { autoT = auto = 0; render(); return; }
+    raf = requestAnimationFrame(loop);
+  }
+  return { init, layout };
+})();
+
+/* ================= AJUSTE DE TÍTULOS DEL ESCENARIO =================
+   Mide el capítulo más alto y, si no cabe entre la barra superior y el
+   progreso, reduce el título hasta que quepa. Así nunca tapa el logo ni la
+   etiqueta superior, sin importar la fuente o la altura de la pantalla. */
+function fitChapters() {
+  const root = $("#homeRoot"); if (!root || root.classList.contains("static") || !root.offsetParent) return;
+  const ui = $(".stage-ui"), area = $(".chap-area"), top = $(".stage-ui > .stage-top"), heads = $$("#chaps .chap h1, #chaps .chap h2");
+  heads.forEach(h => h.style.fontSize = "");
+  const cs = getComputedStyle(ui), gap = parseFloat(cs.rowGap) || 0;
+  const bot = $(".stage-bot"), botH = bot && getComputedStyle(bot).display !== "none" ? bot.offsetHeight + gap : 0;
+  const avail = ui.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - top.offsetHeight - gap - botH - 8;
+  const tallest = () => Math.max(...$$("#chaps .chap").map(c => c.offsetHeight)) + ($("#prog").offsetHeight || 0) + 16;
+  let base = parseFloat(getComputedStyle(heads[0]).fontSize), k = 1, i = 0;
+  while (tallest() > avail && i++ < 14 && base * k > 24) { k *= .93; heads.forEach(h => h.style.fontSize = (base * k).toFixed(1) + "px"); }
+}
+addEventListener("resize", () => { clearTimeout(fitChapters._t); fitChapters._t = setTimeout(fitChapters, 120); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitChapters);
+
+/* inclinación 3D de tarjetas de rubro */
+function tilt() {
+  if (reduce || matchMedia("(hover: none)").matches) return;
+  $$(".rubro").forEach(el => {
+    el.addEventListener("pointermove", e => { const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5; el.style.transform = `rotateX(${-y * 10}deg) rotateY(${x * 12}deg) translateZ(6px)`; });
+    el.addEventListener("pointerleave", () => el.style.transform = "");
+  });
+}
+
+/* ================= ARRANQUE ================= */
+(function boot() {
+  $$(".stat b").forEach(b => b.textContent = (b.dataset.to) + (b.dataset.suf || ""));
+  renderHomeDynamic();
+  $$(".stat b")[1].textContent = PRODUCTS.length;
+  updateCartCount();
+  $("#ftMail").textContent = CONFIG.email;
+  if (CONFIG.whatsapp) $("#ftWa").textContent = "+" + CONFIG.whatsapp;
+  if (window.Lenis && !reduce) {
+    try {
+      const lenis = new Lenis({ lerp: .1, smoothWheel: true }); window.lenis = lenis;
+      if (window.gsap && window.ScrollTrigger) { lenis.on("scroll", ScrollTrigger.update); gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0); }
+      else { const r = t => { lenis.raf(t); requestAnimationFrame(r); }; requestAnimationFrame(r); }
+    } catch (_) {}
+  }
+  if (window.gsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+  route();
+  fitChapters();
+  Wheel.init();
+  Marquees.add($("#mq3"), 40, -1); Marquees.add($("#mq4"), 70, 1);
+  Marquees.start(); tilt();
+  // cargador: termina en ≤1,4 s
+  const ln = $("#loadNum"), t0 = performance.now();
+  (function tick(now) { const p = Math.min(1, (now - t0) / 1100); ln.textContent = Math.round(p * 100); if (p < 1) requestAnimationFrame(tick); else $("#loader").classList.add("done"); })(t0);
+  setTimeout(() => $("#loader").classList.add("done"), 1600);
+  const go = () => renderReferences().catch(() => {});
+  (document.fonts && document.fonts.ready ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1500))]) : Promise.resolve()).then(() => setTimeout(go, 400));
+  initCaps();
+})();
+
+</script>
+</body>
+</html>

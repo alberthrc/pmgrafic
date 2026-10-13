@@ -1,0 +1,295 @@
+
+<div class="loader" id="loader" aria-hidden="true"><div class="loader-in"><b id="loadNum">0</b><span class="cbar"><i></i><i></i><i></i><i></i></span><span class="mono" style="color:var(--muted)">AJUSTANDO REGISTRO</span></div></div>
+
+<header class="hdr" id="hdr">
+  <div class="wrap hdr-in">
+    <a href="#inicio" class="logo" aria-label="Inicio">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="9" fill="none" stroke="#f2f1ec" stroke-width="1.6"/><path d="M16 2v28M2 16h28" stroke="#f2f1ec" stroke-width="1.6"/><circle cx="12" cy="12" r="4.2" fill="#00a6e2" opacity=".9"/><circle cx="20" cy="12" r="4.2" fill="#ec008c" opacity=".85"/><circle cx="16" cy="19" r="4.2" fill="#ffe100" opacity=".85"/></svg>
+      <span>Imprenta<small>CARACAS · LOGO DE REFERENCIA</small></span>
+    </a>
+    <div class="hdr-actions">
+      <nav class="nav" id="nav" aria-label="Principal">
+        <a href="#inicio" data-nav="inicio">Inicio</a>
+        <a href="#tienda" data-nav="tienda">Tienda</a>
+        <a href="#como" data-nav="como">Cómo funciona</a>
+        <a href="#contacto" data-nav="contacto">Contacto</a>
+      </nav>
+      <a href="#solicitud" class="btn btn-o btn-sm cart-btn" aria-label="Ver solicitud de cotización">Solicitud <b id="cartCount" hidden>0</b></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="mnav"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+</header>
+<nav class="mnav" id="mnav" aria-label="Menú">
+  <a href="#inicio" data-nav="inicio">Inicio</a>
+  <a href="#tienda" data-nav="tienda">Tienda</a>
+  <a href="#como" data-nav="como">Cómo funciona</a>
+  <a href="#solicitud" data-nav="solicitud">Mi solicitud</a>
+  <a href="#contacto" data-nav="contacto">Contacto</a>
+  <div class="mnav-foot"><span class="cbar"><i></i><i></i><i></i><i></i></span><span class="mono" style="color:var(--muted)">IMPRENTA DIGITAL, OFFSET Y GRAN FORMATO · CARACAS</span></div>
+</nav>
+
+<main id="main">
+
+<!-- ============ INICIO ============ -->
+<section class="view view-home" data-view="inicio" id="v-inicio">
+  <div id="homeRoot">
+  <section class="stage" id="stage" aria-label="Recorrido por el proceso de impresión">
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span>
+    <div class="stage-ui">
+      <div class="stage-top">
+        <span class="eyebrow"><span class="reg"></span>Digital · offset · gran formato</span>
+        <span class="counter" id="chapCounter">01 / 06 · PLIEGO EN BLANCO</span>
+      </div>
+      <div class="chap-area">
+        <div class="chaps" id="chaps">
+          <div class="chap on" style="--chap:var(--yellow)">
+            <span class="num">01 · Pliego en blanco</span>
+            <h1>Imprimimos lo que <em>tu marca</em> imagina.</h1>
+            <p>Papelería, catálogos, gran formato, empaques y documentos fiscales autorizados por el SENIAT. Arma tu pedido en línea y te respondemos con la cotización.</p>
+            <div class="cta"><a href="#tienda" class="btn btn-y">Arma tu pedido <span class="arr">→</span></a><a href="#como" class="btn btn-o">Cómo funciona</a></div>
+          </div>
+          <div class="chap" style="--chap:var(--cyan)">
+            <span class="num">02 · Separación CMYK</span>
+            <h2>Cuatro tintas, <em>un solo color</em> exacto.</h2>
+            <p>Cian, magenta, amarillo y negro se superponen con registro preciso. Imprimimos en cuatricromía y en Pantone, en offset para grandes tirajes y en digital para tirajes cortos.</p>
+            <div class="tags"><span class="tag">Offset</span><span class="tag">Digital</span><span class="tag">CMYK + Pantone</span><span class="tag">Data variable</span></div>
+          </div>
+          <div class="chap" style="--chap:var(--magenta)">
+            <span class="num">03 · Papelería y catálogos</span>
+            <h2>Del pliego a <em>tu tarjeta</em>.</h2>
+            <p>Cortamos, plegamos y damos acabado: tarjetas, trípticos, catálogos, carpetas y talonarios de factura con numeración de control.</p>
+            <div class="tags"><span class="tag">Barniz UV</span><span class="tag">Laminado mate</span><span class="tag">Foil</span><span class="tag">Troquel</span></div>
+          </div>
+          <div class="chap" style="--chap:var(--yellow)">
+            <span class="num">04 · Gran formato</span>
+            <h2>Tu marca, <em>en grande</em>.</h2>
+            <p>Pendones, lonas para fachada, roll-up para eventos y vinil para vidrieras y vehículos, con tintas para interior y exterior. Instalación en Caracas.</p>
+            <div class="tags"><span class="tag">Lona 13 oz</span><span class="tag">Vinil microperforado</span><span class="tag">Roll-up</span></div>
+          </div>
+          <div class="chap" style="--chap:var(--cyan)">
+            <span class="num">05 · Empaque</span>
+            <h2>Cajas que <em>venden</em> solas.</h2>
+            <p>Del troquel plano a la caja armada: empaques para alimentos, bolsas tipo boutique y etiquetas para tu producto.</p>
+            <div class="tags"><span class="tag">Cajas plegables</span><span class="tag">Etiquetas</span><span class="tag">Bolsas</span></div>
+          </div>
+          <div class="chap" style="--chap:var(--magenta)">
+            <span class="num">06 · Personalización</span>
+            <h2>Y también <em>en tazas</em> y franelas.</h2>
+            <p>Sublimación, DTF, serigrafía y grabado láser para regalos corporativos, uniformes y merchandising.</p>
+            <div class="cta"><a href="#tienda" class="btn btn-y">Ver la tienda <span class="arr">→</span></a></div>
+          </div>
+        </div>
+        <div class="prog" id="prog" aria-hidden="true"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+      </div>
+      <div class="stage-top stage-bot"><span class="scroll-hint"><i></i>DESPLÁZATE PARA RECORRER EL TALLER</span><span class="cbar" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
+    </div>
+  </section>
+
+  <section aria-label="Productos más pedidos" style="padding-block:clamp(40px,6vw,72px) 0">
+    <div class="wrap sec-head" style="margin-bottom:28px">
+      <span class="eyebrow"><span class="reg"></span>Más pedidos</span>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
+        <h2 style="font-size:clamp(36px,5vw,68px)">Elige, configura y pide.</h2>
+        <a href="#tienda" class="btn btn-o">Ver todo el catálogo <span class="arr">→</span></a>
+      </div>
+    </div>
+    <div class="wheel" id="wheel" tabindex="0" aria-roledescription="carrusel" aria-label="Productos más pedidos">
+      <div class="wheel-track" id="wheelTrack"></div>
+      <span class="wheel-hint" id="wheelHint" aria-hidden="true">Arrastra</span>
+    </div>
+  </section>
+
+  <section class="logos-row" aria-label="Clientes" style="margin-top:clamp(56px,8vw,96px)">
+    <div class="wrap" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px">
+      <p style="font-weight:600">Negocios que ya imprimen con nosotros</p><span class="tag">Logos de ejemplo</span>
+    </div>
+    <div class="mq"><div class="mq-track" id="mq3">
+      <span class="lg">CAFÉ ÁVILA</span><span class="lg s">farmacia norte</span><span class="lg m">CLÍNICA·ALTAMIRA</span><span class="lg">TROPIKAL</span><span class="lg s">bodegón 24</span><span class="lg m">GYM/CHACAO</span><span class="lg">PANADERÍA LUZ</span><span class="lg s">ferretería sur</span><span class="lg">MOTO EXPRESS</span><span class="lg m">DENTAL+</span>
+    </div></div>
+  </section>
+
+  <section class="sec" id="como" aria-labelledby="como-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><span class="reg"></span>Cómo funciona</span>
+        <h2 id="como-h">Tu pedido, en cuatro pasos.</h2>
+        <p class="lead">Armas la solicitud en línea, sin llamadas. Te respondemos por WhatsApp y correo con la cotización, y producimos cuando apruebas el arte.</p>
+      </div>
+      <div class="steps">
+        <div class="step" style="--c:var(--cyan)"><span class="n">1</span><h3>Elige y configura</h3><p>Escoge el producto, la medida, el papel, el acabado y la cantidad.</p></div>
+        <div class="step" style="--c:var(--magenta)"><span class="n">2</span><h3>Sube tu arte</h3><p>Adjunta tu diseño en PDF, AI o PNG a 300 dpi, o pide que lo diseñemos.</p></div>
+        <div class="step" style="--c:var(--yellow)"><span class="n">3</span><h3>Recibe la cotización</h3><p>Te llega por WhatsApp y correo con el monto en USD y bolívares a tasa BCV.</p></div>
+        <div class="step" style="--c:var(--paper)"><span class="n">4</span><h3>Aprueba y recibe</h3><p>Revisas la prueba de color, producimos y retiras, o te lo enviamos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="cats-h" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><span class="reg"></span>Catálogo</span>
+        <h2 id="cats-h">Todo lo que imprimimos.</h2>
+      </div>
+      <div class="cats" id="homeCats"></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="rub-h" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><span class="reg"></span>Soluciones por rubro</span>
+        <h2 id="rub-h">Lo que tu negocio necesita imprimir.</h2>
+      </div>
+      <div class="rubros" id="rubros">
+        <div class="rubro" style="--c:var(--cyan)"><span class="dot"></span><h3>Salud</h3><ul><li>Récipes médicos</li><li>Informes y membretes</li><li>Carnets PVC</li></ul></div>
+        <div class="rubro" style="--c:var(--magenta)"><span class="dot"></span><h3>Restaurantes</h3><ul><li>Menús y comandas</li><li>Papel antigrasa</li><li>Cajas para delivery</li></ul></div>
+        <div class="rubro" style="--c:var(--yellow)"><span class="dot"></span><h3>Emprendedores</h3><ul><li>Etiquetas de producto</li><li>Tarjetas y volantes</li><li>Bolsas boutique</li></ul></div>
+        <div class="rubro" style="--c:var(--cyan)"><span class="dot"></span><h3>Eventos</h3><ul><li>Invitaciones</li><li>Pendones y roll-up</li><li>Franelas y tazas</li></ul></div>
+        <div class="rubro" style="--c:var(--magenta)"><span class="dot"></span><h3>Empresas</h3><ul><li>Facturas SENIAT</li><li>Carpetas corporativas</li><li>Catálogos</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Reseñas">
+    <div class="wrap" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px">
+      <span class="eyebrow"><span class="reg"></span>Lo que dicen nuestros clientes</span><span class="tag">Reseñas de ejemplo</span>
+    </div>
+    <div class="mq mq-rev"><div class="mq-track" id="mq4"></div></div>
+  </section>
+
+  <section class="sec" aria-label="Cifras">
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat"><b data-to="4">0</b><span>técnicas: offset, digital, gran formato y sublimación</span></div>
+        <div class="stat"><b data-to="40">0</b><span>productos configurables en la tienda</span></div>
+        <div class="stat"><b data-to="48" data-suf=" h">0</b><span>pendones estándar listos tras aprobar el arte</span></div>
+        <div class="stat"><b data-to="100" data-suf="%">0</b><span>facturas con normativa SENIAT</span></div>
+      </div>
+      <p class="mono" style="color:var(--dim);margin-top:10px">CIFRAS DE REFERENCIA · SE AJUSTAN CON LOS DATOS REALES DE LA IMPRENTA</p>
+    </div>
+  </section>
+
+  <section class="wrap" aria-label="Llamado a la acción">
+    <div class="cta-band">
+      <span class="cbar" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span class="eyebrow" style="color:#5f616a"><span class="reg"></span>Cotización sin compromiso</span>
+      <h2>¿Listo para imprimir?</h2>
+      <p>Arma tu solicitud en dos minutos. Te respondemos por WhatsApp y correo con el precio y el tiempo de entrega.</p>
+      <div class="btns"><a href="#tienda" class="btn btn-y" style="background:var(--key);color:var(--paper)">Arma tu pedido <span class="arr">→</span></a><a href="#contacto" class="btn btn-o">Contactar</a></div>
+    </div>
+  </section>
+  </div>
+</section>
+
+<!-- ============ TIENDA ============ -->
+<section class="view" data-view="tienda" id="v-tienda" hidden>
+  <div class="wrap">
+    <div class="page-head">
+      <span class="eyebrow"><span class="reg"></span>Tienda · todo a cotizar</span>
+      <h1>Arma tu pedido.</h1>
+      <p class="lead">Configura cada producto y súmalo a tu solicitud. Te enviamos la cotización por WhatsApp y correo.</p>
+    </div>
+    <div class="filters" id="filters" role="group" aria-label="Filtrar por categoría"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- ============ PRODUCTO ============ -->
+<section class="view" data-view="producto" id="v-producto" hidden><div class="wrap" id="pdp"></div></section>
+
+<!-- ============ SOLICITUD ============ -->
+<section class="view" data-view="solicitud" id="v-solicitud" hidden>
+  <div class="wrap">
+    <div class="page-head"><span class="eyebrow"><span class="reg"></span>Paso 1 de 2</span><h1>Tu solicitud.</h1></div>
+    <div id="cartBody"></div>
+  </div>
+</section>
+
+<!-- ============ DATOS ============ -->
+<section class="view" data-view="datos" id="v-datos" hidden>
+  <div class="wrap">
+    <div class="page-head"><span class="eyebrow"><span class="reg"></span>Paso 2 de 2</span><h1>Tus datos.</h1><p class="lead">Con esto preparamos la cotización y coordinamos la entrega. No necesitas crear cuenta.</p></div>
+    <div class="two">
+      <form class="form" id="checkout" novalidate>
+        <fieldset>
+          <legend>Contacto</legend>
+          <div class="grid2">
+            <div class="field"><label for="c-nombre">Nombre y apellido</label><input class="in" id="c-nombre" name="nombre" autocomplete="name" required></div>
+            <div class="field"><label for="c-doc">Cédula o RIF</label><input class="in" id="c-doc" name="documento" placeholder="V-12345678 o J-12345678-9" required></div>
+            <div class="field"><label for="c-tel">WhatsApp</label><input class="in" id="c-tel" name="telefono" inputmode="tel" autocomplete="tel" placeholder="0412 123 4567" required></div>
+            <div class="field"><label for="c-mail">Correo</label><input class="in" id="c-mail" name="correo" type="email" autocomplete="email" required></div>
+            <div class="field" style="grid-column:1/-1"><label for="c-emp">Empresa <span class="hint">(opcional)</span></label><input class="in" id="c-emp" name="empresa" autocomplete="organization"></div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Factura</legend>
+          <label class="check"><input type="checkbox" id="c-fact" name="factura"> Necesito factura fiscal</label>
+          <div class="grid2" id="factFields" hidden>
+            <div class="field"><label for="c-razon">Razón social</label><input class="in" id="c-razon" name="razonSocial"></div>
+            <div class="field"><label for="c-dirf">Dirección fiscal</label><input class="in" id="c-dirf" name="direccionFiscal"></div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Entrega</legend>
+          <div class="seg" role="radiogroup" aria-label="Tipo de entrega">
+            <input type="radio" name="entrega" id="e-retiro" value="retiro" checked><label for="e-retiro">Retiro en taller<small>Sin costo</small></label>
+            <input type="radio" name="entrega" id="e-delivery" value="delivery"><label for="e-delivery">Delivery en Caracas<small>Según zona</small></label>
+            <input type="radio" name="entrega" id="e-envio" value="envio"><label for="e-envio">Envío nacional<small>Por agencia</small></label>
+          </div>
+          <div class="field" id="f-zona" hidden><label for="c-zona">Zona o dirección en Caracas</label><input class="in" id="c-zona" name="zona" placeholder="Ej. Chacao, Av. Francisco de Miranda"></div>
+          <div class="grid2" id="f-envio" hidden>
+            <div class="field"><label for="c-agencia">Agencia</label><select class="in" id="c-agencia" name="agencia"><option>MRW</option><option>Zoom</option><option>Tealca</option><option>Domesa</option></select></div>
+            <div class="field"><label for="c-ofi">Oficina o ciudad destino</label><input class="in" id="c-ofi" name="oficina"></div>
+          </div>
+          <div class="grid2">
+            <div class="field"><label for="c-fecha">Fecha deseada</label><input class="in" type="date" id="c-fecha" name="fechaDeseada"></div>
+            <div class="field" style="align-content:end"><label class="check"><input type="checkbox" id="c-urg" name="urgente"> Es urgente (exprés, con recargo)</label></div>
+          </div>
+        </fieldset>
+        <div class="field full"><label for="c-notas">Comentarios para la imprenta <span class="hint">(opcional)</span></label><textarea class="in" id="c-notas" name="notas"></textarea></div>
+        <label class="check full"><input type="checkbox" id="c-ok" required> Acepto las condiciones: archivos a 300 dpi con sangrado, revisión de prueba de color antes de producir, y las condiciones de pago que indique la cotización.</label>
+        <p class="errbox full" id="formErr" role="alert"></p>
+        <div class="full btns"><button class="btn btn-y" type="submit" id="sendBtn">Enviar solicitud <span class="arr">→</span></button><a class="btn btn-o" href="#solicitud">Volver</a></div>
+      </form>
+      <aside class="sum" id="sum2" aria-label="Resumen"></aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PEDIDO (enlace único) ============ -->
+<section class="view" data-view="pedido" id="v-pedido" hidden><div class="wrap" id="orderBody"></div></section>
+
+<!-- ============ PANEL ============ -->
+<section class="view" data-view="panel" id="v-panel" hidden>
+  <div class="wrap">
+    <div class="page-head"><span class="eyebrow"><span class="reg"></span>Uso interno</span><h1>Pedidos.</h1></div>
+    <div id="panelBody"></div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot" id="contacto">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div style="display:grid;gap:14px;align-content:start">
+        <a href="#inicio" class="logo" style="padding:0"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="9" fill="none" stroke="#f2f1ec" stroke-width="1.6"/><path d="M16 2v28M2 16h28" stroke="#f2f1ec" stroke-width="1.6"/><circle cx="12" cy="12" r="4.2" fill="#00a6e2" opacity=".9"/><circle cx="20" cy="12" r="4.2" fill="#ec008c" opacity=".85"/><circle cx="16" cy="19" r="4.2" fill="#ffe100" opacity=".85"/></svg><span>Imprenta</span></a>
+        <p style="color:var(--muted);max-width:40ch;font-size:15px">Imprenta digital, offset y gran formato en Caracas. Imprenta autorizada por el SENIAT para documentos fiscales.</p>
+        <span class="cbar"><i></i><i></i><i></i><i></i></span>
+      </div>
+      <div><h4>Tienda</h4><a href="#tienda">Todo el catálogo</a><a href="#cat-papeleria">Papelería</a><a href="#cat-gran-formato">Gran formato</a><a href="#cat-fiscal">Facturas SENIAT</a></div>
+      <div><h4>Ayuda</h4><a href="#como">Cómo funciona</a><a href="#solicitud">Mi solicitud</a><a href="#panel">Panel interno</a></div>
+      <div>
+        <h4>Contacto</h4>
+        <p style="font-size:15px;color:var(--paper-2)">Lunes a viernes, 8:00 a 5:00</p>
+        <div class="copyrow"><code id="ftMail">pedidos@imprenta.example</code><button class="btn btn-o btn-sm" data-copy="#ftMail">Copiar</button></div>
+        <div class="copyrow"><code id="ftWa">WhatsApp por definir</code></div>
+        <p class="mono" style="color:var(--dim);margin-top:8px">DATOS DE CONTACTO DE REFERENCIA</p>
+      </div>
+    </div>
+    <div class="legal"><span>© 2026 Imprenta · Caracas, Venezuela · RIF por definir</span><span>Prototipo v1: toma de pedidos sin pago en línea</span></div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
