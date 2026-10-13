@@ -1,7 +1,7 @@
 /* ================= CONFIG ================= */
 const CONFIG = {
   whatsapp: "",                        // número de la imprenta en formato internacional, ej. "584121234567" (pendiente)
-  email: "pedidos@imprenta.example",   // correo de referencia (pendiente)
+  email: "pedidos@pmgraficve.com",   // correo de referencia (pendiente)
   year: 2026
 };
 

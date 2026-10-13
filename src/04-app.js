@@ -132,7 +132,7 @@ function route() {
   else if (changed) scrollToY(0, true);
   if (window.ScrollTrigger) requestAnimationFrame(() => ScrollTrigger.refresh());
 }
-const a11yTitle = { inicio: "Imprenta Caracas", tienda: "Tienda · Imprenta Caracas", producto: "Producto · Imprenta Caracas", solicitud: "Solicitud · Imprenta Caracas", datos: "Tus datos · Imprenta Caracas", pedido: "Pedido · Imprenta Caracas", panel: "Panel · Imprenta Caracas" };
+const a11yTitle = { inicio: "PM Grafic · pmgraficve", tienda: "Tienda · PM Grafic", producto: "Producto · PM Grafic", solicitud: "Solicitud · PM Grafic", datos: "Tus datos · PM Grafic", pedido: "Pedido · PM Grafic", panel: "Panel · PM Grafic" };
 addEventListener("hashchange", route);
 
 /* header + menú */
@@ -323,6 +323,14 @@ $("#checkout").addEventListener("submit", async e => {
   if (db) {
     try { await db.doc("pedidos/" + order.codigo).set(order); remote = true; }
     catch (x) { console.warn("db", x); }
+  } else if (/^https?:$/.test(location.protocol)) {
+    // Publicado fuera de Claude (Netlify): el pedido se envía a Netlify Forms
+    remote = await sendToNetlify(order);
+    if (!remote) {
+      err.textContent = "No pudimos enviar la solicitud. Revisa tu conexión e inténtalo de nuevo, o escríbenos por WhatsApp con el resumen.";
+      btn.disabled = false; btn.innerHTML = 'Enviar solicitud <span class="arr">→</span>';
+      return;
+    }
   }
   order._remote = remote;
   saveLocalOrder(order);
@@ -330,6 +338,31 @@ $("#checkout").addEventListener("submit", async e => {
   f.reset(); syncCheckout(); btn.disabled = false; btn.innerHTML = 'Enviar solicitud <span class="arr">→</span>';
   location.hash = "pedido-" + order.codigo;
 });
+
+/* ================= NETLIFY FORMS =================
+   El formulario oculto name="pedido" en el HTML permite que Netlify detecte el
+   formulario al publicar. Cada envío aparece en Netlify → Forms → pedido y puede
+   notificarse por correo (Forms → Form notifications). */
+async function sendToNetlify(o) {
+  const c = o.cliente;
+  const fields = {
+    "form-name": "pedido",
+    "bot-field": "",
+    codigo: o.codigo,
+    nombre: c.nombre, documento: c.documento, telefono: c.telefono, correo: c.correo, empresa: c.empresa,
+    factura: c.factura ? `Sí · ${c.razonSocial} · ${c.direccionFiscal}` : "No",
+    entrega: entregaLine(o),
+    fecha_deseada: (o.fechaDeseada || "Sin fecha") + (o.urgente ? " (URGENTE)" : ""),
+    productos: orderMessage(o),
+    comentarios: o.notas || "",
+    enlace: `${location.origin}${location.pathname}#pedido-${o.codigo}`,
+    pedido_json: JSON.stringify(o)
+  };
+  try {
+    const r = await fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(fields).toString() });
+    return r.ok;
+  } catch (_) { return false; }
+}
 
 /* ================= PEDIDO (enlace único) ================= */
 let orderUnsub = null;
@@ -384,7 +417,9 @@ let panelUnsub = null, panelOrders = [], panelSel = null, panelFilter = "activos
 function renderPanel() {
   const body = $("#panelBody");
   if (!db) {
-    body.innerHTML = `<div class="banner"><span class="reg"></span><div>El panel lee los pedidos guardados en la base de datos de esta página, y esta vista no tiene acceso a ella. Ábrela con tu sesión de Claude iniciada. En producción, este panel vive en Payload CMS con usuario y contraseña.</div></div>`;
+    const mine = Object.values(localOrders()).sort((a, b) => b.creado.localeCompare(a.creado));
+    body.innerHTML = `<div class="banner"><span class="reg"></span><div>En la versión publicada en Netlify, las solicitudes llegan a <b>Netlify → Forms → pedido</b> y, si activas las notificaciones, a tu correo. Este panel en vivo funciona dentro de Claude; en producción vivirá en Payload CMS con usuario y contraseña.</div></div>
+      ${mine.length ? `<p class="eyebrow" style="margin:24px 0 12px">Solicitudes enviadas desde este navegador</p><div class="plist">${mine.map(o => `<a class="prow" href="#pedido-${esc(o.codigo)}" style="text-decoration:none"><span class="state" style="--sc:${estadoById(o.estado).c};background:rgba(242,241,236,.06)"><i></i>${esc(estadoById(o.estado).label)}</span><span style="min-width:0"><b>${esc(o.codigo)}</b><span class="who" style="display:block">${esc(o.cliente.nombre)}</span></span><small>${new Date(o.creado).toLocaleDateString("es-VE")}</small></a>`).join("")}</div>` : ""}`;
     return;
   }
   if (!panelUnsub) {
@@ -416,7 +451,7 @@ function drawPanel() {
 }
 function panelDetail(o) {
   const c = o.cliente, e = estadoById(o.estado), tel = phoneIntl(c.telefono);
-  const msg = `Hola ${c.nombre.split(" ")[0]}, te escribimos de la imprenta por tu pedido ${o.codigo}. Estado: ${e.label}.${o.cotizacion && o.cotizacion.totalUSD ? ` Cotización: USD ${o.cotizacion.totalUSD}. ${o.cotizacion.condicionesPago || ""}` : ""} Puedes verlo aquí: ${location.href.split("#")[0]}#pedido-${o.codigo}`;
+  const msg = `Hola ${c.nombre.split(" ")[0]}, te escribimos de PM Grafic (@pmgraficve) por tu pedido ${o.codigo}. Estado: ${e.label}.${o.cotizacion && o.cotizacion.totalUSD ? ` Cotización: USD ${o.cotizacion.totalUSD}. ${o.cotizacion.condicionesPago || ""}` : ""} Puedes verlo aquí: ${location.href.split("#")[0]}#pedido-${o.codigo}`;
   return `
     <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center"><h2 style="font-size:30px">${esc(o.codigo)}</h2><span class="state" style="--sc:${e.c};background:rgba(242,241,236,.06)"><i></i>${esc(e.label)}</span></div>
     <dl class="kv">

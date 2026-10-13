@@ -8,3 +8,8 @@ $RECYCLE.BIN/
 .idea/
 *.swp
 *.bak
+
+# Netlify / build
+public/
+node_modules/
+.netlify/

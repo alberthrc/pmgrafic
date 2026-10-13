@@ -17,7 +17,7 @@ $out = @"
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Imprenta digital, offset y gran formato en Caracas. Arma tu pedido en línea y recibe tu cotización por WhatsApp y correo.">
+<meta name="description" content="PM Grafic (@pmgraficve) — Imprenta digital, offset y gran formato en Caracas. Arma tu pedido en línea y recibe tu cotización por WhatsApp y correo.">
 <meta name="theme-color" content="#0d0e11">
 $head
 </head>
