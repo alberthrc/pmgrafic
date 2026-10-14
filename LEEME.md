@@ -11,6 +11,7 @@ con código y enlace único por pedido, y panel interno de pedidos. Sin pago en 
   - `03-data.js` — CONFIG (WhatsApp, correo), catálogo de categorías y productos con sus opciones, estados y reseñas.
   - `04-app.js` — navegación, configurador, solicitud, envío del pedido, enlace único y panel.
   - `05-three.js` — escena 3D del inicio, imágenes de referencia generadas en 3D y carrusel infinito.
+  - `06-motion.js` — animaciones de scroll y cursor (cargador con telones, títulos por líneas, marquesinas, muro de trabajos, materiales, tarjetas apiladas, historias de Instagram, preguntas frecuentes, logo gigante del footer).
 - `build.ps1` — vuelve a unir `src/` en `index.html` después de editar.
 
 ## Verlo en tu computadora

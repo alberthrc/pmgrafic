@@ -1,11 +1,11 @@
 {
-  "name": "PM Grafic",
-  "short_name": "PM Grafic",
-  "description": "Imprenta digital, offset y gran formato en Caracas.",
+  "name": "PMGraficVe",
+  "short_name": "PMGraficVe",
+  "description": "Soluciones visuales e impresión publicitaria en todos los formatos. Gran Caracas y Valles del Tuy.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0d0e11",
-  "theme_color": "#0d0e11",
+  "background_color": "#0b0a22",
+  "theme_color": "#0b0a22",
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },

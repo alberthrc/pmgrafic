@@ -1,4 +1,4 @@
-// Build de PM Grafic para Netlify (y local): une src/ en public/index.html y copia los estáticos.
+// Build de PMGraficVe para Netlify (y local): une src/ en public/index.html y copia los estáticos.
 // Uso: node build.mjs   → genera public/
 // En Netlify se ejecuta solo (ver netlify.toml). La variable URL la define Netlify con el dominio del sitio.
 import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync, rmSync } from "node:fs";
@@ -10,13 +10,13 @@ const out = join(root, "public");
 const read = f => readFileSync(join(root, f), "utf8");
 
 const SITE_URL = (process.env.URL || "").replace(/\/$/, "");
-const TITLE = "PM Grafic · Imprenta digital, offset y gran formato en Caracas";
-const DESC = "PM Grafic (@pmgraficve) — Imprenta digital, offset y gran formato en Caracas. Arma tu pedido en línea y recibe tu cotización por WhatsApp y correo.";
+const TITLE = "PMGraficVe · Soluciones visuales e impresión publicitaria en todos los formatos";
+const DESC = "PMGraficVe (@pmgraficve) — Más de 5 años en impresión digital y UV, rotulación y vinilos, corpóreos con LED y Neón Flex, corte y grabado láser y material P.O.P. Gran Caracas y Valles del Tuy. Cotiza en línea o por WhatsApp.";
 const abs = p => (SITE_URL ? SITE_URL + p : p);
 
 const head = read("src/01-head.html");
 const body = read("src/02-body.html");
-const js = ["03-data.js", "04-app.js", "05-three.js"].map(f => read("src/" + f)).join("");
+const js = ["03-data.js", "04-app.js", "05-three.js", "06-motion.js"].map(f => read("src/" + f)).join("");
 const libs = `<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -28,11 +28,11 @@ const html = `<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="${DESC}">
-<meta name="theme-color" content="#0d0e11">
+<meta name="theme-color" content="#0b0a22">
 ${SITE_URL ? `<link rel="canonical" href="${SITE_URL}/">` : ""}
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_VE">
-<meta property="og:site_name" content="PM Grafic">
+<meta property="og:site_name" content="PMGraficVe">
 <meta property="og:title" content="${TITLE}">
 <meta property="og:description" content="${DESC}">
 <meta property="og:image" content="${abs("/og-image.png")}">

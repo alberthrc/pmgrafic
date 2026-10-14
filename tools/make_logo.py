@@ -80,7 +80,7 @@ def svg(body, title="PM Grafic"):
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
-    NAVY, PAPER, INK, Y = "#1d1a86", "#f2f1ec", "#0d0e11", "#ffe100"
+    NAVY, PAPER, INK, Y = "#1d1a86", "#f3f3fb", "#0b0a22", "#a3adff"
     files = {
         "logo-pmgrafic.svg": svg(full_logo(NAVY, None, NAVY)),              # azul de marca, fondo transparente
         "logo-pmgrafic-oscuro.svg": svg(full_logo(PAPER, None, Y)),         # para fondos oscuros (estilo del sitio)

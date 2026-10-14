@@ -78,7 +78,7 @@ function orderMessage(o) {
   return lines.join("\n");
 }
 function entregaLine(o) {
-  if (o.entrega.tipo === "delivery") return `Delivery en Caracas · ${o.entrega.zona || "zona por confirmar"}`;
+  if (o.entrega.tipo === "delivery") return `Delivery en Gran Caracas / Valles del Tuy · ${o.entrega.zona || "zona por confirmar"}`;
   if (o.entrega.tipo === "envio") return `Envío nacional · ${o.entrega.agencia} · ${o.entrega.oficina || "oficina por confirmar"}`;
   return "Retiro en taller";
 }
@@ -95,7 +95,7 @@ const VIEWS = ["inicio", "tienda", "producto", "solicitud", "datos", "pedido", "
 let currentView = null;
 function parseHash() {
   const h = decodeURIComponent(location.hash.slice(1)) || "inicio";
-  if (h === "como" || h === "inicio") return { view: "inicio", anchor: h === "como" ? "como" : null };
+  if (["como", "soluciones", "reunion", "zonas", "inicio"].includes(h)) return { view: "inicio", anchor: h === "inicio" ? null : h };
   if (h === "contacto") return { view: currentView || "inicio", anchor: "contacto" };
   if (h === "tienda") return { view: "tienda", cat: "todo" };
   if (h.startsWith("cat-")) return { view: "tienda", cat: h.slice(4) };
@@ -112,12 +112,12 @@ function route() {
   const r = parseHash();
   const changed = r.view !== currentView;
   if (changed) {
-    if (currentView === "inicio") Home.leave();
+    if (currentView === "inicio") { Home.leave(); if (window.Motion) Motion.leave(); }
     $$(".view").forEach(v => v.hidden = v.dataset.view !== r.view);
     currentView = r.view;
     if (document.body.classList.contains("menu-open")) setMenu(false);
   }
-  const navKey = r.view === "inicio" ? (r.anchor === "como" ? "como" : "inicio") : (r.view === "tienda" || r.view === "producto") ? "tienda" : (r.view === "solicitud" || r.view === "datos") ? "solicitud" : "";
+  const navKey = r.view === "inicio" ? (["como", "soluciones"].includes(r.anchor) ? r.anchor : "inicio") : (r.view === "tienda" || r.view === "producto") ? "tienda" : (r.view === "solicitud" || r.view === "datos") ? "solicitud" : "";
   $$(".nav a, .mnav a").forEach(a => a.toggleAttribute("aria-current", a.dataset.nav === navKey));
   if (a11yTitle[r.view]) document.title = a11yTitle[r.view];
   if (r.view === "tienda") renderShop(r.cat);
@@ -126,13 +126,13 @@ function route() {
   if (r.view === "datos") renderCheckout();
   if (r.view === "pedido") renderOrder(r.code);
   if (r.view === "panel") renderPanel();
-  if (r.view === "inicio" && changed) Home.enter();
+  if (r.view === "inicio" && changed) { Home.enter(); if (window.Motion) Motion.enter(); }
   hdrState();
   if (r.anchor) { const el = document.getElementById(r.anchor); if (el) requestAnimationFrame(() => scrollToY(el.getBoundingClientRect().top + scrollY - 70)); }
   else if (changed) scrollToY(0, true);
   if (window.ScrollTrigger) requestAnimationFrame(() => ScrollTrigger.refresh());
 }
-const a11yTitle = { inicio: "PM Grafic · pmgraficve", tienda: "Tienda · PM Grafic", producto: "Producto · PM Grafic", solicitud: "Solicitud · PM Grafic", datos: "Tus datos · PM Grafic", pedido: "Pedido · PM Grafic", panel: "Panel · PM Grafic" };
+const a11yTitle = { inicio: "PMGraficVe · Soluciones visuales e impresión publicitaria", tienda: "Tienda · PM Grafic", producto: "Producto · PM Grafic", solicitud: "Solicitud · PM Grafic", datos: "Tus datos · PM Grafic", pedido: "Pedido · PM Grafic", panel: "Panel · PM Grafic" };
 addEventListener("hashchange", route);
 
 /* header + menú */
@@ -158,7 +158,7 @@ addEventListener("keydown", e => { if (e.key === "Escape" && document.body.class
 
 /* ================= HOME (partes en HTML) ================= */
 function renderHomeDynamic() {
-  const pick = ["tarjetas-de-presentacion", "pendones", "etiquetas-producto", "cajas-plegables", "tazas", "catalogos", "talonarios-de-factura", "tripticos", "roll-up", "franelas"];
+  const pick = ["impresion-uv", "letreros-3d", "rotulado-flotas", "neon-flex", "corte-laser", "exhibidores-pop", "vallas", "tarjetas-de-presentacion", "vinil-seguridad", "etiquetas-producto", "talonarios-de-factura", "bordados"];
   const rest = PRODUCTS.filter(p => !pick.includes(p.slug)).slice(0, 8);
   const reel = p => `<a class="reel" href="#p-${p.slug}" draggable="false">${imgHTML(p.model, p.name)}<div class="r-top"><span>${esc(catById(p.cat).name.toUpperCase())}</span><span>REF</span></div><div class="r-bot"><h3>${esc(p.name)}</h3><span class="r-spec">${esc(p.spec)}</span><span class="r-go">Configurar →</span></div></a>`;
   $("#wheelTrack").innerHTML = pick.map(byId).concat(rest).map(reel).join("");

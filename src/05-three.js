@@ -270,10 +270,10 @@ const Home = (() => {
     R.outputEncoding = TH.sRGBEncoding; R.toneMapping = TH.ACESFilmicToneMapping; R.toneMappingExposure = 1.08;
     scene = new TH.Scene(); cam = new TH.PerspectiveCamera(32, 1, .1, 100); cam.position.set(0, 0, 11);
     root = new TH.Group(); scene.add(root);
-    scene.add(new TH.HemisphereLight(0xffffff, 0x20222a, .7));
+    scene.add(new TH.HemisphereLight(0xeef0ff, 0x1c1a4c, .7));
     const key = new TH.DirectionalLight(0xffffff, 1.2); key.position.set(4, 5, 7); scene.add(key);
-    const cy = new TH.PointLight(0x00a6e2, 1.2, 14); cy.position.set(-5, 2, 3); scene.add(cy);
-    const mg = new TH.PointLight(0xec008c, 1, 14); mg.position.set(5, -3, 2); scene.add(mg);
+    const cy = new TH.PointLight(0x5b6bff, 1.3, 14); cy.position.set(-5, 2, 3); scene.add(cy);
+    const mg = new TH.PointLight(0xa3adff, .9, 14); mg.position.set(5, -3, 2); scene.add(mg);
 
     // pliego con curvatura (CPU)
     const W = 3, H = 4.24;
@@ -414,7 +414,7 @@ const Home = (() => {
     const c = Math.min(5, Math.floor(p * 6 + .0001)), chaps = $$("#chaps .chap");
     chaps.forEach((el, i) => el.classList.toggle("on", i === c));
     $$("#prog i b").forEach((b, i) => b.style.transform = `scaleX(${Math.max(0, Math.min(1, p * 6 - i))})`);
-    const names = ["PLIEGO EN BLANCO", "SEPARACIÓN CMYK", "PAPELERÍA", "GRAN FORMATO", "EMPAQUE", "PERSONALIZACIÓN"];
+    const names = ["PMGRAFICVE", "IMPRESIÓN UV", "PAPELERÍA Y ETIQUETAS", "GRAN FORMATO Y ROTULACIÓN", "CORPÓREOS Y LÁSER", "MATERIAL P.O.P."];
     $("#chapCounter").textContent = `0${c + 1} / 06 · ${names[c]}`;
   }
   function enter() {
@@ -426,8 +426,8 @@ const Home = (() => {
         onUpdate: s => { S.target = s.progress; syncUI(s.progress); } });
       gsap.from("#chaps .chap.on > *", { y: 40, opacity: 0, duration: 1, ease: "expo.out", stagger: .07, delay: .2 });
       $$(".stat b").forEach(b => {
-        const to = +b.dataset.to, suf = b.dataset.suf || "", o = { v: 0 };
-        ScrollTrigger.create({ trigger: b, start: "top 88%", once: true, onEnter: () => gsap.fromTo(o, { v: 0 }, { v: to, duration: 1.4, ease: "power3.out", onUpdate: () => b.textContent = Math.round(o.v) + suf }) });
+        const to = +b.dataset.to, suf = b.dataset.suf || "", pre = b.dataset.pre || "", o = { v: 0 };
+        ScrollTrigger.create({ trigger: b, start: "top 88%", once: true, onEnter: () => gsap.fromTo(o, { v: 0 }, { v: to, duration: 1.4, ease: "power3.out", onUpdate: () => b.textContent = pre + Math.round(o.v) + suf }) });
       });
       gsap.utils.toArray(".step, .cat, .rubro").forEach((el, i) => gsap.from(el, { y: 40, duration: .9, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 92%" }, delay: (i % 4) * .05 }));
     });
@@ -581,12 +581,11 @@ function tilt() {
 
 /* ================= ARRANQUE ================= */
 (function boot() {
-  $$(".stat b").forEach(b => b.textContent = (b.dataset.to) + (b.dataset.suf || ""));
+  $$(".stat b").forEach(b => b.textContent = (b.dataset.pre || "") + (b.dataset.to) + (b.dataset.suf || ""));
   renderHomeDynamic();
-  $$(".stat b")[1].textContent = PRODUCTS.length;
+  $$(".stat b")[1].textContent = $$(".stat b")[1].dataset.to = PRODUCTS.length;
   updateCartCount();
   $("#ftMail").textContent = CONFIG.email;
-  if (CONFIG.whatsapp) $("#ftWa").textContent = "+" + CONFIG.whatsapp;
   if (window.Lenis && !reduce) {
     try {
       const lenis = new Lenis({ lerp: .1, smoothWheel: true }); window.lenis = lenis;
